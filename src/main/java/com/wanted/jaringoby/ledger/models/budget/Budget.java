@@ -1,8 +1,8 @@
 package com.wanted.jaringoby.ledger.models.budget;
 
 import com.wanted.jaringoby.category.models.Category;
-import com.wanted.jaringoby.common.models.Money;
 import com.wanted.jaringoby.common.converters.MoneyConverter;
+import com.wanted.jaringoby.common.models.Money;
 import com.wanted.jaringoby.ledger.models.ledger.LedgerId;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
@@ -16,7 +16,6 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
