@@ -46,6 +46,15 @@ dependencies {
     // Lombok
     annotationProcessor 'org.projectlombok:lombok'
 
+    // ULID Generator
+    implementation 'de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0'
+
+    // Spring Security Web
+    implementation 'org.springframework.security:spring-security-web'
+
+    // Bouncy Castle Provider
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.76'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
