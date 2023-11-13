@@ -5,6 +5,7 @@ import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,4 +17,16 @@ public class CustomerAccount {
 
     @Column(name = "password")
     private String encodedPassword;
+
+    public CustomerAccount(String username) {
+        this.username = username;
+    }
+
+    public static CustomerAccount ofUsername(String username) {
+        return new CustomerAccount(username);
+    }
+
+    public void changePassword(String password, PasswordEncoder passwordEncoder) {
+        this.encodedPassword = passwordEncoder.encode(password);
+    }
 }
