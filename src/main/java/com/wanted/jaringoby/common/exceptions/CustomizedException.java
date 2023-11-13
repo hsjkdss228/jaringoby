@@ -13,7 +13,7 @@ public class CustomizedException extends RuntimeException {
         this.statusCode = statusCode;
     }
 
-    public ResponseEntity<ErrorResponse> toErrorResponse() {
+    public ResponseEntity<ErrorResponse> toResponseEntity() {
         return new ResponseEntity<>(ErrorResponse.of(getMessage()), statusCode);
     }
 }

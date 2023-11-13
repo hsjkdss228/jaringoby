@@ -11,6 +11,6 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(CustomizedException.class)
     public ResponseEntity<ErrorResponse> customizedException(CustomizedException exception) {
-        return exception.toErrorResponse();
+        return exception.toResponseEntity();
     }
 }
