@@ -42,197 +42,207 @@ class CustomerControllerTest {
 
         private static final String CUSTOMER_ID = "CUSTOMER_ID";
 
-        @DisplayName("성공: 생성된 Customer 식별자를 응답으로 반환")
-        @Test
-        void success() throws Exception {
-            CreateCustomerResponseDto createCustomerResponseDto = CreateCustomerResponseDto
-                    .builder()
-                    .customerId(CUSTOMER_ID)
-                    .build();
+        @DisplayName("성공")
+        @Nested
+        class Success {
 
-            given(createCustomerService.createCustomer(any(CreateCustomerRequestDto.class)))
-                    .willReturn(createCustomerResponseDto);
+            @DisplayName("생성된 Customer 식별자를 응답으로 반환")
+            @Test
+            void create() throws Exception {
+                CreateCustomerResponseDto createCustomerResponseDto = CreateCustomerResponseDto
+                        .builder()
+                        .customerId(CUSTOMER_ID)
+                        .build();
 
-            mockMvc.perform(post("/customer/v1.0/customers")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .accept(MediaType.APPLICATION_JSON)
-                            .content("""
-                                    {
-                                        "username": "hsjkdss228",
-                                        "password": "Password!1",
-                                        "reconfirmPassword": "Password!1"
-                                    }
-                                    """))
-                    .andExpect(status().isCreated());
+                given(createCustomerService.createCustomer(any(CreateCustomerRequestDto.class)))
+                        .willReturn(createCustomerResponseDto);
+
+                mockMvc.perform(post("/customer/v1.0/customers")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                            "username": "hsjkdss228",
+                                            "password": "Password!1",
+                                            "reconfirmPassword": "Password!1"
+                                        }
+                                        """))
+                        .andExpect(status().isCreated());
+            }
         }
 
-        private void performAndExpectIsBadRequest(String content) throws Exception {
-            mockMvc.perform(post("/customer/v1.0/customers")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .accept(MediaType.APPLICATION_JSON)
-                            .content(
-                                    content
-                            ))
-                    .andExpect(status().isBadRequest());
+        @DisplayName("실패")
+        @Nested
+        class Failure {
 
-            verify(createCustomerService, never())
-                    .createCustomer(any(CreateCustomerRequestDto.class));
-        }
+            private void performAndExpectIsBadRequest(String content) throws Exception {
+                mockMvc.perform(post("/customer/v1.0/customers")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(
+                                        content
+                                ))
+                        .andExpect(status().isBadRequest());
 
-        @DisplayName("실패: username 미입력된 경우 예외처리")
-        @Test
-        void blankUsername() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "password": "Password!1",
-                        "reconfirmPassword": "Password!1"
-                    }
-                    """);
-        }
+                verify(createCustomerService, never())
+                        .createCustomer(any(CreateCustomerRequestDto.class));
+            }
 
-        @DisplayName("실패: password 미입력된 경우 예외처리")
-        @Test
-        void blankPassword() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "username": "hsjkdss228",
-                        "password": null,
-                        "reconfirmPassword": "Password!1"
-                    }
-                    """);
-        }
+            @DisplayName("username 미입력된 경우 예외처리")
+            @Test
+            void blankUsername() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "password": "Password!1",
+                            "reconfirmPassword": "Password!1"
+                        }
+                        """);
+            }
 
-        @DisplayName("실패: reconfirmPassword 미입력된 경우 예외처리")
-        @Test
-        void blankReconfirmPassword() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "username": "hsjkdss228",
-                        "password": "Password!1",
-                        "reconfirmPassword": ""
-                    }
-                    """);
-        }
+            @DisplayName("password 미입력된 경우 예외처리")
+            @Test
+            void blankPassword() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "username": "hsjkdss228",
+                            "password": null,
+                            "reconfirmPassword": "Password!1"
+                        }
+                        """);
+            }
 
-        @DisplayName("실패: username 입력 조건에 부합하지 않을 경우 예외처리 (4자 미만)")
-        @Test
-        void invalidUsernameUnder4() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "username": "ua7",
-                        "password": "Password!1",
-                        "reconfirmPassword": "Password!1"
-                    }
-                    """);
-        }
+            @DisplayName("reconfirmPassword 미입력된 경우 예외처리")
+            @Test
+            void blankReconfirmPassword() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "username": "hsjkdss228",
+                            "password": "Password!1",
+                            "reconfirmPassword": ""
+                        }
+                        """);
+            }
 
-        @DisplayName("실패: username 입력 조건에 부합하지 않을 경우 예외처리 (16자 초과)")
-        @Test
-        void invalidUsernameOver16() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "username": "username12username12",
-                        "password": "Password!1",
-                        "reconfirmPassword": "Password!1"
-                    }
-                    """);
-        }
+            @DisplayName("username 입력 조건에 부합하지 않을 경우 예외처리 (4자 미만)")
+            @Test
+            void invalidUsernameUnder4() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "username": "ua7",
+                            "password": "Password!1",
+                            "reconfirmPassword": "Password!1"
+                        }
+                        """);
+            }
 
-        @DisplayName("실패: username 입력 조건에 부합하지 않을 경우 예외처리 (영어 소문자 미포함)")
-        @Test
-        void invalidUsernameWithoutLowercase() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "username": "11223344",
-                        "password": "Password!1",
-                        "reconfirmPassword": "Password!1"
-                    }
-                    """);
-        }
+            @DisplayName("username 입력 조건에 부합하지 않을 경우 예외처리 (16자 초과)")
+            @Test
+            void invalidUsernameOver16() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "username": "username12username12",
+                            "password": "Password!1",
+                            "reconfirmPassword": "Password!1"
+                        }
+                        """);
+            }
 
-        @DisplayName("실패: username 입력 조건에 부합하지 않을 경우 예외처리 (영어 소문자, 숫자 이외 문자 포함)")
-        @Test
-        void invalidUsernameWithDisallowedCharacters() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "username": "hsjkdss228%",
-                        "password": "Password!1",
-                        "reconfirmPassword": "Password!1"
-                    }
-                    """);
-        }
+            @DisplayName("username 입력 조건에 부합하지 않을 경우 예외처리 (영어 소문자 미포함)")
+            @Test
+            void invalidUsernameWithoutLowercase() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "username": "11223344",
+                            "password": "Password!1",
+                            "reconfirmPassword": "Password!1"
+                        }
+                        """);
+            }
 
-        @DisplayName("실패: password 입력 조건에 부합하지 않을 경우 예외처리 (영어 대문자 미포함)")
-        @Test
-        void invalidPasswordWithoutUppercase() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "username": "hsjkdss228",
-                        "password": "assword!1",
-                        "reconfirmPassword": "assword!1"
-                    }
-                    """);
-        }
+            @DisplayName("username 입력 조건에 부합하지 않을 경우 예외처리 (영어 소문자, 숫자 이외 문자 포함)")
+            @Test
+            void invalidUsernameWithDisallowedCharacters() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "username": "hsjkdss228%",
+                            "password": "Password!1",
+                            "reconfirmPassword": "Password!1"
+                        }
+                        """);
+            }
 
-        @DisplayName("실패: password 입력 조건에 부합하지 않을 경우 예외처리 (영어 소문자 미포함)")
-        @Test
-        void invalidPasswordWithoutLowercase() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "username": "hsjkdss228",
-                        "password": "PASSWORD!1",
-                        "reconfirmPassword": "PASSWORD!1"
-                    }
-                    """);
-        }
+            @DisplayName("password 입력 조건에 부합하지 않을 경우 예외처리 (영어 대문자 미포함)")
+            @Test
+            void invalidPasswordWithoutUppercase() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "username": "hsjkdss228",
+                            "password": "assword!1",
+                            "reconfirmPassword": "assword!1"
+                        }
+                        """);
+            }
 
-        @DisplayName("실패: password 입력 조건에 부합하지 않을 경우 예외처리 (영어 숫자 미포함)")
-        @Test
-        void invalidPasswordWithoutDigit() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "username": "hsjkdss228",
-                        "password": "Password!",
-                        "reconfirmPassword": "Password!"
-                    }
-                    """);
-        }
+            @DisplayName("password 입력 조건에 부합하지 않을 경우 예외처리 (영어 소문자 미포함)")
+            @Test
+            void invalidPasswordWithoutLowercase() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "username": "hsjkdss228",
+                            "password": "PASSWORD!1",
+                            "reconfirmPassword": "PASSWORD!1"
+                        }
+                        """);
+            }
 
-        @DisplayName("실패: password 입력 조건에 부합하지 않을 경우 예외처리 (키보드 입력 가능한 특수문자 미포함)")
-        @Test
-        void invalidPasswordWithoutSpecialCharacters() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "username": "hsjkdss228",
-                        "password": "Password1",
-                        "reconfirmPassword": "Password1"
-                    }
-                    """);
-        }
+            @DisplayName("password 입력 조건에 부합하지 않을 경우 예외처리 (영어 숫자 미포함)")
+            @Test
+            void invalidPasswordWithoutDigit() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "username": "hsjkdss228",
+                            "password": "Password!",
+                            "reconfirmPassword": "Password!"
+                        }
+                        """);
+            }
 
-        @DisplayName("실패: password 입력 조건에 부합하지 않을 경우 예외처리 "
-                + "(영어 대문자, 소문자, 숫자, 키보드 입력 가능한 특수문자 이외 문자 포함)")
-        @Test
-        void invalidPasswordWithDisallowedCharacters() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "username": "hsjkdss228",
-                        "password": "Password!1※",
-                        "reconfirmPassword": "Password!1※"
-                    }
-                    """);
-        }
+            @DisplayName("password 입력 조건에 부합하지 않을 경우 예외처리 (키보드 입력 가능한 특수문자 미포함)")
+            @Test
+            void invalidPasswordWithoutSpecialCharacters() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "username": "hsjkdss228",
+                            "password": "Password1",
+                            "reconfirmPassword": "Password1"
+                        }
+                        """);
+            }
 
-        @DisplayName("실패: password 입력 조건에 부합하지 않을 경우 예외처리 (5자 미만)")
-        @Test
-        void invalidPasswordUnder5() throws Exception {
-            performAndExpectIsBadRequest("""
-                    {
-                        "username": "hsjkdss228",
-                        "password": "Pa!1",
-                        "reconfirmPassword": "Pa!1"
-                    }
-                    """);
+            @DisplayName("password 입력 조건에 부합하지 않을 경우 예외처리 "
+                    + "(영어 대문자, 소문자, 숫자, 키보드 입력 가능한 특수문자 이외 문자 포함)")
+            @Test
+            void invalidPasswordWithDisallowedCharacters() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "username": "hsjkdss228",
+                            "password": "Password!1※",
+                            "reconfirmPassword": "Password!1※"
+                        }
+                        """);
+            }
+
+            @DisplayName("password 입력 조건에 부합하지 않을 경우 예외처리 (5자 미만)")
+            @Test
+            void invalidPasswordUnder5() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "username": "hsjkdss228",
+                            "password": "Pa!1",
+                            "reconfirmPassword": "Pa!1"
+                        }
+                        """);
+            }
         }
     }
 }
