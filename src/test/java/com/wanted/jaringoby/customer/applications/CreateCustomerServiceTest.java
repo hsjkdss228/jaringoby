@@ -69,7 +69,7 @@ class CreateCustomerServiceTest {
                     .createCustomer(createCustomerRequestDto);
 
             assertThat(createCustomerResponseDto).isNotNull();
-            assertThat(createCustomerResponseDto.customerId()).isEqualTo(ULID);
+            assertThat(createCustomerResponseDto.customerId()).isEqualTo("CUSTOMER_" + ULID);
 
             verify(ulidGenerator).createRandomULID();
             verify(passwordEncoder).encode(PASSWORD);

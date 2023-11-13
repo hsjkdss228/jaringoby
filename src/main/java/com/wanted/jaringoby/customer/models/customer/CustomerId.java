@@ -19,7 +19,7 @@ public class CustomerId implements Serializable {
     private String value;
 
     public static CustomerId generate(UlidGenerator ulidGenerator) {
-        return new CustomerId(ulidGenerator.createRandomULID());
+        return new CustomerId("CUSTOMER_" + ulidGenerator.createRandomULID());
     }
 
     public String value() {
