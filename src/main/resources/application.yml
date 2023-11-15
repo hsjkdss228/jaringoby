@@ -11,6 +11,12 @@ spring:
     hibernate:
       ddl-auto: none
 
+jwt:
+  secret: TEST
+  valid-time:
+    access-token: 120000
+    refresh-token: 300000
+
 ---
 spring:
   config:
@@ -22,3 +28,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+jwt:
+  secret: TEST
+  valid-time:
+    access-token: 2000
+    refresh-token: 5000
