@@ -9,20 +9,25 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JwtConfig {
 
-    @Value("${jwt.secret}")
-    private String SECRET;
+    private final String secret;
+    private final Long validTimeAccessToken;
+    private final Long validTimeRefreshToken;
 
-    @Value("${jwt.valid-time.access-token}")
-    private Long VALID_TIME_ACCESS_TOKEN;
-
-    @Value("${jwt.valid-time.access-token}")
-    private Long VALID_TIME_REFRESH_TOKEN;
+    public JwtConfig(
+            @Value("${jwt.secret}") String secret,
+            @Value("${jwt.valid-time.access-token}") Long validTimeAccessToken,
+            @Value("${jwt.valid-time.refresh-token}") Long validTimeRefreshToken
+    ) {
+        this.secret = secret;
+        this.validTimeAccessToken = validTimeAccessToken;
+        this.validTimeRefreshToken = validTimeRefreshToken;
+    }
 
     @Bean
     public JwtUtil jwtUtil() {
         return new JwtUtil(
-                Algorithm.HMAC256(SECRET),
-                VALID_TIME_ACCESS_TOKEN, VALID_TIME_REFRESH_TOKEN
+                Algorithm.HMAC256(secret),
+                validTimeAccessToken, validTimeRefreshToken
         );
     }
 }

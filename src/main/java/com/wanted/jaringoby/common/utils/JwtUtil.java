@@ -2,7 +2,6 @@ package com.wanted.jaringoby.common.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.wanted.jaringoby.customer.models.customer.Customer;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +16,13 @@ public class JwtUtil {
     private final Long validTimeAccessToken;
     private final Long validTimeRefreshToken;
 
-    public String issueAccessToken(Customer customer) {
+    public String issueAccessToken(CustomerId customerId) {
         Date now = new Date();
         Date expiresAt = new Date(now.getTime() + validTimeAccessToken);
 
         return JWT.create()
                 .withClaim(CLAIM_TYPE, "accessToken")
-                .withClaim(CLAIM_CUSTOMER_ID, customer.id().value())
+                .withClaim(CLAIM_CUSTOMER_ID, customerId.value())
                 .withExpiresAt(expiresAt)
                 .sign(algorithm);
     }
