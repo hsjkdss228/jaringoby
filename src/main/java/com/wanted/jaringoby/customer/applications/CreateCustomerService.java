@@ -33,10 +33,10 @@ public class CreateCustomerService {
         validateReconfirmPassword(password, reconfirmPassword);
 
         Customer customer = Customer.builder()
+                .id(ulidGenerator.createRandomCustomerULID())
                 .username(username)
                 .build();
 
-        customer.generateId(ulidGenerator);
         customer.changePassword(password, passwordEncoder);
 
         customerRepository.save(customer);

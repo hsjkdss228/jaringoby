@@ -1,6 +1,5 @@
 package com.wanted.jaringoby.customer.models.customer;
 
-import com.wanted.jaringoby.common.utils.UlidGenerator;
 import com.wanted.jaringoby.customer.dtos.CreateCustomerResponseDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -37,17 +36,22 @@ public class Customer {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Customer(String username) {
+    public Customer(String id, String username) {
+        this.id = CustomerId.of(id);
         this.account = CustomerAccount.ofUsername(username);
         this.pushConfiguration = CustomerPushConfiguration.defaultStatus();
     }
 
-    public void generateId(UlidGenerator ulidGenerator) {
-        this.id = CustomerId.generate(ulidGenerator);
+    public CustomerId id() {
+        return id;
     }
 
     public void changePassword(String password, PasswordEncoder passwordEncoder) {
         this.account.changePassword(password, passwordEncoder);
+    }
+
+    public boolean passwordMatches(String password, PasswordEncoder passwordEncoder) {
+        return account.passwordMatches(password, passwordEncoder);
     }
 
     public CreateCustomerResponseDto toCreationResponseDto() {

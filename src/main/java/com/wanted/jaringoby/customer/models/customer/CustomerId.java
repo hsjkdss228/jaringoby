@@ -1,6 +1,5 @@
 package com.wanted.jaringoby.customer.models.customer;
 
-import com.wanted.jaringoby.common.utils.UlidGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
@@ -18,8 +17,8 @@ public class CustomerId implements Serializable {
     @Column(name = "id")
     private String value;
 
-    public static CustomerId generate(UlidGenerator ulidGenerator) {
-        return new CustomerId("CUSTOMER_" + ulidGenerator.createRandomULID());
+    public static CustomerId of(String value) {
+        return new CustomerId(value);
     }
 
     public String value() {

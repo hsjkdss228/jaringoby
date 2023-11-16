@@ -50,14 +50,14 @@ class CreateCustomerServiceTest {
     @Nested
     class Success {
 
-        private static final String ULID = "ULID";
+        private static final String ULID = "CUSTOMER_ULID";
 
         @DisplayName("Customer 생성 후 영속화, 생성된 Customer 식별자 반환")
         @Test
         void createCustomer() {
             given(customerRepository.existsByAccountUsername(USERNAME))
                     .willReturn(false);
-            given(ulidGenerator.createRandomULID()).willReturn(ULID);
+            given(ulidGenerator.createRandomCustomerULID()).willReturn(ULID);
 
             CreateCustomerRequestDto createCustomerRequestDto = CreateCustomerRequestDto.builder()
                     .username(USERNAME)
@@ -69,9 +69,9 @@ class CreateCustomerServiceTest {
                     .createCustomer(createCustomerRequestDto);
 
             assertThat(createCustomerResponseDto).isNotNull();
-            assertThat(createCustomerResponseDto.customerId()).isEqualTo("CUSTOMER_" + ULID);
+            assertThat(createCustomerResponseDto.customerId()).isEqualTo(ULID);
 
-            verify(ulidGenerator).createRandomULID();
+            verify(ulidGenerator).createRandomCustomerULID();
             verify(passwordEncoder).encode(PASSWORD);
             verify(customerRepository).save(any(Customer.class));
         }
@@ -99,7 +99,7 @@ class CreateCustomerServiceTest {
             assertThrows(CustomerUsernameDuplicatedException.class, () -> createCustomerService
                     .createCustomer(createCustomerRequestDto));
 
-            verify(ulidGenerator, never()).createRandomULID();
+            verify(ulidGenerator, never()).createRandomCustomerULID();
             verify(passwordEncoder, never()).encode(any(String.class));
             verify(customerRepository, never()).save(any(Customer.class));
         }
@@ -119,7 +119,7 @@ class CreateCustomerServiceTest {
             assertThrows(CustomerReconfirmPasswordMismatchedException.class,
                     () -> createCustomerService.createCustomer(createCustomerRequestDto));
 
-            verify(ulidGenerator, never()).createRandomULID();
+            verify(ulidGenerator, never()).createRandomCustomerULID();
             verify(passwordEncoder, never()).encode(any(String.class));
             verify(customerRepository, never()).save(any(Customer.class));
         }
