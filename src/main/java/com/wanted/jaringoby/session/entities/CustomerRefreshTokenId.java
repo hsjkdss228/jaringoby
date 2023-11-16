@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.customer.models.customer;
+package com.wanted.jaringoby.session.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -12,16 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
-public class CustomerId implements Serializable {
+public class CustomerRefreshTokenId implements Serializable {
 
     @Column(name = "id")
     private String value;
 
-    public static CustomerId of(String value) {
-        return new CustomerId(value);
-    }
-
-    public String value() {
-        return value;
+    public static CustomerRefreshTokenId of(String value) {
+        return new CustomerRefreshTokenId(value);
     }
 }
