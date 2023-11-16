@@ -17,6 +17,9 @@ jwt:
     access-token: 120000
     refresh-token: 300000
 
+session:
+  max-count: 2
+
 ---
 spring:
   config:

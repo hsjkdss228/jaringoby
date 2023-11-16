@@ -29,4 +29,8 @@ public class CustomerAccount {
     public void changePassword(String password, PasswordEncoder passwordEncoder) {
         this.encodedPassword = passwordEncoder.encode(password);
     }
+
+    public boolean passwordMatches(String password, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(password, encodedPassword);
+    }
 }
