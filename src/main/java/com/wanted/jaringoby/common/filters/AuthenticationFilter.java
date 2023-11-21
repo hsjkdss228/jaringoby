@@ -22,7 +22,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.filter.GenericFilterBean;
 
 @RequiredArgsConstructor
-public class AuthenticationFilter extends GenericFilterBean {
+public class AuthenticationFilter extends GenericFilterBean
+        implements ErrorResponseWriter {
 
     private static final String AUTHORIZATION = "Authorization";
     private static final String BEARER = "Bearer ";
@@ -68,12 +69,7 @@ public class AuthenticationFilter extends GenericFilterBean {
                 | TokenDecodingFailedException
                 | TokenExpiredException exception
         ) {
-            int status = exception.statusCode().value();
-            String body = objectMapper.writeValueAsString(exception.toErrorResponse());
-
-            response.setContentType("application/json; charset=UTF-8");
-            response.setStatus(status);
-            response.getWriter().write(body);
+            writeErrorResponse(response, objectMapper, exception);
         }
     }
 }
