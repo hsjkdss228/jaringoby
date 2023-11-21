@@ -55,8 +55,8 @@ dependencies {
     // ULID Generator
     implementation 'de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0'
 
-    // Spring Security Web
-    implementation 'org.springframework.security:spring-security-web'
+    // Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // Bouncy Castle Provider
     implementation 'org.bouncycastle:bcprov-jdk18on:1.76'
