@@ -11,6 +11,7 @@ import com.wanted.jaringoby.common.config.jwt.JwtConfig;
 import com.wanted.jaringoby.common.config.security.SecurityConfig;
 import com.wanted.jaringoby.common.config.validation.ValidationConfig;
 import com.wanted.jaringoby.common.validations.BindingResultChecker;
+import com.wanted.jaringoby.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.session.applications.LoginService;
 import com.wanted.jaringoby.session.dtos.LoginRequestDto;
 import com.wanted.jaringoby.session.dtos.LoginResponseDto;
@@ -27,6 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(SessionController.class)
 @Import({SecurityConfig.class, JwtConfig.class, ValidationConfig.class})
+@MockBean(CustomerRepository.class)
 class SessionControllerTest {
 
     @Autowired
