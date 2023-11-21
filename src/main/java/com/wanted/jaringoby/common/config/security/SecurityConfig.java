@@ -2,7 +2,9 @@ package com.wanted.jaringoby.common.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wanted.jaringoby.common.filters.AuthenticationFilter;
+import com.wanted.jaringoby.common.filters.AuthorizationFilter;
 import com.wanted.jaringoby.common.utils.JwtUtil;
+import com.wanted.jaringoby.customer.repositories.CustomerRepository;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,18 +23,24 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
+    private final CustomerRepository customerRepository;
     private final ObjectMapper objectMapper;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(authenticationFilter(), BasicAuthenticationFilter.class);
+                .addFilterBefore(authenticationFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(authorizationFilter(), AuthenticationFilter.class);
 
         return http.build();
     }
 
     private Filter authenticationFilter() {
         return new AuthenticationFilter(jwtUtil, objectMapper);
+    }
+
+    private Filter authorizationFilter() {
+        return new AuthorizationFilter(customerRepository, objectMapper);
     }
 
     @Bean

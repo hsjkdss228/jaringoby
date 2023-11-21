@@ -14,6 +14,7 @@ import com.wanted.jaringoby.common.validations.BindingResultChecker;
 import com.wanted.jaringoby.customer.applications.CreateCustomerService;
 import com.wanted.jaringoby.customer.dtos.CreateCustomerRequestDto;
 import com.wanted.jaringoby.customer.dtos.CreateCustomerResponseDto;
+import com.wanted.jaringoby.customer.repositories.CustomerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(CustomerController.class)
 @Import({SecurityConfig.class, JwtConfig.class, ValidationConfig.class})
+@MockBean(CustomerRepository.class)
 class CustomerControllerTest {
 
     @Autowired
