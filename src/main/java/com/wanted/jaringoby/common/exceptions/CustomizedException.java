@@ -13,7 +13,20 @@ public class CustomizedException extends RuntimeException {
         this.statusCode = statusCode;
     }
 
+    public String message() {
+        return getMessage();
+    }
+
+    public HttpStatus statusCode() {
+        return statusCode;
+    }
+
+    public ErrorResponse toErrorResponse() {
+        return new ErrorResponse(message());
+    }
+
+    // TODO: toErrorResponseEntity()로 명칭 변경
     public ResponseEntity<ErrorResponse> toResponseEntity() {
-        return new ResponseEntity<>(ErrorResponse.of(getMessage()), statusCode);
+        return new ResponseEntity<>(ErrorResponse.of(message()), statusCode());
     }
 }

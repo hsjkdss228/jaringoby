@@ -7,6 +7,8 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.wanted.jaringoby.common.config.jwt.JwtConfig;
+import com.wanted.jaringoby.common.config.security.SecurityConfig;
 import com.wanted.jaringoby.common.config.validation.ValidationConfig;
 import com.wanted.jaringoby.common.validations.BindingResultChecker;
 import com.wanted.jaringoby.customer.applications.CreateCustomerService;
@@ -24,7 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(CustomerController.class)
-@Import(ValidationConfig.class)
+@Import({SecurityConfig.class, JwtConfig.class, ValidationConfig.class})
 class CustomerControllerTest {
 
     @Autowired
