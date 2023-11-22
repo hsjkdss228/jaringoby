@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.customer.exceptions;
+package com.wanted.jaringoby.session.exceptions;
 
 import com.wanted.jaringoby.common.exceptions.CustomizedException;
 import org.springframework.http.HttpStatus;
