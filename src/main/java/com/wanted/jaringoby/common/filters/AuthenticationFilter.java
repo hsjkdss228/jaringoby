@@ -9,6 +9,7 @@ import com.wanted.jaringoby.common.exceptions.http.request.InvalidRequestHeaderA
 import com.wanted.jaringoby.common.exceptions.http.request.MissingRequestHeaderAuthorizationException;
 import com.wanted.jaringoby.common.exceptions.jwt.TokenDecodingFailedException;
 import com.wanted.jaringoby.common.exceptions.jwt.TokenExpiredException;
+import com.wanted.jaringoby.common.exceptions.jwt.TokenSignatureInvalidException;
 import com.wanted.jaringoby.common.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -66,8 +67,9 @@ public class AuthenticationFilter extends GenericFilterBean
         } catch (
                 MissingRequestHeaderAuthorizationException
                 | InvalidRequestHeaderAuthorizationBearerException
-                | TokenDecodingFailedException
-                | TokenExpiredException exception
+                | TokenSignatureInvalidException
+                | TokenExpiredException
+                | TokenDecodingFailedException exception
         ) {
             writeErrorResponse(response, objectMapper, exception);
         }
