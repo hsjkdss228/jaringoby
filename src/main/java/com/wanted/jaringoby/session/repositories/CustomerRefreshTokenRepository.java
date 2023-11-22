@@ -15,4 +15,6 @@ public interface CustomerRefreshTokenRepository extends
     Optional<CustomerRefreshToken> findByCustomerId(CustomerId customerId);
 
     void deleteByCustomerIdAndValue(CustomerId customerId, String refreshToken);
+
+    boolean existsByCustomerIdAndValue(CustomerId customerId, String refreshToken);
 }
