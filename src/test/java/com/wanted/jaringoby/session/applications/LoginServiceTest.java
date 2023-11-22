@@ -11,7 +11,7 @@ import static org.mockito.Mockito.verify;
 import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.common.utils.UlidGenerator;
 import com.wanted.jaringoby.customer.exceptions.CustomerNotFoundException;
-import com.wanted.jaringoby.customer.exceptions.CustomerPasswordMismatchedException;
+import com.wanted.jaringoby.session.exceptions.CustomerPasswordMismatchedException;
 import com.wanted.jaringoby.customer.models.customer.Customer;
 import com.wanted.jaringoby.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.session.dtos.LoginRequestDto;
