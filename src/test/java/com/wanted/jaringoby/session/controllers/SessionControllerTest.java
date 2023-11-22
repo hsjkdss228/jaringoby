@@ -164,7 +164,7 @@ class SessionControllerTest {
             @DisplayName("리프레시 토큰이 아닌 토큰을 전달하는 경우, null refreshToken 전달하고 "
                     + "리프레시 토큰 미존재 예외 반환")
             @Test
-            void logout() throws Exception {
+            void customerRefreshTokenIsNull() throws Exception {
                 token = jwtUtil.issueAccessToken(CustomerId.of(CUSTOMER_ID));
 
                 given(customerRepository.existsById(CustomerId.of(CUSTOMER_ID)))
