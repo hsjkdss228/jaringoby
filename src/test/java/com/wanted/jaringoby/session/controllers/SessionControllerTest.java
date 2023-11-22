@@ -20,7 +20,7 @@ import com.wanted.jaringoby.session.applications.LoginService;
 import com.wanted.jaringoby.session.applications.LogoutService;
 import com.wanted.jaringoby.session.dtos.LoginRequestDto;
 import com.wanted.jaringoby.session.dtos.LoginResponseDto;
-import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenIsNullException;
+import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNullException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -164,13 +164,13 @@ class SessionControllerTest {
             @DisplayName("리프레시 토큰이 아닌 토큰을 전달하는 경우, null refreshToken 전달하고 "
                     + "리프레시 토큰 미존재 예외 반환")
             @Test
-            void customerRefreshTokenIsNull() throws Exception {
+            void customerRefreshTokenNull() throws Exception {
                 token = jwtUtil.issueAccessToken(CustomerId.of(CUSTOMER_ID));
 
                 given(customerRepository.existsById(CustomerId.of(CUSTOMER_ID)))
                         .willReturn(true);
 
-                doThrow(new CustomerRefreshTokenIsNullException())
+                doThrow(new CustomerRefreshTokenNullException())
                         .when(logoutService)
                         .logout(CUSTOMER_ID, null);
 
