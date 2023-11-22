@@ -13,4 +13,6 @@ public interface CustomerRefreshTokenRepository extends
     Long countByCustomerId(CustomerId customerId);
 
     Optional<CustomerRefreshToken> findByCustomerId(CustomerId customerId);
+
+    void deleteByCustomerIdAndValue(CustomerId customerId, String refreshToken);
 }
