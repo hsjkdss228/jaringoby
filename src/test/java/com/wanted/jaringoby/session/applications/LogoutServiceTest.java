@@ -8,7 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenIsNullException;
+import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNullException;
 import com.wanted.jaringoby.session.repositories.CustomerRefreshTokenRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,7 +51,7 @@ class LogoutServiceTest {
         @DisplayName("리프레시 토큰이 null로 전달된 경우 예외 발생")
         @Test
         void logout() {
-            assertThrows(CustomerRefreshTokenIsNullException.class, () ->
+            assertThrows(CustomerRefreshTokenNullException.class, () ->
                     logoutService.logout(CUSTOMER_ID, null));
 
             verify(customerRefreshTokenRepository, never())
