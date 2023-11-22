@@ -20,7 +20,7 @@ import com.wanted.jaringoby.session.applications.LoginService;
 import com.wanted.jaringoby.session.applications.LogoutService;
 import com.wanted.jaringoby.session.dtos.LoginRequestDto;
 import com.wanted.jaringoby.session.dtos.LoginResponseDto;
-import com.wanted.jaringoby.session.exceptions.NullRefreshTokenException;
+import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenIsNullException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -170,7 +170,7 @@ class SessionControllerTest {
                 given(customerRepository.existsById(CustomerId.of(CUSTOMER_ID)))
                         .willReturn(true);
 
-                doThrow(new NullRefreshTokenException())
+                doThrow(new CustomerRefreshTokenIsNullException())
                         .when(logoutService)
                         .logout(CUSTOMER_ID, null);
 
