@@ -2,19 +2,25 @@ package com.wanted.jaringoby.session.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.wanted.jaringoby.common.config.jwt.JwtConfig;
 import com.wanted.jaringoby.common.config.security.SecurityConfig;
 import com.wanted.jaringoby.common.config.validation.ValidationConfig;
+import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.common.validations.BindingResultChecker;
+import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.session.applications.LoginService;
+import com.wanted.jaringoby.session.applications.LogoutService;
 import com.wanted.jaringoby.session.dtos.LoginRequestDto;
 import com.wanted.jaringoby.session.dtos.LoginResponseDto;
+import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenIsNullException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -28,7 +34,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(SessionController.class)
 @Import({SecurityConfig.class, JwtConfig.class, ValidationConfig.class})
-@MockBean(CustomerRepository.class)
 class SessionControllerTest {
 
     @Autowired
@@ -111,6 +116,67 @@ class SessionControllerTest {
                             "username": "hsjkdss228"
                         }
                         """);
+            }
+        }
+    }
+
+    @MockBean
+    private LogoutService logoutService;
+
+    @MockBean
+    private CustomerRepository customerRepository;
+
+    @SpyBean
+    private JwtUtil jwtUtil;
+
+    private static final String CUSTOMER_ID = "CUSTOMER_ID";
+
+    @DisplayName("DELETE /customer/v1.0/sessions")
+    @Nested
+    class DeleteSessions {
+
+        private String token;
+
+        @DisplayName("성공")
+        @Nested
+        class Success {
+
+            @DisplayName("리프레시 토큰을 전달하는 경우, LogoutService 메서드 호출")
+            @Test
+            void logout() throws Exception {
+                token = jwtUtil.issueRefreshToken(CustomerId.of(CUSTOMER_ID));
+
+                given(customerRepository.existsById(CustomerId.of(CUSTOMER_ID)))
+                        .willReturn(true);
+
+                mockMvc.perform(delete("/customer/v1.0/sessions")
+                                .header("Authorization", "Bearer " + token))
+                        .andExpect(status().isNoContent());
+
+                verify(logoutService).logout(CUSTOMER_ID, token);
+            }
+        }
+
+        @DisplayName("실패")
+        @Nested
+        class Failure {
+
+            @DisplayName("리프레시 토큰이 아닌 토큰을 전달하는 경우, null refreshToken 전달하고 "
+                    + "리프레시 토큰 미존재 예외 반환")
+            @Test
+            void logout() throws Exception {
+                token = jwtUtil.issueAccessToken(CustomerId.of(CUSTOMER_ID));
+
+                given(customerRepository.existsById(CustomerId.of(CUSTOMER_ID)))
+                        .willReturn(true);
+
+                doThrow(new CustomerRefreshTokenIsNullException())
+                        .when(logoutService)
+                        .logout(CUSTOMER_ID, null);
+
+                mockMvc.perform(delete("/customer/v1.0/sessions")
+                                .header("Authorization", "Bearer " + token))
+                        .andExpect(status().isBadRequest());
             }
         }
     }

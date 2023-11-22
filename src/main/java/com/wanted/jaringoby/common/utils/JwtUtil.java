@@ -4,10 +4,12 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.wanted.jaringoby.common.exceptions.jwt.TokenDecodingFailedException;
+import com.wanted.jaringoby.common.exceptions.jwt.TokenSignatureInvalidException;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import java.util.Date;
 import java.util.Map;
@@ -69,6 +71,9 @@ public class JwtUtil {
                             Entry::getKey,
                             claim -> claim.getValue().asString()
                     ));
+
+        } catch (SignatureVerificationException exception) {
+            throw new TokenSignatureInvalidException();
 
         } catch (TokenExpiredException exception) {
             throw new com.wanted.jaringoby.common.exceptions.jwt
