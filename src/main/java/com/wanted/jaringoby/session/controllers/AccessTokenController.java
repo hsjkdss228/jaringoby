@@ -2,7 +2,7 @@ package com.wanted.jaringoby.session.controllers;
 
 import com.wanted.jaringoby.common.response.Response;
 import com.wanted.jaringoby.session.applications.ReissueAccessTokenService;
-import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResultDto;
+import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +20,7 @@ public class AccessTokenController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Response<ReissueAccessTokenResultDto> reissueAccessToken(
+    public Response<ReissueAccessTokenResponseDto> reissueAccessToken(
             @RequestAttribute("customerId") String customerId,
             @RequestAttribute("refreshToken") String refreshToken
     ) {

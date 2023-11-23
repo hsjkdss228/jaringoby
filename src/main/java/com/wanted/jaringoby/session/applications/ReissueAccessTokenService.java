@@ -2,7 +2,7 @@ package com.wanted.jaringoby.session.applications;
 
 import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResultDto;
+import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResponseDto;
 import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNotFoundException;
 import com.wanted.jaringoby.session.repositories.CustomerRefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class ReissueAccessTokenService {
     private final JwtUtil jwtUtil;
 
     @Transactional(readOnly = true)
-    public ReissueAccessTokenResultDto reissueAccessToken(
+    public ReissueAccessTokenResponseDto reissueAccessToken(
             String customerId,
             String refreshToken
     ) {
@@ -26,7 +26,7 @@ public class ReissueAccessTokenService {
             throw new CustomerRefreshTokenNotFoundException();
         }
 
-        return ReissueAccessTokenResultDto.builder()
+        return ReissueAccessTokenResponseDto.builder()
                 .accessToken(issueAccessToken(customerId))
                 .build();
     }
