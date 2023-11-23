@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 
 import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResultDto;
+import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResponseDto;
 import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNotFoundException;
 import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNullException;
 import com.wanted.jaringoby.session.repositories.CustomerRefreshTokenRepository;
@@ -51,10 +51,10 @@ class ReissueAccessTokenServiceTest {
             given(jwtUtil.issueAccessToken(CustomerId.of(CUSTOMER_ID)))
                     .willReturn(ACCESS_TOKEN);
 
-            ReissueAccessTokenResultDto reissueAccessTokenResultDto
+            ReissueAccessTokenResponseDto reissueAccessTokenResponseDto
                     = reissueAccessTokenService.reissueAccessToken(CUSTOMER_ID, REFRESH_TOKEN);
 
-            assertThat(reissueAccessTokenResultDto).isNotNull();
+            assertThat(reissueAccessTokenResponseDto).isNotNull();
         }
     }
 

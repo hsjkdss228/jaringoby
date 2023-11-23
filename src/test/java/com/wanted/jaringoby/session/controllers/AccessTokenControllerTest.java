@@ -10,7 +10,7 @@ import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.session.applications.ReissueAccessTokenService;
-import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResultDto;
+import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResponseDto;
 import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNullException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -61,14 +61,14 @@ class AccessTokenControllerTest {
             void reissueAccessToken() throws Exception {
                 String refreshToken = jwtUtil.issueRefreshToken(CustomerId.of(CUSTOMER_ID));
 
-                ReissueAccessTokenResultDto reissueAccessTokenResultDto
-                        = ReissueAccessTokenResultDto.builder()
+                ReissueAccessTokenResponseDto reissueAccessTokenResponseDto
+                        = ReissueAccessTokenResponseDto.builder()
                         .accessToken(ACCESS_TOKEN)
                         .build();
 
                 given(reissueAccessTokenService
                         .reissueAccessToken(CUSTOMER_ID, refreshToken))
-                        .willReturn(reissueAccessTokenResultDto);
+                        .willReturn(reissueAccessTokenResponseDto);
 
                 mockMvc.perform(post("/customer/v1.0/access-tokens")
                                 .header("Authorization", "Bearer " + refreshToken))
