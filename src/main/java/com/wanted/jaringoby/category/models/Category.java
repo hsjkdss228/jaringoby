@@ -5,11 +5,15 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public enum Category {
-    Meal("Meal"),
-    Transportation("Transportation"),
-    Leisure("Leisure"),
-    Living("Living"),
-    PersonalDevelopment("PersonalDevelopment");
+    Meal("식비"),
+    Transportation("교통비"),
+    Leisure("여가비"),
+    Living("생활비"),
+    PersonalDevelopment("자기계발비");
 
     private final String name;
+
+    public String categoryName() {
+        return name;
+    }
 }
