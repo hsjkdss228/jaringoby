@@ -1,6 +1,9 @@
 package com.wanted.jaringoby.session.controllers;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -11,7 +14,6 @@ import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.session.applications.ReissueAccessTokenService;
 import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResultDto;
-import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNullException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -79,19 +81,18 @@ class AccessTokenControllerTest {
         @DisplayName("실패")
         @Nested
         class Failure {
-            @DisplayName("리프레시 토큰이 아닌 토큰을 전달하는 경우, null refreshToken 전달하고 "
-                    + "리프레시 토큰 미존재 예외 반환")
+
+            @DisplayName("리프레시 토큰이 아닌 토큰을 전달하는 경우, 리프레시 토큰이 아닌 예외 반환")
             @Test
             void customerRefreshTokenNull() throws Exception {
                 String token = jwtUtil.issueAccessToken(CustomerId.of(CUSTOMER_ID));
 
-                given(reissueAccessTokenService
-                        .reissueAccessToken(CUSTOMER_ID, null))
-                        .willThrow(new CustomerRefreshTokenNullException());
-
                 mockMvc.perform(post("/customer/v1.0/access-tokens")
                                 .header("Authorization", "Bearer " + token))
-                        .andExpect(status().isBadRequest());
+                        .andExpect(status().isUnauthorized());
+
+                verify(reissueAccessTokenService, never())
+                        .reissueAccessToken(any(String.class), any(String.class));
             }
         }
     }

@@ -43,7 +43,7 @@ public class SessionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void logout(
             @RequestAttribute("customerId") String customerId,
-            @RequestAttribute(value = "refreshToken", required = false) String refreshToken
+            @RequestAttribute("refreshToken") String refreshToken
     ) {
         logoutService.logout(customerId, refreshToken);
     }

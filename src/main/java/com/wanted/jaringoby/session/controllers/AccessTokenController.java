@@ -22,7 +22,7 @@ public class AccessTokenController {
     @ResponseStatus(HttpStatus.CREATED)
     public Response<ReissueAccessTokenResultDto> reissueAccessToken(
             @RequestAttribute("customerId") String customerId,
-            @RequestAttribute(value = "refreshToken", required = false) String refreshToken
+            @RequestAttribute("refreshToken") String refreshToken
     ) {
         return Response.of(reissueAccessTokenService
                 .reissueAccessToken(customerId, refreshToken));
