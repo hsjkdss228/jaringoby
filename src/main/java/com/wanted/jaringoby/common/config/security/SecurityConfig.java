@@ -1,8 +1,9 @@
 package com.wanted.jaringoby.common.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wanted.jaringoby.common.filters.AuthenticationFilter;
+import com.wanted.jaringoby.common.filters.AccessTokenBasedAuthenticationFilter;
 import com.wanted.jaringoby.common.filters.AuthorizationFilter;
+import com.wanted.jaringoby.common.filters.RefreshTokenBasedAuthenticationFilter;
 import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.customer.repositories.CustomerRepository;
 import jakarta.servlet.Filter;
@@ -31,14 +32,22 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(authenticationFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(authorizationFilter(), AuthenticationFilter.class);
+                .addFilterBefore(accessTokenBasedAuthenticationFilter(),
+                        BasicAuthenticationFilter.class)
+                .addFilterAfter(refreshTokenBasedAuthenticationFilter(),
+                        AccessTokenBasedAuthenticationFilter.class)
+                .addFilterAfter(authorizationFilter(),
+                        RefreshTokenBasedAuthenticationFilter.class);
 
         return http.build();
     }
 
-    private Filter authenticationFilter() {
-        return new AuthenticationFilter(jwtUtil, objectMapper);
+    private Filter accessTokenBasedAuthenticationFilter() {
+        return new AccessTokenBasedAuthenticationFilter(jwtUtil, objectMapper);
+    }
+
+    private Filter refreshTokenBasedAuthenticationFilter() {
+        return new RefreshTokenBasedAuthenticationFilter(jwtUtil, objectMapper);
     }
 
     private Filter authorizationFilter() {

@@ -4,10 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wanted.jaringoby.common.exceptions.CustomizedException;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import org.springframework.web.filter.GenericFilterBean;
 
-public interface ErrorResponseWriter {
+public abstract class CustomFilter extends GenericFilterBean {
 
-    default void writeErrorResponse(
+    protected void writeErrorResponse(
             HttpServletResponse response,
             ObjectMapper objectMapper,
             CustomizedException exception
