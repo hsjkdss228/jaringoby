@@ -2,7 +2,6 @@ package com.wanted.jaringoby.session.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -20,7 +19,6 @@ import com.wanted.jaringoby.session.applications.LoginService;
 import com.wanted.jaringoby.session.applications.LogoutService;
 import com.wanted.jaringoby.session.dtos.LoginRequestDto;
 import com.wanted.jaringoby.session.dtos.LoginResponseDto;
-import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNullException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -161,8 +159,7 @@ class SessionControllerTest {
         @Nested
         class Failure {
 
-            @DisplayName("리프레시 토큰이 아닌 토큰을 전달하는 경우, null refreshToken 전달하고 "
-                    + "리프레시 토큰 미존재 예외 반환")
+            @DisplayName("리프레시 토큰이 아닌 토큰을 전달하는 경우, 리프레시 토큰이 아닌 예외 반환")
             @Test
             void customerRefreshTokenNull() throws Exception {
                 token = jwtUtil.issueAccessToken(CustomerId.of(CUSTOMER_ID));
@@ -170,13 +167,11 @@ class SessionControllerTest {
                 given(customerRepository.existsById(CustomerId.of(CUSTOMER_ID)))
                         .willReturn(true);
 
-                doThrow(new CustomerRefreshTokenNullException())
-                        .when(logoutService)
-                        .logout(CUSTOMER_ID, null);
-
                 mockMvc.perform(delete("/customer/v1.0/sessions")
                                 .header("Authorization", "Bearer " + token))
-                        .andExpect(status().isBadRequest());
+                        .andExpect(status().isUnauthorized());
+
+                verify(logoutService, never()).logout(any(String.class), any(String.class));
             }
         }
     }

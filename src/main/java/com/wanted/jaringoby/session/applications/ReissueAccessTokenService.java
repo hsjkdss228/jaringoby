@@ -4,7 +4,6 @@ import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResponseDto;
 import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNotFoundException;
-import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNullException;
 import com.wanted.jaringoby.session.repositories.CustomerRefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,10 +21,6 @@ public class ReissueAccessTokenService {
             String customerId,
             String refreshToken
     ) {
-        if (refreshToken == null) {
-            throw new CustomerRefreshTokenNullException();
-        }
-
         if (!customerRefreshTokenRepository.existsByCustomerIdAndValue(
                 CustomerId.of(customerId), refreshToken)) {
             throw new CustomerRefreshTokenNotFoundException();
