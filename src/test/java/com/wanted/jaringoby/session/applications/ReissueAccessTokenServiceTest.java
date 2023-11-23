@@ -9,7 +9,6 @@ import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResultDto;
 import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNotFoundException;
-import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNullException;
 import com.wanted.jaringoby.session.repositories.CustomerRefreshTokenRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -61,13 +60,6 @@ class ReissueAccessTokenServiceTest {
     @DisplayName("실패")
     @Nested
     class Failure {
-
-        @DisplayName("리프레시 토큰이 전달되지 않은 경우 예외처리")
-        @Test
-        void customerRefreshTokenNull() {
-            assertThrows(CustomerRefreshTokenNullException.class, () ->
-                    reissueAccessTokenService.reissueAccessToken(CUSTOMER_ID, null));
-        }
 
         @DisplayName("리프레시 토큰이 존재하지 않는 경우 예외처리")
         @Test

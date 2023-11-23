@@ -1,7 +1,6 @@
 package com.wanted.jaringoby.session.applications;
 
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNullException;
 import com.wanted.jaringoby.session.repositories.CustomerRefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,7 @@ public class LogoutService {
 
     @Transactional
     public void logout(String customerId, String refreshToken) {
-        if (refreshToken == null) {
-            throw new CustomerRefreshTokenNullException();
-        }
-
-        customerRefreshTokenRepository
-                .deleteByCustomerIdAndValue(CustomerId.of(customerId), refreshToken);
+        customerRefreshTokenRepository.deleteByCustomerIdAndValue(
+                CustomerId.of(customerId), refreshToken);
     }
 }

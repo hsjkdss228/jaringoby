@@ -1,77 +1,50 @@
 package com.wanted.jaringoby.common.filters;
 
-import static com.wanted.jaringoby.common.utils.JwtUtil.CLAIM_CUSTOMER_ID;
-import static com.wanted.jaringoby.common.utils.JwtUtil.CLAIM_TYPE;
-import static com.wanted.jaringoby.common.utils.JwtUtil.REFRESH_TOKEN;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wanted.jaringoby.common.exceptions.http.request.InvalidRequestHeaderAuthorizationBearerException;
 import com.wanted.jaringoby.common.exceptions.http.request.MissingRequestHeaderAuthorizationException;
-import com.wanted.jaringoby.common.exceptions.jwt.TokenDecodingFailedException;
-import com.wanted.jaringoby.common.exceptions.jwt.TokenExpiredException;
-import com.wanted.jaringoby.common.exceptions.jwt.TokenSignatureInvalidException;
-import com.wanted.jaringoby.common.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.filter.GenericFilterBean;
+import java.util.List;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@RequiredArgsConstructor
-public class AuthenticationFilter extends GenericFilterBean
-        implements ErrorResponseWriter {
+public abstract class AuthenticationFilter extends CustomFilter {
 
     private static final String AUTHORIZATION = "Authorization";
     private static final String BEARER = "Bearer ";
 
-    private final JwtUtil jwtUtil;
-    private final ObjectMapper objectMapper;
+    private final List<AntPathRequestMatcher> requestMatchersForRefreshTokenBasedAuthentication
+            = List.of(
+            AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/customer/v1.0/sessions"),
+            AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/customer/v1.0/access-tokens")
+    );
 
-    @Override
-    public void doFilter(
+    public abstract void doFilter(
             ServletRequest servletRequest,
             ServletResponse servletResponse,
             FilterChain chain
-    ) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
+    ) throws IOException, ServletException;
 
-        try {
-            String authorization = request.getHeader(AUTHORIZATION);
+    protected boolean requestForRefreshTokenBasedAuthentication(HttpServletRequest request) {
+        return requestMatchersForRefreshTokenBasedAuthentication.stream()
+                .anyMatch(requestMatcher -> requestMatcher.matches(request));
+    }
 
-            if (authorization == null) {
-                throw new MissingRequestHeaderAuthorizationException();
-            }
+    protected String parseToken(HttpServletRequest request) {
+        String authorization = request.getHeader(AUTHORIZATION);
 
-            if (!authorization.startsWith(BEARER)) {
-                throw new InvalidRequestHeaderAuthorizationBearerException();
-            }
-
-            String token = authorization.substring(BEARER.length());
-
-            Map<String, String> claimAndValues = jwtUtil.decodeToken(token);
-
-            if (claimAndValues.get(CLAIM_TYPE).equals(REFRESH_TOKEN)) {
-                request.setAttribute("refreshToken", token);
-            }
-
-            request.setAttribute("customerId", claimAndValues.get(CLAIM_CUSTOMER_ID));
-
-            chain.doFilter(request, response);
-
-        } catch (
-                MissingRequestHeaderAuthorizationException
-                | InvalidRequestHeaderAuthorizationBearerException
-                | TokenSignatureInvalidException
-                | TokenExpiredException
-                | TokenDecodingFailedException exception
-        ) {
-            writeErrorResponse(response, objectMapper, exception);
+        if (authorization == null) {
+            throw new MissingRequestHeaderAuthorizationException();
         }
+
+        if (!authorization.startsWith(BEARER)) {
+            throw new InvalidRequestHeaderAuthorizationBearerException();
+        }
+
+        return authorization.substring(BEARER.length());
     }
 }
