@@ -19,19 +19,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class AccessTokenBasedAuthenticationFilter extends AuthenticationFilter {
 
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper;
-
-    public AccessTokenBasedAuthenticationFilter(
-            JwtUtil jwtUtil,
-            ObjectMapper objectMapper
-    ) {
-        this.jwtUtil = jwtUtil;
-        this.objectMapper = objectMapper;
-    }
 
     @Override
     public void doFilter(

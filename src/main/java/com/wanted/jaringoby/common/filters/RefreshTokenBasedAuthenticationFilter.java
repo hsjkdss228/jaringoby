@@ -19,19 +19,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class RefreshTokenBasedAuthenticationFilter extends AuthenticationFilter {
 
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper;
-
-    public RefreshTokenBasedAuthenticationFilter(
-            JwtUtil jwtUtil,
-            ObjectMapper objectMapper
-    ) {
-        this.jwtUtil = jwtUtil;
-        this.objectMapper = objectMapper;
-    }
 
     @Override
     public void doFilter(
