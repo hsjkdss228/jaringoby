@@ -9,7 +9,8 @@ public enum Category {
     Transportation("교통비"),
     Leisure("여가비"),
     Living("생활비"),
-    PersonalDevelopment("자기계발비");
+    PersonalDevelopment("자기계발비"),
+    EtCetera("기타");
 
     private final String name;
 
