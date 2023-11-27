@@ -15,6 +15,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -45,4 +46,17 @@ public class Budget {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Builder
+    public Budget(
+            String id,
+            LedgerId ledgerId,
+            String category,
+            Long amount
+    ) {
+        this.id = BudgetId.of(id);
+        this.ledgerId = ledgerId;
+        this.category = Category.of(category);
+        this.amount = Money.of(amount);
+    }
 }
