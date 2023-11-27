@@ -3,7 +3,6 @@ package com.wanted.jaringoby.ledger.applications;
 import com.wanted.jaringoby.category.exceptions.CategoryDuplicatedException;
 import com.wanted.jaringoby.category.exceptions.CategoryNotFoundException;
 import com.wanted.jaringoby.category.models.Category;
-import com.wanted.jaringoby.common.models.Money;
 import com.wanted.jaringoby.common.utils.UlidGenerator;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.ledger.dtos.CreateBudgetRequestDto;
