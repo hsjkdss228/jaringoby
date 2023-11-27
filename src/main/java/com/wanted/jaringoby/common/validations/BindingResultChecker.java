@@ -1,5 +1,6 @@
 package com.wanted.jaringoby.common.validations;
 
+import com.wanted.jaringoby.common.exceptions.http.request.InvalidRangeInputException;
 import com.wanted.jaringoby.common.exceptions.http.request.InvalidRequestInputException;
 import com.wanted.jaringoby.common.exceptions.http.request.MissingRequestInputException;
 import java.util.Set;
@@ -8,8 +9,12 @@ import org.springframework.validation.FieldError;
 
 public class BindingResultChecker {
 
-    private final Set<String> missingFieldErrorCode = Set.of("NotBlank");
-    private final Set<String> invalidFieldErrorCode = Set.of("Pattern");
+    private final Set<String> missingFieldErrorCode = Set.of(
+            "NotBlank", "NotNull", "NotEmpty");
+    private final Set<String> invalidFieldErrorCode = Set.of(
+            "Pattern");
+    private final Set<String> invalidRangeErrorCode = Set.of(
+            "Min");
 
     public void checkBindingErrors(BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
@@ -36,6 +41,10 @@ public class BindingResultChecker {
             throw new InvalidRequestInputException();
         }
 
+        if (isInvalidRangeErrorCode(code)) {
+            throw new InvalidRangeInputException();
+        }
+
         throw new RuntimeException();
     }
 
@@ -45,5 +54,9 @@ public class BindingResultChecker {
 
     private boolean isInvalidFieldErrorCode(String code) {
         return invalidFieldErrorCode.contains(code);
+    }
+
+    private boolean isInvalidRangeErrorCode(String code) {
+        return invalidRangeErrorCode.contains(code);
     }
 }

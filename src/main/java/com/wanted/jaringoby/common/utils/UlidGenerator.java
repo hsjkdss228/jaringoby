@@ -13,4 +13,12 @@ public class UlidGenerator {
     public String createRandomCustomerRefreshTokenULID() {
         return "CUSTOMER_REFRESH_TOKEN_" + ulid.nextULID();
     }
+
+    public String createRandomLedgerULID() {
+        return "LEDGER_" + ulid.nextULID();
+    }
+
+    public String createRandomBudgetULID() {
+        return "BUDGET_" + ulid.nextULID();
+    }
 }

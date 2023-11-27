@@ -47,18 +47,17 @@ class CustomerRefreshTokenQueryDslRepositoryImplTest {
                         created_at, updated_at)
                         VALUES (?, ?, ?, ?, ?, ?, ?)
                         """,
+
                 "CUSTOMER_1", "hsjkdss228", "Password!1", true, true,
                 NOW.minusHours(1), NOW.minusHours(1));
 
         jdbcTemplate.update("""
                         INSERT INTO customer_refresh_tokens(id, customer_id, token_value, requested_at)
-                        VALUES (?, ?, ?, ?)
+                        VALUES (?, ?, ?, ?),
+                        (?, ?, ?, ?)
                         """,
-                "CUSTOMER_REFRESH_TOKEN_1", "CUSTOMER_1", "REFRESH_TOKEN_1", NOW.minusMinutes(30));
-        jdbcTemplate.update("""
-                        INSERT INTO customer_refresh_tokens(id, customer_id, token_value, requested_at)
-                        VALUES (?, ?, ?, ?)
-                        """,
+
+                "CUSTOMER_REFRESH_TOKEN_1", "CUSTOMER_1", "REFRESH_TOKEN_1", NOW.minusMinutes(30),
                 "CUSTOMER_REFRESH_TOKEN_2", "CUSTOMER_1", "REFRESH_TOKEN_2", NOW.minusMinutes(15));
     }
 
