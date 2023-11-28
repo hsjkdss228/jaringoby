@@ -10,9 +10,8 @@ import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.ledger.dtos.CreateBudgetRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerResponseDto;
-import com.wanted.jaringoby.ledger.exceptions.LedgerEndDateBeforeStartDateException;
+import com.wanted.jaringoby.ledger.exceptions.LedgerPeriodInvalidException;
 import com.wanted.jaringoby.ledger.exceptions.LedgerPeriodOverlappedException;
-import com.wanted.jaringoby.ledger.exceptions.LedgerStartDateBeforeNowException;
 import com.wanted.jaringoby.ledger.models.budget.Budget;
 import com.wanted.jaringoby.ledger.models.ledger.Ledger;
 import com.wanted.jaringoby.ledger.repositories.BudgetRepository;
@@ -73,12 +72,8 @@ public class CreateLedgerService {
     }
 
     private void validateLedgerPeriod(LocalDate startDate, LocalDate endDate, CustomerId customerId) {
-        if (startDate.isBefore(NOW)) {
-            throw new LedgerStartDateBeforeNowException();
-        }
-
-        if (endDate.isBefore(startDate)) {
-            throw new LedgerEndDateBeforeStartDateException();
+        if (startDate.isBefore(NOW) && endDate.isBefore(startDate)) {
+            throw new LedgerPeriodInvalidException();
         }
 
         if (ledgerRepository.existsByCustomerIdAndPeriod(customerId, startDate, endDate)) {

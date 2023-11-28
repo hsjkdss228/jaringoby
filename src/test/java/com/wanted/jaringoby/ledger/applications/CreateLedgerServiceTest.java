@@ -16,9 +16,8 @@ import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.ledger.dtos.CreateBudgetRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerResponseDto;
-import com.wanted.jaringoby.ledger.exceptions.LedgerEndDateBeforeStartDateException;
+import com.wanted.jaringoby.ledger.exceptions.LedgerPeriodInvalidException;
 import com.wanted.jaringoby.ledger.exceptions.LedgerPeriodOverlappedException;
-import com.wanted.jaringoby.ledger.exceptions.LedgerStartDateBeforeNowException;
 import com.wanted.jaringoby.ledger.models.ledger.Ledger;
 import com.wanted.jaringoby.ledger.repositories.BudgetRepository;
 import com.wanted.jaringoby.ledger.repositories.LedgerRepository;
@@ -116,7 +115,7 @@ class CreateLedgerServiceTest {
                     ))
                     .build();
 
-            assertThrows(LedgerStartDateBeforeNowException.class, () ->
+            assertThrows(LedgerPeriodInvalidException.class, () ->
                     createLedgerService.createLedger(CUSTOMER_ID, createLedgerRequestDto));
 
             verify(ledgerRepository, never()).save(any(Ledger.class));
@@ -137,7 +136,7 @@ class CreateLedgerServiceTest {
                     ))
                     .build();
 
-            assertThrows(LedgerEndDateBeforeStartDateException.class, () ->
+            assertThrows(LedgerPeriodInvalidException.class, () ->
                     createLedgerService.createLedger(CUSTOMER_ID, createLedgerRequestDto));
 
             verify(ledgerRepository, never()).save(any(Ledger.class));
