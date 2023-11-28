@@ -3,6 +3,7 @@ package com.wanted.jaringoby.ledger.models.budget;
 import com.wanted.jaringoby.category.models.Category;
 import com.wanted.jaringoby.common.converters.MoneyConverter;
 import com.wanted.jaringoby.common.models.Money;
+import com.wanted.jaringoby.ledger.dtos.GetBudgetResponseDto;
 import com.wanted.jaringoby.ledger.models.ledger.LedgerId;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
@@ -58,5 +59,13 @@ public class Budget {
         this.ledgerId = ledgerId;
         this.category = Category.of(category);
         this.amount = Money.of(amount);
+    }
+
+    public GetBudgetResponseDto toGetBudgetResponseDto() {
+        return GetBudgetResponseDto.builder()
+                .id(id.value())
+                .category(category.categoryName())
+                .amount(amount.value())
+                .build();
     }
 }

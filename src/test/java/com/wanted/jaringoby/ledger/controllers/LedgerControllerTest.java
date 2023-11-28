@@ -3,6 +3,7 @@ package com.wanted.jaringoby.ledger.controllers;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -14,8 +15,13 @@ import com.wanted.jaringoby.common.validations.BindingResultChecker;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.ledger.applications.CreateLedgerService;
+import com.wanted.jaringoby.ledger.applications.GetOngoingLedgerService;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerResponseDto;
+import com.wanted.jaringoby.ledger.dtos.GetBudgetResponseDto;
+import com.wanted.jaringoby.ledger.dtos.GetLedgerDetailResponseDto;
+import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -36,13 +42,69 @@ class LedgerControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private CreateLedgerService createLedgerService;
-
-    @MockBean
     private CustomerRepository customerRepository;
 
     @SpyBean
     private JwtUtil jwtUtil;
+
+    private String accessToken;
+
+    private static final String CUSTOMER_ID = "CUSTOMER_ID";
+
+    @BeforeEach
+    void setUp() {
+        accessToken = jwtUtil.issueAccessToken(CustomerId.of(CUSTOMER_ID));
+
+        given(customerRepository.existsById(CustomerId.of(CUSTOMER_ID)))
+                .willReturn(true);
+    }
+
+    @MockBean
+    private GetOngoingLedgerService getOngoingLedgerService;
+
+    @DisplayName("GET /customer/v1.0/ledgers/now")
+    @Nested
+    class GetLedgersNow {
+
+        private static final String LEDGER_ID = "LEDGER_ULID";
+        private static final String BUDGET_ID_1 = "LEDGER_ULID_1";
+        private static final String BUDGET_ID_2 = "LEDGER_ULID_2";
+
+        @DisplayName("조회된 Ledger 정보 및 해당 Ledger와 연관된 모든 Budget 정보 응답 반환")
+        @Test
+        void now() throws Exception {
+            List<GetBudgetResponseDto> budgetResponseDtos = List.of(
+                    GetBudgetResponseDto.builder()
+                            .id(BUDGET_ID_1)
+                            .category("commute")
+                            .amount(500_000L)
+                            .build(),
+                    GetBudgetResponseDto.builder()
+                            .id(BUDGET_ID_2)
+                            .category("books")
+                            .amount(2_000_000L)
+                            .build()
+            );
+
+            GetLedgerDetailResponseDto getLedgerDetailResponseDto
+                    = GetLedgerDetailResponseDto.builder()
+                    .id(LEDGER_ID)
+                    .startDate(LocalDate.now())
+                    .endDate(LocalDate.now().plusMonths(1))
+                    .budgets(budgetResponseDtos)
+                    .build();
+
+            given(getOngoingLedgerService.getOngoingLedger(CUSTOMER_ID))
+                    .willReturn(getLedgerDetailResponseDto);
+
+            mockMvc.perform(get("/customer/v1.0/ledgers/now")
+                            .header("Authorization", "Bearer " + accessToken))
+                    .andExpect(status().isOk());
+        }
+    }
+
+    @MockBean
+    private CreateLedgerService createLedgerService;
 
     @SpyBean
     private BindingResultChecker bindingResultChecker;
@@ -51,18 +113,7 @@ class LedgerControllerTest {
     @Nested
     class PostLedgers {
 
-        private static final String CUSTOMER_ID = "CUSTOMER_ID";
         private static final String LEDGER_ID = "LEDGER_ID";
-
-        private String accessToken;
-
-        @BeforeEach
-        void setUp() {
-            accessToken = jwtUtil.issueAccessToken(CustomerId.of(CUSTOMER_ID));
-
-            given(customerRepository.existsById(CustomerId.of(CUSTOMER_ID)))
-                    .willReturn(true);
-        }
 
         @DisplayName("성공")
         @Nested

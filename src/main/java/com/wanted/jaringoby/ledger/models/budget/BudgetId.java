@@ -20,4 +20,8 @@ public class BudgetId implements Serializable {
     public static BudgetId of(String value) {
         return new BudgetId(value);
     }
+
+    public String value() {
+        return value;
+    }
 }

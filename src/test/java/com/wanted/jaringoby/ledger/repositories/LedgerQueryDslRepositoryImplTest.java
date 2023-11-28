@@ -4,9 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.wanted.jaringoby.config.jpa.JpaTestConfig;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.ledger.models.ledger.Ledger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import org.junit.jupiter.api.AfterEach;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -28,30 +29,120 @@ class LedgerQueryDslRepositoryImplTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private static final String CUSTOMER_ID = "CUSTOMER_1";
+    private static final String OTHER_CUSTOMER_ID = "CUSTOMER_222222";
+
+    private static final LocalDateTime DATETIME_NOW = LocalDateTime.now();
+    private static final LocalDate DATE_NOW = LocalDate.now();
+    @Autowired
+    private LedgerRepository ledgerRepository;
+
+    @BeforeEach
+    void setUp() {
+        jdbcTemplate.execute("DELETE FROM ledgers");
+        jdbcTemplate.execute("DELETE FROM customers");
+
+        jdbcTemplate.update("""
+                        INSERT INTO customers(id, username, password,
+                        daily_expense_recommendation_push_approved,
+                        daily_expense_analysis_push_approved,
+                        created_at, updated_at)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                        """,
+
+                CUSTOMER_ID, "hsjkdss228", "Password!1", true, true,
+                DATETIME_NOW.minusHours(1), DATETIME_NOW.minusHours(1));
+    }
+
+    @DisplayName("findByCustomerIdAndOngoing")
+    @Nested
+    class FindByCustomerIdAndOngoing {
+
+        @DisplayName("현재 진행 중인 Ledger 존재하는 경우")
+        @Nested
+        class Exists {
+
+            private static final String TARGET_LEDGER_ID = "LEDGER_1";
+
+            @DisplayName("대상 Ledger 반환")
+            @Test
+            void getLedger() {
+                jdbcTemplate.update("""
+                                INSERT INTO ledgers(id, customer_id,
+                                start_date, end_date, created_at, updated_at)
+                                VALUES (?, ?, ?, ?, ?, ?),
+                                (?, ?, ?, ?, ?, ?),
+                                (?, ?, ?, ?, ?, ?),
+                                (?, ?, ?, ?, ?, ?)""",
+
+                        // 현재 진행 중인 Ledger
+                        TARGET_LEDGER_ID, CUSTOMER_ID,
+                        DATE_NOW.minusDays(15), DATE_NOW.plusDays(14),
+                        DATETIME_NOW, DATETIME_NOW,
+
+                        // 다른 고객의 현재 진행 중인 Ledger
+                        "LEDGER_2", OTHER_CUSTOMER_ID,
+                        DATE_NOW.minusDays(15), DATE_NOW.plusDays(14),
+                        DATETIME_NOW, DATETIME_NOW,
+
+                        // 당일 이전에 종료된 Ledger
+                        "LEDGER_3", OTHER_CUSTOMER_ID,
+                        DATE_NOW.minusMonths(1).minusDays(15), DATE_NOW.minusMonths(1).plusDays(14),
+                        DATETIME_NOW, DATETIME_NOW,
+
+                        // 당일 이후 진행 예정인 Ledger
+                        "LEDGER_4", OTHER_CUSTOMER_ID,
+                        DATE_NOW.plusMonths(1).minusDays(15), DATE_NOW.plusMonths(1).plusDays(14),
+                        DATETIME_NOW, DATETIME_NOW);
+
+                Optional<Ledger> found = repository
+                        .findByCustomerIdAndOngoing(CustomerId.of(CUSTOMER_ID));
+                assertThat(found).isNotEmpty();
+
+                Ledger ledger = found.get();
+                assertThat(ledger.id().value()).isEqualTo(TARGET_LEDGER_ID);
+            }
+        }
+
+        @DisplayName("현재 진행 중인 Ledger 존재하지 않는 경우")
+        @Nested
+        class NotExists {
+
+            @DisplayName("Optional.empty() 반환")
+            @Test
+            void getLedger() {
+                jdbcTemplate.update("""
+                                INSERT INTO ledgers(id, customer_id,
+                                start_date, end_date, created_at, updated_at)
+                                VALUES (?, ?, ?, ?, ?, ?),
+                                (?, ?, ?, ?, ?, ?),
+                                (?, ?, ?, ?, ?, ?)""",
+
+                        // 다른 고객의 현재 진행 중인 Ledger
+                        "LEDGER_2", OTHER_CUSTOMER_ID,
+                        DATE_NOW.minusDays(15), DATE_NOW.plusDays(14),
+                        DATETIME_NOW, DATETIME_NOW,
+
+                        // 당일 이전에 종료된 Ledger
+                        "LEDGER_3", OTHER_CUSTOMER_ID,
+                        DATE_NOW.minusMonths(1).minusDays(15), DATE_NOW.minusMonths(1).plusDays(14),
+                        DATETIME_NOW, DATETIME_NOW,
+
+                        // 당일 이후 진행 예정인 Ledger
+                        "LEDGER_4", OTHER_CUSTOMER_ID,
+                        DATE_NOW.plusMonths(1).minusDays(15), DATE_NOW.plusMonths(1).plusDays(14),
+                        DATETIME_NOW, DATETIME_NOW);
+
+                assertThat(repository
+                        .findByCustomerIdAndOngoing(CustomerId.of(CUSTOMER_ID)))
+                        .isEmpty();
+            }
+        }
+    }
+
     @DisplayName("existsByCustomerIdAndPeriod")
     @Nested
     class ExistsByCustomerIdAndPeriod {
-
-        private static final String CUSTOMER_ID = "CUSTOMER_1";
-
-        private static final LocalDateTime DATETIME_NOW = LocalDateTime.now();
-        private static final LocalDate DATE_NOW = LocalDate.now();
-
-        @BeforeEach
-        void setUp() {
-            jdbcTemplate.execute("DELETE FROM ledgers");
-            jdbcTemplate.execute("DELETE FROM customers");
-
-            jdbcTemplate.update("""
-                            INSERT INTO customers(id, username, password,
-                            daily_expense_recommendation_push_approved,
-                            daily_expense_analysis_push_approved,
-                            created_at, updated_at)
-                            VALUES (?, ?, ?, ?, ?, ?, ?)
-                            """,
-                    CUSTOMER_ID, "hsjkdss228", "Password!1", true, true,
-                    DATETIME_NOW.minusHours(1), DATETIME_NOW.minusHours(1));
-        }
 
         @DisplayName("기간이 겹치지 않는 경우")
         @Nested
@@ -61,10 +152,10 @@ class LedgerQueryDslRepositoryImplTest {
             @Test
             void notOverlapped() {
                 jdbcTemplate.update("""
-                            INSERT INTO ledgers(id, customer_id,
-                            start_date, end_date, created_at, updated_at)
-                            VALUES (?, ?, ?, ?, ?, ?),
-                            (?, ?, ?, ?, ?, ?)""",
+                                INSERT INTO ledgers(id, customer_id,
+                                start_date, end_date, created_at, updated_at)
+                                VALUES (?, ?, ?, ?, ?, ?),
+                                (?, ?, ?, ?, ?, ?)""",
 
                         "LEDGER_1", CUSTOMER_ID,
                         DATE_NOW.minusMonths(1).minusDays(15), DATE_NOW.minusDays(15),
@@ -88,9 +179,9 @@ class LedgerQueryDslRepositoryImplTest {
             @Test
             void startDateBeforeAndEndDateBetween() {
                 jdbcTemplate.update("""
-                            INSERT INTO ledgers(id, customer_id,
-                            start_date, end_date, created_at, updated_at)
-                            VALUES (?, ?, ?, ?, ?, ?)""",
+                                INSERT INTO ledgers(id, customer_id,
+                                start_date, end_date, created_at, updated_at)
+                                VALUES (?, ?, ?, ?, ?, ?)""",
 
                         "LEDGER_1", CUSTOMER_ID,
                         DATE_NOW.minusDays(15), DATE_NOW.plusDays(15),
@@ -105,9 +196,9 @@ class LedgerQueryDslRepositoryImplTest {
             @Test
             void startDateBetweenAndEndDateAfter() {
                 jdbcTemplate.update("""
-                            INSERT INTO ledgers(id, customer_id,
-                            start_date, end_date, created_at, updated_at)
-                            VALUES (?, ?, ?, ?, ?, ?)""",
+                                INSERT INTO ledgers(id, customer_id,
+                                start_date, end_date, created_at, updated_at)
+                                VALUES (?, ?, ?, ?, ?, ?)""",
 
                         "LEDGER_1", CUSTOMER_ID,
                         DATE_NOW.plusDays(15), DATE_NOW.plusMonths(1).plusDays(15),
@@ -122,9 +213,9 @@ class LedgerQueryDslRepositoryImplTest {
             @Test
             void startDateBeforeAndEndDateAfter() {
                 jdbcTemplate.update("""
-                            INSERT INTO ledgers(id, customer_id,
-                            start_date, end_date, created_at, updated_at)
-                            VALUES (?, ?, ?, ?, ?, ?)""",
+                                INSERT INTO ledgers(id, customer_id,
+                                start_date, end_date, created_at, updated_at)
+                                VALUES (?, ?, ?, ?, ?, ?)""",
 
                         "LEDGER_1", CUSTOMER_ID,
                         DATE_NOW.minusDays(15), DATE_NOW.plusMonths(1).plusDays(15),
@@ -139,9 +230,9 @@ class LedgerQueryDslRepositoryImplTest {
             @Test
             void startDateBetweenAndEndDateBetween() {
                 jdbcTemplate.update("""
-                            INSERT INTO ledgers(id, customer_id,
-                            start_date, end_date, created_at, updated_at)
-                            VALUES (?, ?, ?, ?, ?, ?)""",
+                                INSERT INTO ledgers(id, customer_id,
+                                start_date, end_date, created_at, updated_at)
+                                VALUES (?, ?, ?, ?, ?, ?)""",
 
                         "LEDGER_1", CUSTOMER_ID,
                         DATE_NOW.plusDays(5), DATE_NOW.plusDays(25),

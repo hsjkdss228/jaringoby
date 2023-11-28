@@ -1,5 +1,7 @@
 package com.wanted.jaringoby.ledger.applications;
 
+import static com.wanted.jaringoby.common.constants.Date.NOW;
+
 import com.wanted.jaringoby.category.exceptions.CategoryDuplicatedException;
 import com.wanted.jaringoby.category.exceptions.CategoryNotFoundException;
 import com.wanted.jaringoby.category.models.Category;
@@ -8,7 +10,9 @@ import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.ledger.dtos.CreateBudgetRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerResponseDto;
+import com.wanted.jaringoby.ledger.exceptions.LedgerEndDateBeforeStartDateException;
 import com.wanted.jaringoby.ledger.exceptions.LedgerPeriodOverlappedException;
+import com.wanted.jaringoby.ledger.exceptions.LedgerStartDateBeforeNowException;
 import com.wanted.jaringoby.ledger.models.budget.Budget;
 import com.wanted.jaringoby.ledger.models.ledger.Ledger;
 import com.wanted.jaringoby.ledger.repositories.BudgetRepository;
@@ -39,13 +43,9 @@ public class CreateLedgerService {
         List<CreateBudgetRequestDto> createBudgetRequestDtos = createLedgerRequestDto
                 .getBudgets();
 
-        validateBudgetCategories(createBudgetRequestDtos);
+        validateLedgerPeriod(CustomerId.of(customerId), startDate, endDate);
 
-        if (ledgerRepository.existsByCustomerIdAndPeriod(
-                CustomerId.of(customerId), startDate, endDate)
-        ) {
-            throw new LedgerPeriodOverlappedException();
-        }
+        validateBudgetCategories(createBudgetRequestDtos);
 
         Ledger ledger = Ledger.builder()
                 .id(ulidGenerator.createRandomLedgerULID())
@@ -70,6 +70,20 @@ public class CreateLedgerService {
         return CreateLedgerResponseDto.builder()
                 .ledgerId(ledger.id().value())
                 .build();
+    }
+
+    private void validateLedgerPeriod(CustomerId customerId, LocalDate startDate, LocalDate endDate) {
+        if (startDate.isBefore(NOW)) {
+            throw new LedgerStartDateBeforeNowException();
+        }
+
+        if (endDate.isBefore(startDate)) {
+            throw new LedgerEndDateBeforeStartDateException();
+        }
+
+        if (ledgerRepository.existsByCustomerIdAndPeriod(customerId, startDate, endDate)) {
+            throw new LedgerPeriodOverlappedException();
+        }
     }
 
     private void validateBudgetCategories(List<CreateBudgetRequestDto> createBudgetRequestDtos) {
