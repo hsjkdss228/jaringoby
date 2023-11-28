@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class LoginService {
 
     private final CustomerRepository customerRepository;
@@ -43,6 +42,7 @@ public class LoginService {
         this.maxSessionsCount = maxSessionsCount;
     }
 
+    @Transactional
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         String username = loginRequestDto.getUsername();
         String password = loginRequestDto.getPassword();
