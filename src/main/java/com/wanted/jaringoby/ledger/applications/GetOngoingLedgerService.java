@@ -8,20 +8,16 @@ import com.wanted.jaringoby.ledger.models.ledger.Ledger;
 import com.wanted.jaringoby.ledger.repositories.BudgetRepository;
 import com.wanted.jaringoby.ledger.repositories.LedgerRepository;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class GetOngoingLedgerService {
 
     private final LedgerRepository ledgerRepository;
     private final BudgetRepository budgetRepository;
-
-    public GetOngoingLedgerService(LedgerRepository ledgerRepository,
-            BudgetRepository budgetRepository) {
-        this.ledgerRepository = ledgerRepository;
-        this.budgetRepository = budgetRepository;
-    }
 
     @Transactional(readOnly = true)
     public GetLedgerDetailResponseDto getOngoingLedger(String customerId) {
