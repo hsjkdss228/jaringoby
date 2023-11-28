@@ -43,7 +43,7 @@ public class CreateLedgerService {
         List<CreateBudgetRequestDto> createBudgetRequestDtos = createLedgerRequestDto
                 .getBudgets();
 
-        validateLedgerPeriod(CustomerId.of(customerId), startDate, endDate);
+        validateLedgerPeriod(startDate, endDate, CustomerId.of(customerId));
 
         validateBudgetCategories(createBudgetRequestDtos);
 
@@ -72,7 +72,7 @@ public class CreateLedgerService {
                 .build();
     }
 
-    private void validateLedgerPeriod(CustomerId customerId, LocalDate startDate, LocalDate endDate) {
+    private void validateLedgerPeriod(LocalDate startDate, LocalDate endDate, CustomerId customerId) {
         if (startDate.isBefore(NOW)) {
             throw new LedgerStartDateBeforeNowException();
         }
