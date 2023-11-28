@@ -1,6 +1,9 @@
 package com.wanted.jaringoby.ledger.models.ledger;
 
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.ledger.dtos.GetBudgetResponseDto;
+import com.wanted.jaringoby.ledger.dtos.GetLedgerDetailResponseDto;
+import com.wanted.jaringoby.ledger.models.budget.Budget;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -9,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -51,5 +55,18 @@ public class Ledger {
 
     public LedgerId id() {
         return id;
+    }
+
+    public GetLedgerDetailResponseDto toLedgerDetailResponseDto(List<Budget> budgets) {
+        List<GetBudgetResponseDto> budgetResponseDtos = budgets.stream()
+                .map(Budget::toGetBudgetResponseDto)
+                .toList();
+
+        return GetLedgerDetailResponseDto.builder()
+                .id(id.value())
+                .startDate(period.startDate())
+                .endDate(period.endDate())
+                .budgets(budgetResponseDtos)
+                .build();
     }
 }
