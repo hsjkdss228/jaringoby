@@ -44,17 +44,41 @@ public class Ledger {
     @Builder
     public Ledger(
             String id,
-            CustomerId customerId,
+            String customerId,
             LocalDate startDate,
             LocalDate endDate
     ) {
         this.id = LedgerId.of(id);
-        this.customerId = customerId;
+        this.customerId = CustomerId.of(customerId);
         this.period = LedgerPeriod.of(startDate, endDate);
     }
 
     public LedgerId id() {
         return id;
+    }
+
+    public boolean ownedBy(CustomerId customerId) {
+        return this.customerId.equals(customerId);
+    }
+
+    public boolean hasEnded() {
+        return period.hasEnded();
+    }
+
+    public boolean isInProgress() {
+        return period.isInProgress();
+    }
+
+    public boolean hasNotStarted() {
+        return period.hasNotStarted();
+    }
+
+    public boolean startDateIsDifferentFrom(LocalDate startDate) {
+        return period.startDateNotEquals(startDate);
+    }
+
+    public void modifyPeriod(LocalDate startDate, LocalDate endDate) {
+        period.modify(startDate, endDate);
     }
 
     public GetLedgerDetailResponseDto toLedgerDetailResponseDto(List<Budget> budgets) {

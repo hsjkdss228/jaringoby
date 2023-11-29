@@ -3,7 +3,9 @@ package com.wanted.jaringoby.ledger.controllers;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -16,10 +18,12 @@ import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.ledger.applications.CreateLedgerService;
 import com.wanted.jaringoby.ledger.applications.GetOngoingLedgerService;
+import com.wanted.jaringoby.ledger.applications.ModifyLedgerPeriodService;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerResponseDto;
 import com.wanted.jaringoby.ledger.dtos.GetBudgetResponseDto;
 import com.wanted.jaringoby.ledger.dtos.GetLedgerDetailResponseDto;
+import com.wanted.jaringoby.ledger.dtos.ModifyLedgerPeriodRequestDto;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,6 +50,20 @@ class LedgerControllerTest {
 
     @SpyBean
     private JwtUtil jwtUtil;
+
+    @SpyBean
+    private BindingResultChecker bindingResultChecker;
+
+    private void performAndExpectIsBadRequest(String content) throws Exception {
+        mockMvc.perform(post("/customer/v1.0/ledgers")
+                        .header("Authorization", "Bearer " + accessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(
+                                content
+                        ))
+                .andExpect(status().isBadRequest());
+    }
 
     private String accessToken;
 
@@ -106,9 +124,6 @@ class LedgerControllerTest {
     @MockBean
     private CreateLedgerService createLedgerService;
 
-    @SpyBean
-    private BindingResultChecker bindingResultChecker;
-
     @DisplayName("POST /customer/v1.0/ledgers")
     @Nested
     class PostLedgers {
@@ -158,17 +173,6 @@ class LedgerControllerTest {
         @DisplayName("실패")
         @Nested
         class Failure {
-
-            private void performAndExpectIsBadRequest(String content) throws Exception {
-                mockMvc.perform(post("/customer/v1.0/ledgers")
-                                .header("Authorization", "Bearer " + accessToken)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON)
-                                .content(
-                                        content
-                                ))
-                        .andExpect(status().isBadRequest());
-            }
 
             @DisplayName("시작일 입력되지 않은 경우 예외처리")
             @Test
@@ -283,6 +287,69 @@ class LedgerControllerTest {
                              ]
                         }
                          """);
+            }
+        }
+    }
+
+    @MockBean
+    private ModifyLedgerPeriodService modifyLedgerPeriodService;
+
+    @DisplayName("PATCH /customer/v1.0/ledgers/{ledger-id}/period")
+    @Nested
+    class PatchLedgersPeriod {
+
+        private static final String LEDGER_ID = "LEDGER_ID";
+
+        @DisplayName("성공")
+        @Nested
+        class Success {
+
+            @DisplayName("전달된 Ledger 식별자에 대해 시작일, 종료일 변경 수행 메서드 호출")
+            @Test
+            void modifyPeriod() throws Exception {
+                mockMvc.perform(patch("/customer/v1.0/ledgers/" + LEDGER_ID + "/period")
+                                .header("Authorization", "Bearer " + accessToken)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                            "startDate": "2023-12-24",
+                                            "endDate": "2024-01-24"
+                                        }
+                                        """))
+                        .andExpect(status().isNoContent());
+
+                verify(modifyLedgerPeriodService).modifyLedgerPeriod(
+                        eq(CUSTOMER_ID),
+                        eq(LEDGER_ID),
+                        any(ModifyLedgerPeriodRequestDto.class)
+                );
+            }
+        }
+
+        @DisplayName("실패")
+        @Nested
+        class Failure {
+
+            @DisplayName("시작일 입력되지 않은 경우 예외처리")
+            @Test
+            void nullStartDate() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "endDate": "2023-12-15"
+                        }
+                        """);
+            }
+
+            @DisplayName("종료일 입력되지 않은 경우 예외처리")
+            @Test
+            void nullEndDate() throws Exception {
+                performAndExpectIsBadRequest("""
+                        {
+                            "startDate": "2023-12-15",
+                            "endDate": null
+                        }
+                        """);
             }
         }
     }
