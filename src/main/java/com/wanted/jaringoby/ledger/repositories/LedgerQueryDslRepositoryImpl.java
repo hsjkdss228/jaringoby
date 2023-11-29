@@ -3,11 +3,11 @@ package com.wanted.jaringoby.ledger.repositories;
 import static com.wanted.jaringoby.common.constants.Date.NOW;
 import static com.wanted.jaringoby.ledger.models.ledger.QLedger.ledger;
 
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.ledger.models.ledger.Ledger;
+import com.wanted.jaringoby.ledger.models.ledger.LedgerId;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -47,13 +47,31 @@ public class LedgerQueryDslRepositoryImpl implements LedgerQueryDslRepository {
                 .select(ledger)
                 .from(ledger)
                 .where(ledger.customerId.eq(customerId)
-                        .and(ledgerPeriodOverlapsBetween(startDate, endDate)))
+                        .and(ledgerExistsBetween(startDate, endDate)))
                 .fetch();
 
         return !queryResult.isEmpty();
     }
 
-    private BooleanExpression ledgerPeriodOverlapsBetween(
+    @Override
+    public boolean existsByCustomerIdAndLedgerIdNotAndPeriod(
+            CustomerId customerId,
+            LedgerId ledgerId,
+            LocalDate startDate,
+            LocalDate endDate
+    ) {
+        List<Ledger> queryResult = jpaQueryFactory
+                .select(ledger)
+                .from(ledger)
+                .where(ledger.customerId.eq(customerId)
+                        .and(ledger.id.eq(ledgerId).not())
+                        .and(ledgerExistsBetween(startDate, endDate)))
+                .fetch();
+
+        return !queryResult.isEmpty();
+    }
+
+    private BooleanExpression ledgerExistsBetween(
             LocalDate startDate,
             LocalDate endDate
     ) {

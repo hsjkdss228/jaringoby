@@ -10,9 +10,8 @@ import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.ledger.dtos.CreateBudgetRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerResponseDto;
-import com.wanted.jaringoby.ledger.exceptions.LedgerEndDateBeforeStartDateException;
+import com.wanted.jaringoby.ledger.exceptions.LedgerPeriodInvalidException;
 import com.wanted.jaringoby.ledger.exceptions.LedgerPeriodOverlappedException;
-import com.wanted.jaringoby.ledger.exceptions.LedgerStartDateBeforeNowException;
 import com.wanted.jaringoby.ledger.models.budget.Budget;
 import com.wanted.jaringoby.ledger.models.ledger.Ledger;
 import com.wanted.jaringoby.ledger.repositories.BudgetRepository;
@@ -43,13 +42,13 @@ public class CreateLedgerService {
         List<CreateBudgetRequestDto> createBudgetRequestDtos = createLedgerRequestDto
                 .getBudgets();
 
-        validateLedgerPeriod(CustomerId.of(customerId), startDate, endDate);
+        validateLedgerPeriod(startDate, endDate, CustomerId.of(customerId));
 
         validateBudgetCategories(createBudgetRequestDtos);
 
         Ledger ledger = Ledger.builder()
                 .id(ulidGenerator.createRandomLedgerULID())
-                .customerId(CustomerId.of(customerId))
+                .customerId(customerId)
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();
@@ -72,13 +71,9 @@ public class CreateLedgerService {
                 .build();
     }
 
-    private void validateLedgerPeriod(CustomerId customerId, LocalDate startDate, LocalDate endDate) {
-        if (startDate.isBefore(NOW)) {
-            throw new LedgerStartDateBeforeNowException();
-        }
-
-        if (endDate.isBefore(startDate)) {
-            throw new LedgerEndDateBeforeStartDateException();
+    private void validateLedgerPeriod(LocalDate startDate, LocalDate endDate, CustomerId customerId) {
+        if (startDate.isBefore(NOW) || endDate.isBefore(startDate)) {
+            throw new LedgerPeriodInvalidException();
         }
 
         if (ledgerRepository.existsByCustomerIdAndPeriod(customerId, startDate, endDate)) {

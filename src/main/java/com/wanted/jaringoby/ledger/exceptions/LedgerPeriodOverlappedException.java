@@ -6,6 +6,6 @@ import org.springframework.http.HttpStatus;
 public class LedgerPeriodOverlappedException extends CustomizedException {
 
     public LedgerPeriodOverlappedException() {
-        super(HttpStatus.CONFLICT, "기간 내 예산 관리가 이미 존재합니다.");
+        super(HttpStatus.CONFLICT, "주어진 기간 내 예산 관리가 이미 존재합니다.");
     }
 }

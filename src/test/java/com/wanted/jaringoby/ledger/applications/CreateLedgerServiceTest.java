@@ -1,5 +1,6 @@
 package com.wanted.jaringoby.ledger.applications;
 
+import static com.wanted.jaringoby.common.constants.Date.NOW;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,9 +17,8 @@ import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.ledger.dtos.CreateBudgetRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerResponseDto;
-import com.wanted.jaringoby.ledger.exceptions.LedgerEndDateBeforeStartDateException;
+import com.wanted.jaringoby.ledger.exceptions.LedgerPeriodInvalidException;
 import com.wanted.jaringoby.ledger.exceptions.LedgerPeriodOverlappedException;
-import com.wanted.jaringoby.ledger.exceptions.LedgerStartDateBeforeNowException;
 import com.wanted.jaringoby.ledger.models.ledger.Ledger;
 import com.wanted.jaringoby.ledger.repositories.BudgetRepository;
 import com.wanted.jaringoby.ledger.repositories.LedgerRepository;
@@ -51,7 +51,7 @@ class CreateLedgerServiceTest {
     private static final String CUSTOMER_ID = "CUSTOMER_ID";
 
     private static final String LEDGER_ID = "LEDGER_ID";
-    private static final LocalDate START_DATE = LocalDate.now();
+    private static final LocalDate START_DATE = NOW;
     private static final LocalDate END_DATE = START_DATE.plusMonths(1);
 
     private static final String BUDGET_ID = "BUDGET_ID";
@@ -116,7 +116,7 @@ class CreateLedgerServiceTest {
                     ))
                     .build();
 
-            assertThrows(LedgerStartDateBeforeNowException.class, () ->
+            assertThrows(LedgerPeriodInvalidException.class, () ->
                     createLedgerService.createLedger(CUSTOMER_ID, createLedgerRequestDto));
 
             verify(ledgerRepository, never()).save(any(Ledger.class));
@@ -137,7 +137,7 @@ class CreateLedgerServiceTest {
                     ))
                     .build();
 
-            assertThrows(LedgerEndDateBeforeStartDateException.class, () ->
+            assertThrows(LedgerPeriodInvalidException.class, () ->
                     createLedgerService.createLedger(CUSTOMER_ID, createLedgerRequestDto));
 
             verify(ledgerRepository, never()).save(any(Ledger.class));

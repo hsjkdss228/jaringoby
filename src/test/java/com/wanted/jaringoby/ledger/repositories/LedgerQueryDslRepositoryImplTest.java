@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.wanted.jaringoby.config.jpa.JpaTestConfig;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.ledger.models.ledger.Ledger;
+import com.wanted.jaringoby.ledger.models.ledger.LedgerId;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -34,6 +35,7 @@ class LedgerQueryDslRepositoryImplTest {
 
     private static final LocalDateTime DATETIME_NOW = LocalDateTime.now();
     private static final LocalDate DATE_NOW = LocalDate.now();
+
     @Autowired
     private LedgerRepository ledgerRepository;
 
@@ -242,6 +244,52 @@ class LedgerQueryDslRepositoryImplTest {
                         CustomerId.of(CUSTOMER_ID), DATE_NOW, DATE_NOW.plusMonths(1)))
                         .isTrue();
             }
+        }
+    }
+
+    @DisplayName("existsByCustomerIdAndLedgerIdNotAndPeriod")
+    @Nested
+    class ExistsByCustomerIdAndLedgerIdNotAndPeriod {
+
+        private static final String TARGET_LEDGER_ID = "LEDGER_1";
+
+        @DisplayName("대상 Ledger를 제외했을 때 기간이 겹치지 않는 경우, false 반환")
+        @Test
+        void notOverlapped() {
+            jdbcTemplate.update("""
+                            INSERT INTO ledgers(id, customer_id,
+                            start_date, end_date, created_at, updated_at)
+                            VALUES (?, ?, ?, ?, ?, ?),
+                            (?, ?, ?, ?, ?, ?),
+                            (?, ?, ?, ?, ?, ?),
+                            (?, ?, ?, ?, ?, ?)""",
+
+                    // 현재 진행 중인 Ledger
+                    TARGET_LEDGER_ID, CUSTOMER_ID,
+                    DATE_NOW.minusDays(15), DATE_NOW.plusDays(14),
+                    DATETIME_NOW, DATETIME_NOW,
+
+                    // 다른 고객의 현재 진행 중인 Ledger
+                    "LEDGER_2", OTHER_CUSTOMER_ID,
+                    DATE_NOW.minusDays(15), DATE_NOW.plusDays(14),
+                    DATETIME_NOW, DATETIME_NOW,
+
+                    // 당일 이전에 종료된 Ledger
+                    "LEDGER_3", OTHER_CUSTOMER_ID,
+                    DATE_NOW.minusMonths(1).minusDays(15), DATE_NOW.minusMonths(1).plusDays(14),
+                    DATETIME_NOW, DATETIME_NOW,
+
+                    // 당일 이후 진행 예정인 Ledger
+                    "LEDGER_4", OTHER_CUSTOMER_ID,
+                    DATE_NOW.plusMonths(1).minusDays(15), DATE_NOW.plusMonths(1).plusDays(14),
+                    DATETIME_NOW, DATETIME_NOW);
+
+            assertThat(repository.existsByCustomerIdAndLedgerIdNotAndPeriod(
+                    CustomerId.of(CUSTOMER_ID),
+                    LedgerId.of(TARGET_LEDGER_ID),
+                    DATE_NOW.plusDays(5),
+                    DATE_NOW.plusMonths(1).plusDays(4))
+            ).isFalse();
         }
     }
 }
