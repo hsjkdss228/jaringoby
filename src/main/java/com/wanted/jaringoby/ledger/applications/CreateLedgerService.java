@@ -48,7 +48,7 @@ public class CreateLedgerService {
 
         Ledger ledger = Ledger.builder()
                 .id(ulidGenerator.createRandomLedgerULID())
-                .customerId(CustomerId.of(customerId))
+                .customerId(customerId)
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();
@@ -72,7 +72,7 @@ public class CreateLedgerService {
     }
 
     private void validateLedgerPeriod(LocalDate startDate, LocalDate endDate, CustomerId customerId) {
-        if (startDate.isBefore(NOW) && endDate.isBefore(startDate)) {
+        if (startDate.isBefore(NOW) || endDate.isBefore(startDate)) {
             throw new LedgerPeriodInvalidException();
         }
 
