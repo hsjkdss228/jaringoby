@@ -52,13 +52,25 @@ public class Budget {
     public Budget(
             String id,
             LedgerId ledgerId,
-            String category,
-            Long amount
+            Category category,
+            Money amount
     ) {
         this.id = BudgetId.of(id);
         this.ledgerId = ledgerId;
-        this.category = Category.of(category);
-        this.amount = Money.of(amount);
+        this.category = category;
+        this.amount = amount;
+    }
+
+    public Category category() {
+        return category;
+    }
+
+    public boolean categoryEquals(Category category) {
+        return this.category.equals(category);
+    }
+
+    public void modifyAmount(Money amount) {
+        this.amount = amount;
     }
 
     public GetBudgetResponseDto toGetBudgetResponseDto() {

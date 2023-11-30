@@ -5,10 +5,12 @@ import com.wanted.jaringoby.common.validations.BindingResultChecker;
 import com.wanted.jaringoby.common.validations.ValidationSequence;
 import com.wanted.jaringoby.ledger.applications.CreateLedgerService;
 import com.wanted.jaringoby.ledger.applications.GetOngoingLedgerService;
+import com.wanted.jaringoby.ledger.applications.ModifyLedgerBudgetsService;
 import com.wanted.jaringoby.ledger.applications.ModifyLedgerPeriodService;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerResponseDto;
 import com.wanted.jaringoby.ledger.dtos.GetLedgerDetailResponseDto;
+import com.wanted.jaringoby.ledger.dtos.ModifyLedgerBudgetsRequestDto;
 import com.wanted.jaringoby.ledger.dtos.ModifyLedgerPeriodRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,7 @@ public class LedgerController {
     private final GetOngoingLedgerService getOngoingLedgerService;
     private final CreateLedgerService createLedgerService;
     private final ModifyLedgerPeriodService modifyLedgerPeriodService;
+    private final ModifyLedgerBudgetsService modifyLedgerBudgetsService;
     private final BindingResultChecker bindingResultChecker;
 
     @GetMapping("/now")
@@ -69,5 +72,20 @@ public class LedgerController {
 
         modifyLedgerPeriodService
                 .modifyLedgerPeriod(customerId, ledgerId, modifyLedgerPeriodRequestDto);
+    }
+
+    @PatchMapping("/{ledger-id}/budgets")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void modifyBudgets(
+            @RequestAttribute("customerId") String customerId,
+            @PathVariable("ledger-id") String ledgerId,
+            @Validated(ValidationSequence.class) @RequestBody
+            ModifyLedgerBudgetsRequestDto modifyLedgerBudgetsRequestDto,
+            BindingResult bindingResult
+    ) {
+        bindingResultChecker.checkBindingErrors(bindingResult);
+
+        modifyLedgerBudgetsService
+                .modifyLedgerBudgets(customerId, ledgerId, modifyLedgerBudgetsRequestDto);
     }
 }
