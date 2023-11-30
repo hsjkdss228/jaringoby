@@ -1,6 +1,6 @@
 package com.wanted.jaringoby.ledger.repositories;
 
-import static com.wanted.jaringoby.common.constants.Date.NOW;
+import static com.wanted.jaringoby.common.constants.Date.TODAY;
 import static com.wanted.jaringoby.ledger.models.ledger.QLedger.ledger;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -26,8 +26,8 @@ public class LedgerQueryDslRepositoryImpl implements LedgerQueryDslRepository {
                 .select(ledger)
                 .from(ledger)
                 .where(ledger.customerId.eq(customerId)
-                        .and(ledger.period.startDate.before(NOW))
-                        .and(ledger.period.endDate.after(NOW)))
+                        .and(ledger.period.startDate.before(TODAY))
+                        .and(ledger.period.endDate.after(TODAY)))
                 .orderBy(ledger.period.startDate.desc())
                 .limit(1)
                 .fetchFirst();

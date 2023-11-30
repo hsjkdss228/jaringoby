@@ -1,6 +1,6 @@
 package com.wanted.jaringoby.ledger.applications;
 
-import static com.wanted.jaringoby.common.constants.Date.NOW;
+import static com.wanted.jaringoby.common.constants.Date.TODAY;
 
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.ledger.dtos.ModifyLedgerPeriodRequestDto;
@@ -62,13 +62,13 @@ public class ModifyLedgerPeriodService {
 
         if (ledger.isInProgress()
                 && (ledger.startDateIsDifferentFrom(startDate)
-                || endDate.isBefore(NOW))
+                || endDate.isBefore(TODAY))
         ) {
             throw new LedgerPeriodInvalidException();
         }
 
         if (ledger.hasNotStarted()
-                && (startDate.isBefore(NOW)
+                && (startDate.isBefore(TODAY)
                 || endDate.isBefore(startDate))) {
             throw new LedgerPeriodInvalidException();
         }
