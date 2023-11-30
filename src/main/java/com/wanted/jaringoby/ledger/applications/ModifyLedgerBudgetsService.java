@@ -78,7 +78,7 @@ public class ModifyLedgerBudgetsService {
         List<Budget> notGivenBudgets = new ArrayList<>(budgets);
 
         if (budgetExists(notGivenBudgets)) {
-            budgetRepository.deleteAll(budgets);
+            budgetRepository.deleteAll(notGivenBudgets);
         }
     }
 
