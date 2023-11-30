@@ -14,7 +14,7 @@ import com.wanted.jaringoby.category.exceptions.CategoryNotFoundException;
 import com.wanted.jaringoby.category.models.Category;
 import com.wanted.jaringoby.common.utils.UlidGenerator;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.ledger.dtos.CreateBudgetRequestDto;
+import com.wanted.jaringoby.ledger.dtos.BudgetRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerResponseDto;
 import com.wanted.jaringoby.ledger.exceptions.LedgerPeriodInvalidException;
@@ -77,7 +77,7 @@ class CreateLedgerServiceTest {
                     .startDate(START_DATE)
                     .endDate(END_DATE)
                     .budgets(List.of(
-                            CreateBudgetRequestDto.builder()
+                            BudgetRequestDto.builder()
                                     .category(Category.Leisure.categoryName())
                                     .amount(200_000L)
                                     .build()
@@ -109,7 +109,7 @@ class CreateLedgerServiceTest {
                     .startDate(START_DATE_BEFORE_NOW)
                     .endDate(END_DATE)
                     .budgets(List.of(
-                            CreateBudgetRequestDto.builder()
+                            BudgetRequestDto.builder()
                                     .category(Category.Leisure.categoryName())
                                     .amount(200_000L)
                                     .build()
@@ -130,7 +130,7 @@ class CreateLedgerServiceTest {
                     .startDate(START_DATE)
                     .endDate(END_DATE_BEFORE_START_DATE)
                     .budgets(List.of(
-                            CreateBudgetRequestDto.builder()
+                            BudgetRequestDto.builder()
                                     .category(Category.EtCetera.categoryName())
                                     .amount(200_000L)
                                     .build()
@@ -151,7 +151,7 @@ class CreateLedgerServiceTest {
                     .startDate(START_DATE)
                     .endDate(END_DATE)
                     .budgets(List.of(
-                            CreateBudgetRequestDto.builder()
+                            BudgetRequestDto.builder()
                                     .category(INVALID_CATEGORY_NAME)
                                     .amount(50_000_000L)
                                     .build()
@@ -172,11 +172,11 @@ class CreateLedgerServiceTest {
                     .startDate(START_DATE)
                     .endDate(END_DATE)
                     .budgets(List.of(
-                            CreateBudgetRequestDto.builder()
+                            BudgetRequestDto.builder()
                                     .category(Category.Leisure.categoryName())
                                     .amount(50_000_000L)
                                     .build(),
-                            CreateBudgetRequestDto.builder()
+                            BudgetRequestDto.builder()
                                     .category(Category.Leisure.categoryName())
                                     .amount(100_000_000L)
                                     .build()
@@ -201,7 +201,7 @@ class CreateLedgerServiceTest {
                     .startDate(START_DATE)
                     .endDate(END_DATE)
                     .budgets(List.of(
-                            CreateBudgetRequestDto.builder()
+                            BudgetRequestDto.builder()
                                     .category(Category.PersonalDevelopment.categoryName())
                                     .amount(100_000_000L)
                                     .build()

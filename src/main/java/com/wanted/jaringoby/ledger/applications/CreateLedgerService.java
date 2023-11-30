@@ -5,9 +5,10 @@ import static com.wanted.jaringoby.common.constants.Date.TODAY;
 import com.wanted.jaringoby.category.exceptions.CategoryDuplicatedException;
 import com.wanted.jaringoby.category.exceptions.CategoryNotFoundException;
 import com.wanted.jaringoby.category.models.Category;
+import com.wanted.jaringoby.common.models.Money;
 import com.wanted.jaringoby.common.utils.UlidGenerator;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.ledger.dtos.CreateBudgetRequestDto;
+import com.wanted.jaringoby.ledger.dtos.BudgetRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerResponseDto;
 import com.wanted.jaringoby.ledger.exceptions.LedgerPeriodInvalidException;
@@ -39,12 +40,12 @@ public class CreateLedgerService {
     ) {
         LocalDate startDate = createLedgerRequestDto.getStartDate();
         LocalDate endDate = createLedgerRequestDto.getEndDate();
-        List<CreateBudgetRequestDto> createBudgetRequestDtos = createLedgerRequestDto
+        List<BudgetRequestDto> budgetRequestDtos = createLedgerRequestDto
                 .getBudgets();
 
         validateLedgerPeriod(startDate, endDate, CustomerId.of(customerId));
 
-        validateBudgetCategories(createBudgetRequestDtos);
+        validateBudgetCategories(budgetRequestDtos);
 
         Ledger ledger = Ledger.builder()
                 .id(ulidGenerator.createRandomLedgerULID())
@@ -55,12 +56,12 @@ public class CreateLedgerService {
 
         ledgerRepository.save(ledger);
 
-        List<Budget> budgets = createBudgetRequestDtos.stream()
-                .map(createBudgetRequestDto -> Budget.builder()
+        List<Budget> budgets = budgetRequestDtos.stream()
+                .map(budgetRequestDto -> Budget.builder()
                         .id(ulidGenerator.createRandomBudgetULID())
                         .ledgerId(ledger.id())
-                        .category(createBudgetRequestDto.getCategory())
-                        .amount(createBudgetRequestDto.getAmount())
+                        .category(Category.of(budgetRequestDto.getCategory()))
+                        .amount(Money.of(budgetRequestDto.getAmount()))
                         .build())
                 .toList();
 
@@ -81,10 +82,10 @@ public class CreateLedgerService {
         }
     }
 
-    private void validateBudgetCategories(List<CreateBudgetRequestDto> createBudgetRequestDtos) {
+    private void validateBudgetCategories(List<BudgetRequestDto> budgetRequestDtos) {
         Set<String> categoryNames = new HashSet<>();
 
-        createBudgetRequestDtos.forEach(budget -> {
+        budgetRequestDtos.forEach(budget -> {
             String categoryName = budget.getCategory();
 
             if (!Category.contains(categoryName)) {

@@ -9,6 +9,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import com.wanted.jaringoby.category.models.Category;
+import com.wanted.jaringoby.common.models.Money;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.ledger.dtos.GetLedgerDetailResponseDto;
 import com.wanted.jaringoby.ledger.exceptions.LedgerOngoingNotFound;
@@ -67,13 +68,13 @@ class GetOngoingLedgerServiceTest {
             List<Budget> budgets = List.of(
                     Budget.builder()
                             .id(BUDGET_ID_1)
-                            .category(Category.Living.categoryName())
-                            .amount(1_000_000L)
+                            .category(Category.of(Category.Living.categoryName()))
+                            .amount(Money.of(1_000_000L))
                             .build(),
                     Budget.builder()
                             .id(BUDGET_ID_2)
-                            .category(Category.Meal.categoryName())
-                            .amount(1_500_000L)
+                            .category(Category.of(Category.Meal.categoryName()))
+                            .amount(Money.of(1_500_000L))
                             .build()
             );
 

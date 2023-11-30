@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @Getter
-public class CreateBudgetRequestDto {
+public class BudgetRequestDto {
 
     @NotBlank(groups = MissingValueGroup.class)
     private String category;

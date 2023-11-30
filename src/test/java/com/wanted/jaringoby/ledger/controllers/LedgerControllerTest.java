@@ -3,6 +3,7 @@ package com.wanted.jaringoby.ledger.controllers;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -18,11 +19,13 @@ import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.ledger.applications.CreateLedgerService;
 import com.wanted.jaringoby.ledger.applications.GetOngoingLedgerService;
+import com.wanted.jaringoby.ledger.applications.ModifyLedgerBudgetsService;
 import com.wanted.jaringoby.ledger.applications.ModifyLedgerPeriodService;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.ledger.dtos.CreateLedgerResponseDto;
 import com.wanted.jaringoby.ledger.dtos.GetBudgetResponseDto;
 import com.wanted.jaringoby.ledger.dtos.GetLedgerDetailResponseDto;
+import com.wanted.jaringoby.ledger.dtos.ModifyLedgerBudgetsRequestDto;
 import com.wanted.jaringoby.ledger.dtos.ModifyLedgerPeriodRequestDto;
 import java.time.LocalDate;
 import java.util.List;
@@ -128,6 +131,11 @@ class LedgerControllerTest {
                                     content
                             ))
                     .andExpect(status().isBadRequest());
+
+            verify(createLedgerService, never()).createLedger(
+                    any(String.class),
+                    any(CreateLedgerRequestDto.class)
+            );
         }
 
         @DisplayName("성공")
@@ -309,6 +317,12 @@ class LedgerControllerTest {
                                     content
                             ))
                     .andExpect(status().isBadRequest());
+
+            verify(modifyLedgerPeriodService, never()).modifyLedgerPeriod(
+                    any(String.class),
+                    any(String.class),
+                    any(ModifyLedgerPeriodRequestDto.class)
+            );
         }
 
         @DisplayName("성공")
@@ -361,6 +375,138 @@ class LedgerControllerTest {
                             "endDate": null
                         }
                         """);
+            }
+        }
+    }
+
+    @MockBean
+    private ModifyLedgerBudgetsService modifyLedgerBudgetsService;
+
+    @DisplayName("PATCH /v1.0/customer/ledgers/{ledger-id}/budgets")
+    @Nested
+    class PatchLedgersBudgets {
+
+        private static final String LEDGER_ID = "LEDGER_ID";
+
+        private void performAndExpectBadRequest(String content) throws Exception {
+            mockMvc.perform(patch("/v1.0/customer/ledgers/" + LEDGER_ID + "/budgets")
+                            .header("Authorization", "Bearer " + accessToken)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON)
+                            .content(
+                                    content
+                            ))
+                    .andExpect(status().isBadRequest());
+
+            verify(modifyLedgerBudgetsService, never()).modifyLedgerBudgets(
+                    any(String.class),
+                    any(String.class),
+                    any(ModifyLedgerBudgetsRequestDto.class)
+            );
+        }
+
+        @DisplayName("성공")
+        @Nested
+        class Success {
+
+            @DisplayName("전달된 Ledger 식별자에 대해 예산 추가/변경/삭제 수행 메서드 호출")
+            @Test
+            void modifyBudgets() throws Exception {
+                mockMvc.perform(patch("/v1.0/customer/ledgers/" + LEDGER_ID + "/budgets")
+                                .header("Authorization", "Bearer " + accessToken)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {
+                                            "budgets": [
+                                                {
+                                                    "category": "Leisures",
+                                                    "amount": 1500000
+                                                },
+                                                {
+                                                    "category": "Medications",
+                                                    "amount": 500000
+                                                }
+                                            ]
+                                        }
+                                        """))
+                        .andExpect(status().isNoContent());
+
+                verify(modifyLedgerBudgetsService).modifyLedgerBudgets(
+                        eq(CUSTOMER_ID),
+                        eq(LEDGER_ID),
+                        any(ModifyLedgerBudgetsRequestDto.class)
+                );
+            }
+        }
+
+        @DisplayName("실패")
+        @Nested
+        class Failure {
+
+            @DisplayName("예산이 하나 이상 입력되지 않은 경우 예외처리")
+            @Test
+            void emptyBudgets() throws Exception {
+                performAndExpectBadRequest("""
+                        {
+                             "budgets": []
+                        }
+                         """);
+            }
+
+            @DisplayName("카테고리가 입력되지 않은 예산이 존재하는 경우 예외처리")
+            @Test
+            void blankCategory() throws Exception {
+                performAndExpectBadRequest("""
+                        {
+                             "budgets": [
+                                {
+                                    "amount": 500000
+                                },
+                                {
+                                    "category": "Medications",
+                                    "amount": 1000000
+                                }
+                             ]
+                        }
+                         """);
+            }
+
+            @DisplayName("금액이 입력되지 않은 예산이 존재하는 경우 예외처리")
+            @Test
+            void nullAmount() throws Exception {
+                performAndExpectBadRequest("""
+                        {
+                             "budgets": [
+                                {
+                                    "category": "Food",
+                                    "amount": 500000
+                                },
+                                {
+                                    "category": "Travel"
+                                }
+                             ]
+                        }
+                         """);
+            }
+
+            @DisplayName("입력된 예산의 금액 중 1원 이하가 존재하는 경우 예외처리")
+            @Test
+            void amountLessThan1() throws Exception {
+                performAndExpectBadRequest("""
+                        {
+                             "budgets": [
+                                {
+                                    "category": "Food",
+                                    "amount": 500000
+                                },
+                                {
+                                    "category": "Medications",
+                                    "amount": 0
+                                }
+                             ]
+                        }
+                         """);
             }
         }
     }
