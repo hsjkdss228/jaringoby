@@ -26,5 +26,5 @@ public class CreateLedgerRequestDto {
 
     @Valid
     @NotEmpty(groups = MissingValueGroup.class)
-    private List<CreateBudgetRequestDto> budgets;
+    private List<BudgetRequestDto> budgets;
 }
