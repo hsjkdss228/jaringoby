@@ -1,6 +1,6 @@
 package com.wanted.jaringoby.ledger.applications;
 
-import static com.wanted.jaringoby.common.constants.Date.NOW;
+import static com.wanted.jaringoby.common.constants.Date.TODAY;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
@@ -56,7 +56,7 @@ class ModifyLedgerPeriodServiceTest {
 
             @BeforeEach
             void setUp() {
-                previousStartDate = NOW.minusDays(15);
+                previousStartDate = TODAY.minusDays(15);
                 previousEndDate = previousStartDate.plusMonths(1);
 
                 ledger = spy(Ledger.builder()
@@ -103,7 +103,7 @@ class ModifyLedgerPeriodServiceTest {
 
             @BeforeEach
             void setUp() {
-                previousStartDate = NOW.plusMonths(1).minusDays(5);
+                previousStartDate = TODAY.plusMonths(1).minusDays(5);
                 previousEndDate = previousStartDate.plusMonths(1);
 
                 ledger = spy(Ledger.builder()
@@ -157,7 +157,7 @@ class ModifyLedgerPeriodServiceTest {
 
             @BeforeEach
             void setUp() {
-                previousStartDate = NOW.minusMonths(1).minusDays(7);
+                previousStartDate = TODAY.minusMonths(1).minusDays(7);
                 previousEndDate = previousStartDate.plusMonths(1);
 
                 ledger = Ledger.builder()
@@ -192,7 +192,7 @@ class ModifyLedgerPeriodServiceTest {
 
             @BeforeEach
             void setUp() {
-                previousStartDate = NOW.minusDays(14);
+                previousStartDate = TODAY.minusDays(14);
                 previousEndDate = previousStartDate.plusMonths(1);
 
                 ledger = Ledger.builder()
@@ -226,7 +226,7 @@ class ModifyLedgerPeriodServiceTest {
                 ModifyLedgerPeriodRequestDto modifyLedgerPeriodRequestDto
                         = ModifyLedgerPeriodRequestDto.builder()
                         .startDate(previousStartDate)
-                        .endDate(NOW.minusDays(2))
+                        .endDate(TODAY.minusDays(2))
                         .build();
 
                 assertThrows(LedgerPeriodInvalidException.class, () ->
@@ -241,7 +241,7 @@ class ModifyLedgerPeriodServiceTest {
 
             @BeforeEach
             void setUp() {
-                previousStartDate = NOW.plusDays(14);
+                previousStartDate = TODAY.plusDays(14);
                 previousEndDate = previousStartDate.plusWeeks(1);
 
                 Ledger ledger = Ledger.builder()
@@ -260,7 +260,7 @@ class ModifyLedgerPeriodServiceTest {
             void startDateIsBeforeToday() {
                 ModifyLedgerPeriodRequestDto modifyLedgerPeriodRequestDto
                         = ModifyLedgerPeriodRequestDto.builder()
-                        .startDate(NOW.minusDays(2))
+                        .startDate(TODAY.minusDays(2))
                         .endDate(previousEndDate)
                         .build();
 
@@ -299,8 +299,8 @@ class ModifyLedgerPeriodServiceTest {
             void ledgerNotFound() {
                 ModifyLedgerPeriodRequestDto modifyLedgerPeriodRequestDto
                         = ModifyLedgerPeriodRequestDto.builder()
-                        .startDate(NOW.plusWeeks(2))
-                        .endDate(NOW.plusWeeks(4))
+                        .startDate(TODAY.plusWeeks(2))
+                        .endDate(TODAY.plusWeeks(4))
                         .build();
 
                 assertThrows(LedgerNotFoundException.class, () ->
@@ -315,7 +315,7 @@ class ModifyLedgerPeriodServiceTest {
 
             @BeforeEach
             void setUp() {
-                previousStartDate = NOW.plusDays(15);
+                previousStartDate = TODAY.plusDays(15);
                 previousEndDate = previousStartDate.plusMonths(1);
 
                 ledger = Ledger.builder()
@@ -334,8 +334,8 @@ class ModifyLedgerPeriodServiceTest {
             void ledgerNotOwned() {
                 ModifyLedgerPeriodRequestDto modifyLedgerPeriodRequestDto
                         = ModifyLedgerPeriodRequestDto.builder()
-                        .startDate(NOW.plusWeeks(2))
-                        .endDate(NOW.plusWeeks(4))
+                        .startDate(TODAY.plusWeeks(2))
+                        .endDate(TODAY.plusWeeks(4))
                         .build();
 
                 assertThrows(LedgerNotOwnedException.class, () ->
@@ -350,7 +350,7 @@ class ModifyLedgerPeriodServiceTest {
 
             @BeforeEach
             void setUp() {
-                previousStartDate = NOW.minusDays(15);
+                previousStartDate = TODAY.minusDays(15);
                 previousEndDate = previousStartDate.plusMonths(1);
 
                 ledger = Ledger.builder()

@@ -1,6 +1,6 @@
 package com.wanted.jaringoby.ledger.applications;
 
-import static com.wanted.jaringoby.common.constants.Date.NOW;
+import static com.wanted.jaringoby.common.constants.Date.TODAY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -51,7 +51,7 @@ class CreateLedgerServiceTest {
     private static final String CUSTOMER_ID = "CUSTOMER_ID";
 
     private static final String LEDGER_ID = "LEDGER_ID";
-    private static final LocalDate START_DATE = NOW;
+    private static final LocalDate START_DATE = TODAY;
     private static final LocalDate END_DATE = START_DATE.plusMonths(1);
 
     private static final String BUDGET_ID = "BUDGET_ID";

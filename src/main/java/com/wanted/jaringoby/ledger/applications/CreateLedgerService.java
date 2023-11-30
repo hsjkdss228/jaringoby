@@ -1,6 +1,6 @@
 package com.wanted.jaringoby.ledger.applications;
 
-import static com.wanted.jaringoby.common.constants.Date.NOW;
+import static com.wanted.jaringoby.common.constants.Date.TODAY;
 
 import com.wanted.jaringoby.category.exceptions.CategoryDuplicatedException;
 import com.wanted.jaringoby.category.exceptions.CategoryNotFoundException;
@@ -72,7 +72,7 @@ public class CreateLedgerService {
     }
 
     private void validateLedgerPeriod(LocalDate startDate, LocalDate endDate, CustomerId customerId) {
-        if (startDate.isBefore(NOW) || endDate.isBefore(startDate)) {
+        if (startDate.isBefore(TODAY) || endDate.isBefore(startDate)) {
             throw new LedgerPeriodInvalidException();
         }
 
