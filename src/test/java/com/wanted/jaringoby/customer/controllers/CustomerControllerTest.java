@@ -40,7 +40,7 @@ class CustomerControllerTest {
     @SpyBean
     private BindingResultChecker bindingResultChecker;
 
-    @DisplayName("POST /customer/v1.0/customers")
+    @DisplayName("POST /v1.0/customer/customers")
     @Nested
     class PostCustomers {
 
@@ -61,7 +61,7 @@ class CustomerControllerTest {
                 given(createCustomerService.createCustomer(any(CreateCustomerRequestDto.class)))
                         .willReturn(createCustomerResponseDto);
 
-                mockMvc.perform(post("/customer/v1.0/customers")
+                mockMvc.perform(post("/v1.0/customer/customers")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -79,8 +79,8 @@ class CustomerControllerTest {
         @Nested
         class Failure {
 
-            private void performAndExpectIsBadRequest(String content) throws Exception {
-                mockMvc.perform(post("/customer/v1.0/customers")
+            private void performAndExpectBadRequest(String content) throws Exception {
+                mockMvc.perform(post("/v1.0/customer/customers")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(
@@ -95,7 +95,7 @@ class CustomerControllerTest {
             @DisplayName("username 미입력된 경우 예외처리")
             @Test
             void blankUsername() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "password": "Password!1",
                             "reconfirmPassword": "Password!1"
@@ -106,7 +106,7 @@ class CustomerControllerTest {
             @DisplayName("password 미입력된 경우 예외처리")
             @Test
             void blankPassword() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "hsjkdss228",
                             "password": null,
@@ -118,7 +118,7 @@ class CustomerControllerTest {
             @DisplayName("reconfirmPassword 미입력된 경우 예외처리")
             @Test
             void blankReconfirmPassword() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "hsjkdss228",
                             "password": "Password!1",
@@ -130,7 +130,7 @@ class CustomerControllerTest {
             @DisplayName("username 입력 조건에 부합하지 않을 경우 예외처리 (4자 미만)")
             @Test
             void invalidUsernameUnder4() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "ua7",
                             "password": "Password!1",
@@ -142,7 +142,7 @@ class CustomerControllerTest {
             @DisplayName("username 입력 조건에 부합하지 않을 경우 예외처리 (16자 초과)")
             @Test
             void invalidUsernameOver16() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "username12username12",
                             "password": "Password!1",
@@ -154,7 +154,7 @@ class CustomerControllerTest {
             @DisplayName("username 입력 조건에 부합하지 않을 경우 예외처리 (영어 소문자 미포함)")
             @Test
             void invalidUsernameWithoutLowercase() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "11223344",
                             "password": "Password!1",
@@ -166,7 +166,7 @@ class CustomerControllerTest {
             @DisplayName("username 입력 조건에 부합하지 않을 경우 예외처리 (영어 소문자, 숫자 이외 문자 포함)")
             @Test
             void invalidUsernameWithDisallowedCharacters() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "hsjkdss228%",
                             "password": "Password!1",
@@ -178,7 +178,7 @@ class CustomerControllerTest {
             @DisplayName("password 입력 조건에 부합하지 않을 경우 예외처리 (영어 대문자 미포함)")
             @Test
             void invalidPasswordWithoutUppercase() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "hsjkdss228",
                             "password": "assword!1",
@@ -190,7 +190,7 @@ class CustomerControllerTest {
             @DisplayName("password 입력 조건에 부합하지 않을 경우 예외처리 (영어 소문자 미포함)")
             @Test
             void invalidPasswordWithoutLowercase() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "hsjkdss228",
                             "password": "PASSWORD!1",
@@ -202,7 +202,7 @@ class CustomerControllerTest {
             @DisplayName("password 입력 조건에 부합하지 않을 경우 예외처리 (영어 숫자 미포함)")
             @Test
             void invalidPasswordWithoutDigit() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "hsjkdss228",
                             "password": "Password!",
@@ -214,7 +214,7 @@ class CustomerControllerTest {
             @DisplayName("password 입력 조건에 부합하지 않을 경우 예외처리 (키보드 입력 가능한 특수문자 미포함)")
             @Test
             void invalidPasswordWithoutSpecialCharacters() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "hsjkdss228",
                             "password": "Password1",
@@ -227,7 +227,7 @@ class CustomerControllerTest {
                     + "(영어 대문자, 소문자, 숫자, 키보드 입력 가능한 특수문자 이외 문자 포함)")
             @Test
             void invalidPasswordWithDisallowedCharacters() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "hsjkdss228",
                             "password": "Password!1※",
@@ -239,7 +239,7 @@ class CustomerControllerTest {
             @DisplayName("password 입력 조건에 부합하지 않을 경우 예외처리 (5자 미만)")
             @Test
             void invalidPasswordUnder5() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "hsjkdss228",
                             "password": "Pa!1",

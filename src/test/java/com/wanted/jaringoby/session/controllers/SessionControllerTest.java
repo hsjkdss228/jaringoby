@@ -43,7 +43,7 @@ class SessionControllerTest {
     @SpyBean
     private BindingResultChecker bindingResultChecker;
 
-    @DisplayName("POST /customer/v1.0/sessions")
+    @DisplayName("POST /v1.0/customer/sessions")
     @Nested
     class PostSessions {
 
@@ -65,7 +65,7 @@ class SessionControllerTest {
                 given(loginService.login(any(LoginRequestDto.class)))
                         .willReturn(loginResponseDto);
 
-                mockMvc.perform(post("/customer/v1.0/sessions")
+                mockMvc.perform(post("/v1.0/customer/sessions")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content("""
@@ -82,8 +82,8 @@ class SessionControllerTest {
         @Nested
         class Failure {
 
-            private void performAndExpectIsBadRequest(String content) throws Exception {
-                mockMvc.perform(post("/customer/v1.0/sessions")
+            private void performAndExpectBadRequest(String content) throws Exception {
+                mockMvc.perform(post("/v1.0/customer/sessions")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(
@@ -98,7 +98,7 @@ class SessionControllerTest {
             @DisplayName("username 미입력된 경우 예외처리")
             @Test
             void blankUsername() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "  ",
                             "password": "Password!1"
@@ -109,7 +109,7 @@ class SessionControllerTest {
             @DisplayName("password 미입력된 경우 예외처리")
             @Test
             void blankPassword() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "username": "hsjkdss228"
                         }
@@ -129,7 +129,7 @@ class SessionControllerTest {
 
     private static final String CUSTOMER_ID = "CUSTOMER_ID";
 
-    @DisplayName("DELETE /customer/v1.0/sessions")
+    @DisplayName("DELETE /v1.0/customer/sessions")
     @Nested
     class DeleteSessions {
 
@@ -147,7 +147,7 @@ class SessionControllerTest {
                 given(customerRepository.existsById(CustomerId.of(CUSTOMER_ID)))
                         .willReturn(true);
 
-                mockMvc.perform(delete("/customer/v1.0/sessions")
+                mockMvc.perform(delete("/v1.0/customer/sessions")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isNoContent());
 
@@ -167,7 +167,7 @@ class SessionControllerTest {
                 given(customerRepository.existsById(CustomerId.of(CUSTOMER_ID)))
                         .willReturn(true);
 
-                mockMvc.perform(delete("/customer/v1.0/sessions")
+                mockMvc.perform(delete("/v1.0/customer/sessions")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isUnauthorized());
 

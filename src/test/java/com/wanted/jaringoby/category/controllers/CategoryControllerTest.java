@@ -41,7 +41,7 @@ class CategoryControllerTest {
     @SpyBean
     private JwtUtil jwtUtil;
 
-    @DisplayName("GET /customer/v1.0/categories")
+    @DisplayName("GET /v1.0/customer/categories")
     @Nested
     class GetCategories {
 
@@ -72,7 +72,7 @@ class CategoryControllerTest {
 
             given(getCategoryListService.getCategories()).willReturn(getCategoryListResponseDto);
 
-            mockMvc.perform(get("/customer/v1.0/categories")
+            mockMvc.perform(get("/v1.0/customer/categories")
                             .header("Authorization", "Bearer " + accessToken))
                     .andExpect(status().isOk())
                     .andExpect(content().string(containsString("""

@@ -41,7 +41,7 @@ class AccessTokenControllerTest {
     @SpyBean
     private JwtUtil jwtUtil;
 
-    @DisplayName("POST /customer/v1.0/access-tokens")
+    @DisplayName("POST /v1.0/customer/access-tokens")
     @Nested
     class PostAccessTokens {
 
@@ -72,7 +72,7 @@ class AccessTokenControllerTest {
                         .reissueAccessToken(CUSTOMER_ID, refreshToken))
                         .willReturn(reissueAccessTokenResponseDto);
 
-                mockMvc.perform(post("/customer/v1.0/access-tokens")
+                mockMvc.perform(post("/v1.0/customer/access-tokens")
                                 .header("Authorization", "Bearer " + refreshToken))
                         .andExpect(status().isCreated());
             }
@@ -87,7 +87,7 @@ class AccessTokenControllerTest {
             void customerRefreshTokenNull() throws Exception {
                 String token = jwtUtil.issueAccessToken(CustomerId.of(CUSTOMER_ID));
 
-                mockMvc.perform(post("/customer/v1.0/access-tokens")
+                mockMvc.perform(post("/v1.0/customer/access-tokens")
                                 .header("Authorization", "Bearer " + token))
                         .andExpect(status().isUnauthorized());
 
