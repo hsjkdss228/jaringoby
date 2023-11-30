@@ -19,8 +19,8 @@ public abstract class AuthenticationFilter extends CustomFilter {
 
     private final List<AntPathRequestMatcher> requestMatchersForRefreshTokenBasedAuthentication
             = List.of(
-            AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/customer/v1.0/sessions"),
-            AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/customer/v1.0/access-tokens")
+            AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/v1.0/customer/sessions"),
+            AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/v1.0/customer/access-tokens")
     );
 
     public abstract void doFilter(

@@ -58,9 +58,9 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,
-                        "/customer/v1.0/customers"))
+                        "/v1.0/customer/customers"))
                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,
-                        "/customer/v1.0/sessions"));
+                        "/v1.0/customer/sessions"));
     }
 
     @Bean

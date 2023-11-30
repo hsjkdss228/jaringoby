@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/customer/v1.0/access-tokens")
+@RequestMapping("/v1.0/customer/access-tokens")
 @RequiredArgsConstructor
 public class AccessTokenController {
 

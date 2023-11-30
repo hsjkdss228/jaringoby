@@ -54,17 +54,6 @@ class LedgerControllerTest {
     @SpyBean
     private BindingResultChecker bindingResultChecker;
 
-    private void performAndExpectIsBadRequest(String content) throws Exception {
-        mockMvc.perform(post("/customer/v1.0/ledgers")
-                        .header("Authorization", "Bearer " + accessToken)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(
-                                content
-                        ))
-                .andExpect(status().isBadRequest());
-    }
-
     private String accessToken;
 
     private static final String CUSTOMER_ID = "CUSTOMER_ID";
@@ -80,7 +69,7 @@ class LedgerControllerTest {
     @MockBean
     private GetOngoingLedgerService getOngoingLedgerService;
 
-    @DisplayName("GET /customer/v1.0/ledgers/now")
+    @DisplayName("GET /v1.0/customer/ledgers/now")
     @Nested
     class GetLedgersNow {
 
@@ -115,7 +104,7 @@ class LedgerControllerTest {
             given(getOngoingLedgerService.getOngoingLedger(CUSTOMER_ID))
                     .willReturn(getLedgerDetailResponseDto);
 
-            mockMvc.perform(get("/customer/v1.0/ledgers/now")
+            mockMvc.perform(get("/v1.0/customer/ledgers/now")
                             .header("Authorization", "Bearer " + accessToken))
                     .andExpect(status().isOk());
         }
@@ -124,11 +113,22 @@ class LedgerControllerTest {
     @MockBean
     private CreateLedgerService createLedgerService;
 
-    @DisplayName("POST /customer/v1.0/ledgers")
+    @DisplayName("POST /v1.0/customer/ledgers")
     @Nested
     class PostLedgers {
 
         private static final String LEDGER_ID = "LEDGER_ID";
+
+        private void performAndExpectBadRequest(String content) throws Exception {
+            mockMvc.perform(post("/v1.0/customer/ledgers")
+                            .header("Authorization", "Bearer " + accessToken)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON)
+                            .content(
+                                    content
+                            ))
+                    .andExpect(status().isBadRequest());
+        }
 
         @DisplayName("성공")
         @Nested
@@ -146,7 +146,7 @@ class LedgerControllerTest {
                         .createLedger(eq(CUSTOMER_ID), any(CreateLedgerRequestDto.class)))
                         .willReturn(createLedgerResponseDto);
 
-                mockMvc.perform(post("/customer/v1.0/ledgers")
+                mockMvc.perform(post("/v1.0/customer/ledgers")
                                 .header("Authorization", "Bearer " + accessToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
@@ -177,7 +177,7 @@ class LedgerControllerTest {
             @DisplayName("시작일 입력되지 않은 경우 예외처리")
             @Test
             void nullStartDate() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                              "endDate": "2023-12-24",
                              "budgets": [
@@ -197,7 +197,7 @@ class LedgerControllerTest {
             @DisplayName("종료일 입력되지 않은 경우 예외처리")
             @Test
             void nullEndDate() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                              "startDate": "2023-11-24",
                              "endDate": null,
@@ -218,7 +218,7 @@ class LedgerControllerTest {
             @DisplayName("예산이 하나 이상 입력되지 않은 경우 예외처리")
             @Test
             void emptyBudgets() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                              "startDate": "2023-11-24",
                              "endDate": "2023-12-23",
@@ -230,7 +230,7 @@ class LedgerControllerTest {
             @DisplayName("카테고리가 입력되지 않은 예산이 존재하는 경우 예외처리")
             @Test
             void blankCategory() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                              "startDate": "2023-11-24",
                              "endDate": "2023-12-23",
@@ -251,7 +251,7 @@ class LedgerControllerTest {
             @DisplayName("금액이 입력되지 않은 예산이 존재하는 경우 예외처리")
             @Test
             void nullAmount() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                              "startDate": "2023-11-24",
                              "endDate": "2023-12-23",
@@ -271,7 +271,7 @@ class LedgerControllerTest {
             @DisplayName("입력된 예산의 금액 중 1원 이하가 존재하는 경우 예외처리")
             @Test
             void amountLessThan1() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                              "startDate": "2023-11-24",
                              "endDate": "2023-12-23",
@@ -294,11 +294,22 @@ class LedgerControllerTest {
     @MockBean
     private ModifyLedgerPeriodService modifyLedgerPeriodService;
 
-    @DisplayName("PATCH /customer/v1.0/ledgers/{ledger-id}/period")
+    @DisplayName("PATCH /v1.0/customer/ledgers/{ledger-id}/period")
     @Nested
     class PatchLedgersPeriod {
 
         private static final String LEDGER_ID = "LEDGER_ID";
+
+        private void performAndExpectBadRequest(String content) throws Exception {
+            mockMvc.perform(patch("/v1.0/customer/ledgers/" + LEDGER_ID + "/period")
+                            .header("Authorization", "Bearer " + accessToken)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON)
+                            .content(
+                                    content
+                            ))
+                    .andExpect(status().isBadRequest());
+        }
 
         @DisplayName("성공")
         @Nested
@@ -307,7 +318,7 @@ class LedgerControllerTest {
             @DisplayName("전달된 Ledger 식별자에 대해 시작일, 종료일 변경 수행 메서드 호출")
             @Test
             void modifyPeriod() throws Exception {
-                mockMvc.perform(patch("/customer/v1.0/ledgers/" + LEDGER_ID + "/period")
+                mockMvc.perform(patch("/v1.0/customer/ledgers/" + LEDGER_ID + "/period")
                                 .header("Authorization", "Bearer " + accessToken)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
@@ -334,7 +345,7 @@ class LedgerControllerTest {
             @DisplayName("시작일 입력되지 않은 경우 예외처리")
             @Test
             void nullStartDate() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "endDate": "2023-12-15"
                         }
@@ -344,7 +355,7 @@ class LedgerControllerTest {
             @DisplayName("종료일 입력되지 않은 경우 예외처리")
             @Test
             void nullEndDate() throws Exception {
-                performAndExpectIsBadRequest("""
+                performAndExpectBadRequest("""
                         {
                             "startDate": "2023-12-15",
                             "endDate": null
