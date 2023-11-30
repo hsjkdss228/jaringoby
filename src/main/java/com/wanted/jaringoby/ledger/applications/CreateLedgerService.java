@@ -5,6 +5,7 @@ import static com.wanted.jaringoby.common.constants.Date.TODAY;
 import com.wanted.jaringoby.category.exceptions.CategoryDuplicatedException;
 import com.wanted.jaringoby.category.exceptions.CategoryNotFoundException;
 import com.wanted.jaringoby.category.models.Category;
+import com.wanted.jaringoby.common.models.Money;
 import com.wanted.jaringoby.common.utils.UlidGenerator;
 import com.wanted.jaringoby.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.ledger.dtos.BudgetRequestDto;
@@ -59,8 +60,8 @@ public class CreateLedgerService {
                 .map(budgetRequestDto -> Budget.builder()
                         .id(ulidGenerator.createRandomBudgetULID())
                         .ledgerId(ledger.id())
-                        .category(budgetRequestDto.getCategory())
-                        .amount(budgetRequestDto.getAmount())
+                        .category(Category.of(budgetRequestDto.getCategory()))
+                        .amount(Money.of(budgetRequestDto.getAmount()))
                         .build())
                 .toList();
 
