@@ -3,7 +3,7 @@ package com.wanted.jaringoby.session.repositories;
 import static com.wanted.jaringoby.session.entities.QCustomerRefreshToken.customerRefreshToken;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.wanted.jaringoby.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

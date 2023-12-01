@@ -10,7 +10,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.wanted.jaringoby.common.exceptions.jwt.TokenDecodingFailedException;
 import com.wanted.jaringoby.common.exceptions.jwt.TokenSignatureInvalidException;
-import com.wanted.jaringoby.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;

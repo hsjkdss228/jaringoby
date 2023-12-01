@@ -1,9 +1,9 @@
 package com.wanted.jaringoby.common.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wanted.jaringoby.customer.exceptions.CustomerNotFoundException;
-import com.wanted.jaringoby.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.customer.repositories.CustomerRepository;
+import com.wanted.jaringoby.domains.customer.exceptions.CustomerNotFoundException;
+import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.repositories.CustomerRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
