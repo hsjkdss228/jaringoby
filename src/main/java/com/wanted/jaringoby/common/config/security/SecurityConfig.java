@@ -5,7 +5,7 @@ import com.wanted.jaringoby.common.filters.AccessTokenBasedAuthenticationFilter;
 import com.wanted.jaringoby.common.filters.AuthorizationFilter;
 import com.wanted.jaringoby.common.filters.RefreshTokenBasedAuthenticationFilter;
 import com.wanted.jaringoby.common.utils.JwtUtil;
-import com.wanted.jaringoby.customer.repositories.CustomerRepository;
+import com.wanted.jaringoby.domains.customer.repositories.CustomerRepository;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
