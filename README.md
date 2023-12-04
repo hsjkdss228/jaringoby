@@ -191,44 +191,148 @@ Architecture 및 [Clean Architecture]를 참고하여 아키텍처를 구성했�
 
 ### 고객: Customer
 
-| 기능          |  메서드   | 경로                               |
-|:------------|:------:|:---------------------------------|
-| 회원가입        |  POST  | /v1.0/customer/customers         |
-| 로그인         |  POST  | /v1.0/customer/sessions          |
-| 로그아웃        | DELETE | /v1.0/customer/sessions          |
-| 액세스 토큰 재발급  |  POST  | /v1.0/customer/access-tokens     |
-| 푸시 알림 수신 설정 | PATCH  | /customers/me/push-configuration |
+<table>
+  <tr>
+    <th>기능</th>
+    <th>메서드</th>
+    <th>경로</th>
+  </tr>
+  <tr>
+    <td>회원가입</td>
+    <td style="text-align: center">POST</td>
+    <td>/v1.0/customer/customers</td>
+  </tr>
+  <tr>
+    <td>로그인</td>
+    <td style="text-align: center">POST</td>
+    <td>/v1.0/customer/sessions</td>
+  </tr>
+  <tr>
+    <td>로그아웃</td>
+    <td style="text-align: center">DELETE</td>
+    <td>/v1.0/customer/sessions</td>
+  </tr>
+  <tr>
+    <td>액세스 토큰 재발급</td>
+    <td style="text-align: center">POST</td>
+    <td>/v1.0/customer/access-tokens</td>
+  </tr>
+  <tr>
+    <td>푸시 알림 수신 설정</td>
+    <td style="text-align: center">PATCH</td>
+    <td>/v1.0/customers/me/push-configuration</td>
+  </tr>
+</table>
 
 ### 카테고리: Category
 
-| 기능         | 메서드 | 경로                        |
-|:-----------|:---:|:--------------------------|
-| 카테고리 목록 조회 | GET | /v1.0/customer/categories |
+<table>
+  <tr>
+    <th>기능</th>
+    <th>메서드</th>
+    <th>경로</th>
+  </tr>
+  <tr>
+    <td>카테고리 목록 조회</td>
+    <td style="text-align: center">GET</td>
+    <td>/v1.0/customer/categories</td>
+  </tr>
+</table>
 
 ### 예산 관리: Ledger
 
-| 기능                |  메서드  | 경로                                                  |
-|:------------------|:-----:|:----------------------------------------------------|
-| 예산 관리 생성          | POST  | /v1.0/customer/ledgers                              |
-| 현재 예산 관리 상세정보 조회  |  GET  | /v1.0/customer/ledgers/now                          |
-| 특정 예산 관리 기간 변경    | PATCH | /v1.0/customer/ledgers/{ledger-id}/period           |
-| 특정 예산 관리 대상 예산 변경 | PATCH | /v1.0/customer/ledgers/{ledger-id}/budgets          |
-| 카테고리 별 예산 추천      | POST  | /v1.0/customer/ledgers/budget-recommendations       |
-| 현재 예산 관리 지출 통계 분석 | POST  | /v1.0/customer/ledgers/{ledger-id}/expense-analysis |
+<table>
+  <tr>
+    <th>기능</th>
+    <th>메서드</th>
+    <th>경로</th>
+  </tr>
+  <tr>
+    <td>예산 관리 생성</td>
+    <td style="text-align: center">POST</td>
+    <td>/v1.0/customer/ledgers</td>
+  </tr>
+  <tr>
+    <td>현재 예산 관리 상세정보 조회</td>
+    <td style="text-align: center">GET</td>
+    <td>/v1.0/customer/ledgers/now</td>
+  </tr>
+  <tr>
+    <td>특정 예산 관리 기간 변경</td>
+    <td style="text-align: center">PATCH</td>
+    <td>/v1.0/customer/ledgers/{ledger-id}/period</td>
+  </tr>
+  <tr>
+    <td>특정 예산 관리 대상 예산 변경</td>
+    <td style="text-align: center">PATCH</td>
+    <td>/v1.0/customer/ledgers/{ledger-id}/budgets</td>
+  </tr>
+  <tr>
+    <td>카테고리 별 예산 추천</td>
+    <td style="text-align: center">POST</td>
+    <td>/v1.0/customer/ledgers/budget-recommendations</td>
+  </tr>
+  <tr>
+    <td>현재 예산 관리 지출 통계 분석</td>
+    <td style="text-align: center">POST</td>
+    <td>/v1.0/customer/ledgers/{ledger-id}/expense-analysis</td>
+  </tr>
+</table>
 
 ### 지출: Expense
 
-| 기능             |  메서드   | 경로                                            |
-|:---------------|:------:|:----------------------------------------------|
-| 지출 등록          |  POST  | /v1.0/customer/expenses                       |
-| 지출 목록 조회       |  GET   | /v1.0/customer/expenses                       |
-| 지출 상세정보 조회     |  GET   | /v1.0/customer/expenses/{expense-id}          |
-| 지출 수정          |  PUT   | /v1.0/customer/expenses/{expense-id}          |
-| 지출 지출합계 포함/미포함 | PATCH  | /v1.0/customer/expenses/included-expense-sum  |
-| 지출 여러 건 삭제     | DELETE | /v1.0/customer/expenses                       |
-| 지출 단건 삭제       | DELETE | /v1.0/customer/expenses/{expense-id}          |
-| 당일 적정 지출금액 추천  |  GET   | /v1.0/customer/expenses/recommendations/daily |
-| 당일 지출 통계 분석    |  POST  | /v1.0/customer/expenses/analysis/daily        |
+<table>
+  <tr>
+    <th>기능</th>
+    <th>메서드</th>
+    <th>경로</th>
+  </tr>
+  <tr>
+    <td>지출 등록</td>
+    <td style="text-align: center">POST</td>
+    <td>/v1.0/customer/expenses</td>
+  </tr>
+  <tr>
+    <td>지출 목록 조회</td>
+    <td style="text-align: center">GET</td>
+    <td>/v1.0/customer/expenses</td>
+  </tr>
+  <tr>
+    <td>지출 상세정보 조회</td>
+    <td style="text-align: center">GET</td>
+    <td>/v1.0/customer/expenses/{expense-id}</td>
+  </tr>
+  <tr>
+    <td>지출 수정</td>
+    <td style="text-align: center">PUT</td>
+    <td>/v1.0/customer/expenses/{expense-id}</td>
+  </tr>
+  <tr>
+    <td>지출 지출합계 포함/미포함</td>
+    <td style="text-align: center">PATCH</td>
+    <td>/v1.0/customer/expenses/included-expense-sum</td>
+  </tr>
+  <tr>
+    <td>지출 여러 건 삭제</td>
+    <td style="text-align: center">DELETE</td>
+    <td>/v1.0/customer/expenses</td>
+  </tr>
+  <tr>
+    <td>지출 단건 삭제</td>
+    <td style="text-align: center">DELETE</td>
+    <td>/v1.0/customer/expenses/{expense-id}</td>
+  </tr>
+  <tr>
+    <td>당일 적정 지출금액 추천</td>
+    <td style="text-align: center">GET</td>
+    <td>/v1.0/customer/expenses/recommendations/daily</td>
+  </tr>
+  <tr>
+    <td>당일 지출 통계 분석</td>
+    <td style="text-align: center">POST</td>
+    <td>/v1.0/customer/expenses/analysis/daily</td>
+  </tr>
+</table>
 
 ## 도메인 설계
 
@@ -237,23 +341,6 @@ Architecture 및 [Clean Architecture]를 참고하여 아키텍처를 구성했�
 ## 데이터베이스 테이블 설계
 
 <img src="https://file.notion.so/f/f/058f658a-90c9-4169-8b09-946be1205ead/9faf69be-2e64-47d2-b96e-d162e1891e19/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2023-11-12_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_1.53.12.png?id=abc22d64-6369-4377-97c6-abf213eaa671&table=block&spaceId=058f658a-90c9-4169-8b09-946be1205ead&expirationTimestamp=1701763200000&signature=_HwZ8-oxV0odmIZhmHdsp8Hc3eE3ipzsQlmFL6N7t74&downloadName=%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2023-11-12+%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB+1.53.12.png" />
-
-<br />
-<br />
-
-<details>
-<summary><b><font size="+1">&nbsp;식별자 형식 선정</font></b></summary>
-
-- 식별자로 사용할 수 있는 값으로 자동 증가 BIGINT, UUID, ULID의 사용을 고려하였으며, ULID를 사용하는 것으로 결정.
-  - 자동 증가 BIGINT 타입의 식별자는 추측하기 쉬워 무차별 암호 대입과 같은 Brute Force 유형의 공격에 취약하다는 문제가 있음
-  - UUID는 표준화된 형식에 따라 임의의 문자열을 생성하므로 무차별 대입을 통한 식별이 어려우면서도 서로 다른 시점에 생성된 UUID가 동일할 확률이 사실상 0에 수렴하므로 안전하나, 정수보다 광범위한 저장공간을 필요로 하고, UUID 간의 순서가 존재하지 않아 정렬을 고려할 수 없다는 단점이 있음
-  - ULID는 26자 문자열에 밀리초 단위의 정밀도를 제공하는 10자의 타임스탬프 문자열을 포함해 식별자를 구성. 따라서 서로 다른 시점에 생성되는 ULID들이 같을 확률이 UUID와 마찬가지로 0에 수렴하면서도, 정렬이 가능하므로 추후 데이터베이스 파티셔닝이나 인덱싱 적용 시 효율적일 수 있음.
-- Reference
-  - [IDs: Integer Vs UUID Vs ULID](https://www.solwey.com/posts/ids-integer-vs-uuid-vs-ulid)
-  - [ulid/spec](https://github.com/ulid/spec)
-  - [ulid-creator](https://github.com/f4b6a3/ulid-creator)
-  - [sulky-ulid](https://github.com/huxi/sulky/tree/master/sulky-ulid)
-</details>
 
 ## 테스트
 
