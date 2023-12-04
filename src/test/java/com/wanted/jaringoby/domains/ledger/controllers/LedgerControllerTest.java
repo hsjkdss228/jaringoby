@@ -21,7 +21,6 @@ import com.wanted.jaringoby.domains.ledger.applications.CreateLedgerService;
 import com.wanted.jaringoby.domains.ledger.applications.GetOngoingLedgerService;
 import com.wanted.jaringoby.domains.ledger.applications.ModifyLedgerBudgetsService;
 import com.wanted.jaringoby.domains.ledger.applications.ModifyLedgerPeriodService;
-import com.wanted.jaringoby.domains.ledger.controllers.LedgerController;
 import com.wanted.jaringoby.domains.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.domains.ledger.dtos.CreateLedgerResponseDto;
 import com.wanted.jaringoby.domains.ledger.dtos.GetBudgetResponseDto;

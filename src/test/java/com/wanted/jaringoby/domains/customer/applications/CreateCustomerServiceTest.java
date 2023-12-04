@@ -9,7 +9,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import com.wanted.jaringoby.common.utils.UlidGenerator;
-import com.wanted.jaringoby.domains.customer.applications.CreateCustomerService;
 import com.wanted.jaringoby.domains.customer.dtos.CreateCustomerRequestDto;
 import com.wanted.jaringoby.domains.customer.dtos.CreateCustomerResponseDto;
 import com.wanted.jaringoby.domains.customer.exceptions.CustomerReconfirmPasswordMismatchedException;

@@ -6,12 +6,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.wanted.jaringoby.domains.category.applications.GetCategoryListService;
-import com.wanted.jaringoby.domains.category.controllers.CategoryController;
-import com.wanted.jaringoby.domains.category.dtos.GetCategoryListResponseDto;
 import com.wanted.jaringoby.common.config.jwt.JwtConfig;
 import com.wanted.jaringoby.common.config.security.SecurityConfig;
 import com.wanted.jaringoby.common.utils.JwtUtil;
+import com.wanted.jaringoby.domains.category.applications.GetCategoryListService;
+import com.wanted.jaringoby.domains.category.dtos.GetCategoryListResponseDto;
 import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.domains.customer.repositories.CustomerRepository;
 import java.util.List;
