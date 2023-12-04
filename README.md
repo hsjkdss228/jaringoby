@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/wanted-pre-onboarding-backend-team-s/bab-doduk/assets/50052512/818af905-9a5d-4a8d-9ca1-486985a32dc1" alt="출처: https://www.hani.co.kr/arti/science/science_general/1094377.html" />
+    <img src="https://github.com/wanted-pre-onboarding-backend-team-s/social-media-integrated-feed-service/assets/50052512/1ba67ff8-8b5c-4937-866c-1a2103718c64" />
 </div>
 
 # 자린고비
