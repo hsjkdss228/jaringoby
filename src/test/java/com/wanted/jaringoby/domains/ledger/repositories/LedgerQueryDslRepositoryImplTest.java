@@ -6,8 +6,6 @@ import com.wanted.jaringoby.config.jpa.JpaTestConfig;
 import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.domains.ledger.models.ledger.Ledger;
 import com.wanted.jaringoby.domains.ledger.models.ledger.LedgerId;
-import com.wanted.jaringoby.domains.ledger.repositories.LedgerQueryDslRepositoryImpl;
-import com.wanted.jaringoby.domains.ledger.repositories.LedgerRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;

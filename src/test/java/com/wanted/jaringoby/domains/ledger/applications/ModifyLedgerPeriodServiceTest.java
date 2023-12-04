@@ -9,7 +9,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.domains.ledger.applications.ModifyLedgerPeriodService;
 import com.wanted.jaringoby.domains.ledger.dtos.ModifyLedgerPeriodRequestDto;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerNotFoundException;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerNotOwnedException;

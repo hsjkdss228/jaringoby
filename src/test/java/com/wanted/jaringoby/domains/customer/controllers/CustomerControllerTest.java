@@ -12,7 +12,6 @@ import com.wanted.jaringoby.common.config.security.SecurityConfig;
 import com.wanted.jaringoby.common.config.validation.ValidationConfig;
 import com.wanted.jaringoby.common.validations.BindingResultChecker;
 import com.wanted.jaringoby.domains.customer.applications.CreateCustomerService;
-import com.wanted.jaringoby.domains.customer.controllers.CustomerController;
 import com.wanted.jaringoby.domains.customer.dtos.CreateCustomerRequestDto;
 import com.wanted.jaringoby.domains.customer.dtos.CreateCustomerResponseDto;
 import com.wanted.jaringoby.domains.customer.repositories.CustomerRepository;

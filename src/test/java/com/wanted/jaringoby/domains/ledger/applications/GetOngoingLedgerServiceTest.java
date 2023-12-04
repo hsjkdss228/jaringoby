@@ -8,10 +8,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import com.wanted.jaringoby.domains.category.models.Category;
 import com.wanted.jaringoby.common.models.Money;
+import com.wanted.jaringoby.domains.category.models.Category;
 import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.domains.ledger.applications.GetOngoingLedgerService;
 import com.wanted.jaringoby.domains.ledger.dtos.GetLedgerDetailResponseDto;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerOngoingNotFound;
 import com.wanted.jaringoby.domains.ledger.models.budget.Budget;
