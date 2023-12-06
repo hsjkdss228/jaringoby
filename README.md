@@ -340,7 +340,7 @@ Architecture 및 [Clean Architecture]를 참고하여 아키텍처를 구성했�
 
 ## 데이터베이스 테이블 설계
 
-<img src="https://file.notion.so/f/f/058f658a-90c9-4169-8b09-946be1205ead/9faf69be-2e64-47d2-b96e-d162e1891e19/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2023-11-12_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_1.53.12.png?id=abc22d64-6369-4377-97c6-abf213eaa671&table=block&spaceId=058f658a-90c9-4169-8b09-946be1205ead&expirationTimestamp=1701763200000&signature=_HwZ8-oxV0odmIZhmHdsp8Hc3eE3ipzsQlmFL6N7t74&downloadName=%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2023-11-12+%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB+1.53.12.png" />
+<img src="https://github.com/hsjkdss228/jaringoby/assets/50052512/ebc6b105-c253-4433-926c-16aba12daaa5" />
 
 ## 테스트
 
