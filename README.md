@@ -63,7 +63,7 @@
 
 ## 기술 스택
 
-[//]: # (TODO: Redis, Flyway, Swagger 추가)
+[//]: # (TODO: Docker, Redis, Flyway, Swagger 추가)
 
 ### 언어 및 Tool
 
@@ -72,7 +72,6 @@
 <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=spring-security&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/JSON Web Tokens-000000?style=for-the-badge&logo=json-web-tokens&logoColor=white"/></a>
-<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/></a>
 
 ### 데이터베이스 및 ORM
 
