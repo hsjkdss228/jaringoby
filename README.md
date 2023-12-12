@@ -98,7 +98,7 @@
 
 ## 프로젝트 일정 관리
 
-<img src="https://github.com/hsjkdss228/jaringoby/assets/50052512/fe70d3b9-1ea0-47dc-958f-a68ed8f25620" />
+<img src="https://github.com/hsjkdss228/jaringoby/assets/50052512/ea53758f-2729-4b09-948d-fa0d50e15055" />
 
 ## 시스템 아키텍처 설계
 
