@@ -269,12 +269,12 @@ Architecture 및 [Clean Architecture]를 참고하여 아키텍처를 구성했�
   </tr>
   <tr>
     <td>카테고리 별 예산 추천</td>
-    <td style="text-align: center">POST</td>
+    <td style="text-align: center">GET</td>
     <td>/v1.0/customer/ledgers/budget-recommendations</td>
   </tr>
   <tr>
     <td>현재 예산 관리 지출 통계 분석</td>
-    <td style="text-align: center">POST</td>
+    <td style="text-align: center">GET</td>
     <td>/v1.0/customer/ledgers/{ledger-id}/expense-analysis</td>
   </tr>
 </table>
@@ -329,7 +329,7 @@ Architecture 및 [Clean Architecture]를 참고하여 아키텍처를 구성했�
   </tr>
   <tr>
     <td>당일 지출 통계 분석</td>
-    <td style="text-align: center">POST</td>
+    <td style="text-align: center">GET</td>
     <td>/v1.0/customer/expenses/analysis/daily</td>
   </tr>
 </table>
