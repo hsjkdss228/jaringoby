@@ -4,10 +4,13 @@ import com.wanted.jaringoby.common.response.Response;
 import com.wanted.jaringoby.common.validations.BindingResultChecker;
 import com.wanted.jaringoby.common.validations.ValidationSequence;
 import com.wanted.jaringoby.domains.ledger.applications.CreateLedgerService;
+import com.wanted.jaringoby.domains.ledger.applications.GetBudgetRecommendationService;
 import com.wanted.jaringoby.domains.ledger.applications.GetOngoingLedgerService;
 import com.wanted.jaringoby.domains.ledger.applications.ModifyLedgerBudgetsService;
 import com.wanted.jaringoby.domains.ledger.applications.ModifyLedgerPeriodService;
 import com.wanted.jaringoby.domains.ledger.dtos.CreateLedgerResponseDto;
+import com.wanted.jaringoby.domains.ledger.dtos.GetBudgetRecommendationQueryParamsDto;
+import com.wanted.jaringoby.domains.ledger.dtos.GetBudgetRecommendationResponseDto;
 import com.wanted.jaringoby.domains.ledger.dtos.GetLedgerDetailResponseDto;
 import com.wanted.jaringoby.domains.ledger.dtos.ModifyLedgerBudgetsRequestDto;
 import com.wanted.jaringoby.domains.ledger.dtos.ModifyLedgerPeriodRequestDto;
@@ -17,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,14 +39,29 @@ public class LedgerController {
     private final CreateLedgerService createLedgerService;
     private final ModifyLedgerPeriodService modifyLedgerPeriodService;
     private final ModifyLedgerBudgetsService modifyLedgerBudgetsService;
+    private final GetBudgetRecommendationService getBudgetRecommendationService;
+
     private final BindingResultChecker bindingResultChecker;
 
     @GetMapping("/now")
     @ResponseStatus(HttpStatus.OK)
-    public Response<GetLedgerDetailResponseDto> now(
+    public Response<GetLedgerDetailResponseDto> ongoingLedger(
             @RequestAttribute("customerId") String customerId
     ) {
         return Response.of(getOngoingLedgerService.getOngoingLedger(customerId));
+    }
+
+    @GetMapping("/budget-recommendation")
+    @ResponseStatus(HttpStatus.OK)
+    public Response<GetBudgetRecommendationResponseDto> budgetRecommendation(
+            @Validated(ValidationSequence.class) @ModelAttribute
+            GetBudgetRecommendationQueryParamsDto getBudgetRecommendationQueryParamsDto,
+            BindingResult bindingResult
+    ) {
+        bindingResultChecker.checkBindingErrors(bindingResult);
+
+        return Response.of(getBudgetRecommendationService
+                .getBudgetRecommendation(getBudgetRecommendationQueryParamsDto));
     }
 
     @PostMapping
