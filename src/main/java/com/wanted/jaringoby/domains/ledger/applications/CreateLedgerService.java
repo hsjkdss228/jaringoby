@@ -88,7 +88,7 @@ public class CreateLedgerService {
         budgetRequestDtos.forEach(budget -> {
             String categoryName = budget.getCategory();
 
-            if (!Category.contains(categoryName)) {
+            if (Category.doesNotContain(categoryName)) {
                 throw new CategoryNotFoundException();
             }
 

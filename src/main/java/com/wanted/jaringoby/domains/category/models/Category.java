@@ -38,7 +38,7 @@ public enum Category {
         return name;
     }
 
-    public static boolean contains(String category) {
-        return CATEGORY_NAMES.contains(category);
+    public static boolean doesNotContain(String category) {
+        return !CATEGORY_NAMES.contains(category);
     }
 }
