@@ -187,7 +187,7 @@ Architecture 및 [Clean Architecture]를 참고하여 아키텍처를 구성했�
 - filters
 </details>
 
-## API 설계
+## API 설계 및 테크 스펙
 
 ### 고객: Customer
 
@@ -268,7 +268,7 @@ Architecture 및 [Clean Architecture]를 참고하여 아키텍처를 구성했�
     <td>/v1.0/customer/ledgers/{ledger-id}/budgets</td>
   </tr>
   <tr>
-    <td>카테고리 별 예산 추천</td>
+    <td><a href="https://docs.google.com/document/d/e/2PACX-1vSpKY1WpYsstYmlncDkVQsed77T1lT6WVSzY81TQ_U1XGOci-O1nU8s_jnDqXYufQTO9V2bSRHvO2F6/pub" style="text-decoration: underline;">카테고리 별 예산 추천</a></td>
     <td style="text-align: center">GET</td>
     <td>/v1.0/customer/ledgers/budget-recommendations</td>
   </tr>

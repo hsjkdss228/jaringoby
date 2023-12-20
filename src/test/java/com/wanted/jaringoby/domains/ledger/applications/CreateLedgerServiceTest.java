@@ -1,6 +1,5 @@
 package com.wanted.jaringoby.domains.ledger.applications;
 
-import static com.wanted.jaringoby.common.constants.Date.TODAY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import com.wanted.jaringoby.common.constants.Date;
 import com.wanted.jaringoby.common.utils.UlidGenerator;
 import com.wanted.jaringoby.domains.category.exceptions.CategoryDuplicatedException;
 import com.wanted.jaringoby.domains.category.exceptions.CategoryNotFoundException;
@@ -51,7 +51,7 @@ class CreateLedgerServiceTest {
     private static final String CUSTOMER_ID = "CUSTOMER_ID";
 
     private static final String LEDGER_ID = "LEDGER_ID";
-    private static final LocalDate START_DATE = TODAY;
+    private static final LocalDate START_DATE = Date.today();
     private static final LocalDate END_DATE = START_DATE.plusMonths(1);
 
     private static final String BUDGET_ID = "BUDGET_ID";

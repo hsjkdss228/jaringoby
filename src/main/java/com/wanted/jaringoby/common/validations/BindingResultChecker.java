@@ -15,6 +15,8 @@ public class BindingResultChecker {
             "Pattern");
     private final Set<String> invalidRangeErrorCode = Set.of(
             "Min");
+    private final Set<String> invalidElementCountErrorCode = Set.of(
+            "Size");
 
     public void checkBindingErrors(BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
@@ -45,6 +47,10 @@ public class BindingResultChecker {
             throw new InvalidRangeInputException();
         }
 
+        if (isInvalidElementCountErrorCode(code)) {
+            throw new InvalidRangeInputException();
+        }
+
         throw new RuntimeException();
     }
 
@@ -58,5 +64,9 @@ public class BindingResultChecker {
 
     private boolean isInvalidRangeErrorCode(String code) {
         return invalidRangeErrorCode.contains(code);
+    }
+
+    private boolean isInvalidElementCountErrorCode(String code) {
+        return invalidElementCountErrorCode.contains(code);
     }
 }

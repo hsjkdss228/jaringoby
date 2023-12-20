@@ -5,5 +5,7 @@ import java.time.ZoneId;
 
 public class Date {
 
-    public static final LocalDate TODAY = LocalDate.now(ZoneId.of("Asia/Seoul"));
+    public static LocalDate today() {
+        return LocalDate.now(ZoneId.of("Asia/Seoul"));
+    }
 }

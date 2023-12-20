@@ -1,5 +1,6 @@
 package com.wanted.jaringoby.domains.ledger.controllers;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -8,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.wanted.jaringoby.common.config.jwt.JwtConfig;
@@ -17,12 +19,16 @@ import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.common.validations.BindingResultChecker;
 import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.domains.customer.repositories.CustomerRepository;
+import com.wanted.jaringoby.domains.ledger.applications.BudgetRecommendationService;
 import com.wanted.jaringoby.domains.ledger.applications.CreateLedgerService;
 import com.wanted.jaringoby.domains.ledger.applications.GetOngoingLedgerService;
 import com.wanted.jaringoby.domains.ledger.applications.ModifyLedgerBudgetsService;
 import com.wanted.jaringoby.domains.ledger.applications.ModifyLedgerPeriodService;
+import com.wanted.jaringoby.domains.ledger.dtos.BudgetRecommendationDto;
 import com.wanted.jaringoby.domains.ledger.dtos.CreateLedgerRequestDto;
 import com.wanted.jaringoby.domains.ledger.dtos.CreateLedgerResponseDto;
+import com.wanted.jaringoby.domains.ledger.dtos.GetBudgetRecommendationQueryParamsDto;
+import com.wanted.jaringoby.domains.ledger.dtos.GetBudgetRecommendationResponseDto;
 import com.wanted.jaringoby.domains.ledger.dtos.GetBudgetResponseDto;
 import com.wanted.jaringoby.domains.ledger.dtos.GetLedgerDetailResponseDto;
 import com.wanted.jaringoby.domains.ledger.dtos.ModifyLedgerBudgetsRequestDto;
@@ -82,7 +88,7 @@ class LedgerControllerTest {
 
         @DisplayName("조회된 Ledger 정보 및 해당 Ledger와 연관된 모든 Budget 정보 응답 반환")
         @Test
-        void now() throws Exception {
+        void ongoingLedger() throws Exception {
             List<GetBudgetResponseDto> budgetResponseDtos = List.of(
                     GetBudgetResponseDto.builder()
                             .id(BUDGET_ID_1)
@@ -110,6 +116,160 @@ class LedgerControllerTest {
             mockMvc.perform(get("/v1.0/customer/ledgers/now")
                             .header("Authorization", "Bearer " + accessToken))
                     .andExpect(status().isOk());
+        }
+    }
+
+    @MockBean
+    private BudgetRecommendationService budgetRecommendationService;
+
+    @DisplayName("GET /v1.0/customer/ledgers/budget-recommendation")
+    @Nested
+    class GetLedgerBudgetRecommendation {
+
+        private static final String AMOUNT = "650000";
+        private static final String FOOD_CATEGORY_NAME = "Food";
+        private static final String COMMUTE_CATEGORY_NAME = "Commute";
+        private static final String TRUNCATION_SCALE = "10000";
+
+        @DisplayName("성공")
+        @Nested
+        class Success {
+
+            private static final List<BudgetRecommendationDto> BUDGET_RECOMMENDATIONS = List.of(
+                    BudgetRecommendationDto.builder()
+                            .name(FOOD_CATEGORY_NAME)
+                            .amount(500_000L)
+                            .build(),
+                    BudgetRecommendationDto.builder()
+                            .name(COMMUTE_CATEGORY_NAME)
+                            .amount(150_000L)
+                            .build()
+            );
+
+            @BeforeEach
+            void setUp() {
+                GetBudgetRecommendationResponseDto getBudgetRecommendationResponseDto
+                        = GetBudgetRecommendationResponseDto.testBuilder()
+                        .budgetRecommendations(BUDGET_RECOMMENDATIONS)
+                        .testBuild();
+
+                given(budgetRecommendationService
+                        .recommendBudget(any(GetBudgetRecommendationQueryParamsDto.class)))
+                        .willReturn(getBudgetRecommendationResponseDto);
+            }
+
+            @DisplayName("모든 쿼리 파라미터가 정상적으로 전달되는 경우 응답 정상 반환")
+            @Test
+            void containsAllQueryParams() throws Exception {
+                mockMvc.perform(get("/v1.0/customer/ledgers/budget-recommendation")
+                                .header("Authorization", "Bearer " + accessToken)
+                                .param("amount", AMOUNT)
+                                .param("categories", FOOD_CATEGORY_NAME)
+                                .param("categories", COMMUTE_CATEGORY_NAME)
+                                .param("truncationScale", TRUNCATION_SCALE))
+                        .andExpect(status().isOk());
+            }
+
+            @DisplayName("카테고리 목록 쿼리 파라미터 비전달 (null) 허용")
+            @Test
+            void nullCategories() throws Exception {
+                mockMvc.perform(get("/v1.0/customer/ledgers/budget-recommendation")
+                                .header("Authorization", "Bearer " + accessToken)
+                                .param("amount", AMOUNT)
+                                .param("truncationScale", TRUNCATION_SCALE))
+                        .andExpect(status().isOk());
+            }
+
+            @DisplayName("절사 단위 쿼리 파라미터 비전달 허용")
+            @Test
+            void nullTruncationScale() throws Exception {
+                mockMvc.perform(get("/v1.0/customer/ledgers/budget-recommendation")
+                                .header("Authorization", "Bearer " + accessToken)
+                                .param("amount", AMOUNT)
+                                .param("categories", FOOD_CATEGORY_NAME)
+                                .param("categories", COMMUTE_CATEGORY_NAME))
+                        .andExpect(status().isOk());
+            }
+
+            @DisplayName("조회된 카테고리 별 예산 추천 목록을 반환")
+            @Test
+            void BudgetRecommendation() throws Exception {
+                mockMvc.perform(get("/v1.0/customer/ledgers/budget-recommendation")
+                                .header("Authorization", "Bearer " + accessToken)
+                                .param("amount", AMOUNT)
+                                .param("categories", FOOD_CATEGORY_NAME)
+                                .param("categories", COMMUTE_CATEGORY_NAME)
+                                .param("truncationScale", TRUNCATION_SCALE))
+                        .andExpect(content().string(containsString("""
+                                "budgetRecommendations":[{"name":"Food","amount":500000},""")))
+                        .andExpect(content().string(containsString("""
+                                {"name":"Commute","amount":150000}]""")));
+            }
+        }
+
+        @DisplayName("실패")
+        @Nested
+        class Failure {
+
+            private static final String INVALID_AMOUNT = "950";
+            private static final String INVALID_TRUNCATION_SCALE = "7";
+
+            @DisplayName("예산 쿼리 파라미터 미전달 시 예외처리")
+            @Test
+            void nullAmount() throws Exception {
+                mockMvc.perform(get("/v1.0/customer/ledgers/budget-recommendation")
+                                .header("Authorization", "Bearer " + accessToken)
+                                .param("categories", FOOD_CATEGORY_NAME)
+                                .param("categories", COMMUTE_CATEGORY_NAME)
+                                .param("truncationScale", TRUNCATION_SCALE))
+                        .andExpect(status().isBadRequest());
+            }
+
+            @DisplayName("1000 미만의 예산 쿼리 파라미터 전달 시 예외처리")
+            @Test
+            void amountLessThan10() throws Exception {
+                mockMvc.perform(get("/v1.0/customer/ledgers/budget-recommendation")
+                                .header("Authorization", "Bearer " + accessToken)
+                                .param("amount", INVALID_AMOUNT)
+                                .param("categories", FOOD_CATEGORY_NAME)
+                                .param("categories", COMMUTE_CATEGORY_NAME)
+                                .param("truncationScale", TRUNCATION_SCALE))
+                        .andExpect(status().isBadRequest());
+            }
+
+            @DisplayName("빈 (empty) 카테고리 목록 전달 시 예외처리")
+            @Test
+            void emptyCategories() throws Exception {
+                mockMvc.perform(get("/v1.0/customer/ledgers/budget-recommendation")
+                                .header("Authorization", "Bearer " + accessToken)
+                                .param("amount", AMOUNT)
+                                .param("categories", "")
+                                .param("truncationScale", TRUNCATION_SCALE))
+                        .andExpect(status().isBadRequest());
+            }
+
+            @DisplayName("2개 미만의 카테고리를 포함한 카테고리 목록 전달 시 예외처리")
+            @Test
+            void categoriesLessThan2() throws Exception {
+                mockMvc.perform(get("/v1.0/customer/ledgers/budget-recommendation")
+                                .header("Authorization", "Bearer " + accessToken)
+                                .param("amount", AMOUNT)
+                                .param("categories", COMMUTE_CATEGORY_NAME)
+                                .param("truncationScale", TRUNCATION_SCALE))
+                        .andExpect(status().isBadRequest());
+            }
+
+            @DisplayName("10의 자연수 제곱으로 도출되는 수가 아닌 절사 단위 전달 시 예외처리")
+            @Test
+            void invalidTruncationScale() throws Exception {
+                mockMvc.perform(get("/v1.0/customer/ledgers/budget-recommendation")
+                                .header("Authorization", "Bearer " + accessToken)
+                                .param("amount", AMOUNT)
+                                .param("categories", FOOD_CATEGORY_NAME)
+                                .param("categories", COMMUTE_CATEGORY_NAME)
+                                .param("truncationScale", INVALID_TRUNCATION_SCALE))
+                        .andExpect(status().isBadRequest());
+            }
         }
     }
 

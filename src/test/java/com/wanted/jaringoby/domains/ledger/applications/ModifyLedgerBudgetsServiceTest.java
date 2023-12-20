@@ -1,6 +1,5 @@
 package com.wanted.jaringoby.domains.ledger.applications;
 
-import static com.wanted.jaringoby.common.constants.Date.TODAY;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -11,6 +10,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import com.wanted.jaringoby.common.constants.Date;
 import com.wanted.jaringoby.common.models.Money;
 import com.wanted.jaringoby.common.utils.UlidGenerator;
 import com.wanted.jaringoby.domains.category.exceptions.CategoryDuplicatedException;
@@ -57,8 +57,8 @@ class ModifyLedgerBudgetsServiceTest {
     private static final String CUSTOMER_ID = "CUSTOMER_ID";
     private static final String LEDGER_ID = "LEDGER_ID";
 
-    private static final LocalDate START_DATE = TODAY;
-    private static final LocalDate END_DATE = TODAY.plusWeeks(2);
+    private static final LocalDate START_DATE = Date.today();
+    private static final LocalDate END_DATE = Date.today().plusWeeks(2);
 
     private ModifyLedgerBudgetsRequestDto modifyLedgerBudgetsRequestDto;
 
@@ -81,15 +81,15 @@ class ModifyLedgerBudgetsServiceTest {
             given(ledgerRepository.findById(LedgerId.of(LEDGER_ID)))
                     .willReturn(Optional.of(ledger));
 
-            existingAndGivenBudget1 = spy(Budget.builder()
+            existingAndGivenBudget1 = spy(Budget.testBuilder()
                     .category(Category.Meal)
                     .amount(Money.of(1_000_000L))
-                    .build()
+                    .testBuild()
             );
-            existingButNotGivenBudget2 = spy(Budget.builder()
+            existingButNotGivenBudget2 = spy(Budget.testBuilder()
                     .category(Category.Transportation)
                     .amount(Money.of(200_000L))
-                    .build()
+                    .testBuild()
             );
 
             given(budgetRepository.findByLedgerId(LedgerId.of(LEDGER_ID)))
@@ -149,8 +149,8 @@ class ModifyLedgerBudgetsServiceTest {
         private static final String OTHER_CUSTOMER_ID = "OTHER_CUSTOMER_ID";
         private static final String NOT_EXISTING_CATEGORY = "NOT_EXISTING_CATEGORY";
 
-        private static final LocalDate ENDED_START_DATE = TODAY.minusWeeks(2);
-        private static final LocalDate ENDED_END_DATE = TODAY.minusWeeks(1);
+        private static final LocalDate ENDED_START_DATE = Date.today().minusWeeks(2);
+        private static final LocalDate ENDED_END_DATE = Date.today().minusWeeks(1);
 
         @DisplayName("존재하지 않는 예산 관리인 경우 예외처리")
         @Test

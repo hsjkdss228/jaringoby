@@ -1,12 +1,11 @@
 package com.wanted.jaringoby.domains.ledger.applications;
 
-import static com.wanted.jaringoby.common.constants.Date.TODAY;
-
+import com.wanted.jaringoby.common.constants.Date;
+import com.wanted.jaringoby.common.models.Money;
+import com.wanted.jaringoby.common.utils.UlidGenerator;
 import com.wanted.jaringoby.domains.category.exceptions.CategoryDuplicatedException;
 import com.wanted.jaringoby.domains.category.exceptions.CategoryNotFoundException;
 import com.wanted.jaringoby.domains.category.models.Category;
-import com.wanted.jaringoby.common.models.Money;
-import com.wanted.jaringoby.common.utils.UlidGenerator;
 import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.domains.ledger.dtos.BudgetRequestDto;
 import com.wanted.jaringoby.domains.ledger.dtos.CreateLedgerRequestDto;
@@ -72,8 +71,9 @@ public class CreateLedgerService {
                 .build();
     }
 
-    private void validateLedgerPeriod(LocalDate startDate, LocalDate endDate, CustomerId customerId) {
-        if (startDate.isBefore(TODAY) || endDate.isBefore(startDate)) {
+    private void validateLedgerPeriod(LocalDate startDate, LocalDate endDate,
+            CustomerId customerId) {
+        if (startDate.isBefore(Date.today()) || endDate.isBefore(startDate)) {
             throw new LedgerPeriodInvalidException();
         }
 
@@ -88,7 +88,7 @@ public class CreateLedgerService {
         budgetRequestDtos.forEach(budget -> {
             String categoryName = budget.getCategory();
 
-            if (!Category.contains(categoryName)) {
+            if (Category.doesNotContain(categoryName)) {
                 throw new CategoryNotFoundException();
             }
 

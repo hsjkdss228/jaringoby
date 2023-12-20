@@ -1,7 +1,6 @@
 package com.wanted.jaringoby.domains.ledger.models.ledger;
 
-import static com.wanted.jaringoby.common.constants.Date.TODAY;
-
+import com.wanted.jaringoby.common.constants.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.time.LocalDate;
@@ -35,16 +34,16 @@ public class LedgerPeriod {
     }
 
     public boolean hasEnded() {
-        return endDate.isBefore(TODAY);
+        return endDate.isBefore(Date.today());
     }
 
     public boolean isInProgress() {
-        return (startDate.isBefore(TODAY) || startDate.isEqual(TODAY))
-                && (endDate.isEqual(TODAY) || endDate.isAfter(TODAY));
+        return (startDate.isBefore(Date.today()) || startDate.isEqual(Date.today()))
+                && (endDate.isEqual(Date.today()) || endDate.isAfter(Date.today()));
     }
 
     public boolean hasNotStarted() {
-        return startDate.isAfter(TODAY);
+        return startDate.isAfter(Date.today());
     }
 
     public boolean startDateNotEquals(LocalDate startDate) {

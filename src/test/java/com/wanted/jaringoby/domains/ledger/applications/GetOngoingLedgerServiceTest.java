@@ -66,16 +66,16 @@ class GetOngoingLedgerServiceTest {
                     .willReturn(Optional.of(ledger));
 
             List<Budget> budgets = List.of(
-                    Budget.builder()
+                    Budget.testBuilder()
                             .id(BUDGET_ID_1)
                             .category(Category.of(Category.Living.categoryName()))
                             .amount(Money.of(1_000_000L))
-                            .build(),
-                    Budget.builder()
+                            .testBuild(),
+                    Budget.testBuilder()
                             .id(BUDGET_ID_2)
                             .category(Category.of(Category.Meal.categoryName()))
                             .amount(Money.of(1_500_000L))
-                            .build()
+                            .testBuild()
             );
 
             given(budgetRepository.findByLedgerId(LedgerId.of(LEDGER_ID)))

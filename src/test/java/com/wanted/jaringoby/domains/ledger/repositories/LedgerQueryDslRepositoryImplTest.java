@@ -2,12 +2,12 @@ package com.wanted.jaringoby.domains.ledger.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.wanted.jaringoby.common.constants.Date;
+import com.wanted.jaringoby.common.constants.DateTime;
 import com.wanted.jaringoby.config.jpa.JpaTestConfig;
 import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.domains.ledger.models.ledger.Ledger;
 import com.wanted.jaringoby.domains.ledger.models.ledger.LedgerId;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,9 +33,6 @@ class LedgerQueryDslRepositoryImplTest {
     private static final String CUSTOMER_ID = "CUSTOMER_1";
     private static final String OTHER_CUSTOMER_ID = "CUSTOMER_222222";
 
-    private static final LocalDateTime DATETIME_NOW = LocalDateTime.now();
-    private static final LocalDate DATE_NOW = LocalDate.now();
-
     @Autowired
     private LedgerRepository ledgerRepository;
 
@@ -53,7 +50,7 @@ class LedgerQueryDslRepositoryImplTest {
                         """,
 
                 CUSTOMER_ID, "hsjkdss228", "Password!1", true, true,
-                DATETIME_NOW.minusHours(1), DATETIME_NOW.minusHours(1));
+                DateTime.now().minusHours(1), DateTime.now().minusHours(1));
     }
 
     @DisplayName("findByCustomerIdAndOngoing")
@@ -79,23 +76,25 @@ class LedgerQueryDslRepositoryImplTest {
 
                         // 현재 진행 중인 Ledger
                         TARGET_LEDGER_ID, CUSTOMER_ID,
-                        DATE_NOW.minusDays(15), DATE_NOW.plusDays(14),
-                        DATETIME_NOW, DATETIME_NOW,
+                        Date.today().minusDays(15), Date.today().plusDays(14),
+                        DateTime.now(), DateTime.now(),
 
                         // 다른 고객의 현재 진행 중인 Ledger
                         "LEDGER_2", OTHER_CUSTOMER_ID,
-                        DATE_NOW.minusDays(15), DATE_NOW.plusDays(14),
-                        DATETIME_NOW, DATETIME_NOW,
+                        Date.today().minusDays(15), Date.today().plusDays(14),
+                        DateTime.now(), DateTime.now(),
 
                         // 당일 이전에 종료된 Ledger
                         "LEDGER_3", OTHER_CUSTOMER_ID,
-                        DATE_NOW.minusMonths(1).minusDays(15), DATE_NOW.minusMonths(1).plusDays(14),
-                        DATETIME_NOW, DATETIME_NOW,
+                        Date.today().minusMonths(1).minusDays(15),
+                        Date.today().minusMonths(1).plusDays(14),
+                        DateTime.now(), DateTime.now(),
 
                         // 당일 이후 진행 예정인 Ledger
                         "LEDGER_4", OTHER_CUSTOMER_ID,
-                        DATE_NOW.plusMonths(1).minusDays(15), DATE_NOW.plusMonths(1).plusDays(14),
-                        DATETIME_NOW, DATETIME_NOW);
+                        Date.today().plusMonths(1).minusDays(15),
+                        Date.today().plusMonths(1).plusDays(14),
+                        DateTime.now(), DateTime.now());
 
                 Optional<Ledger> found = repository
                         .findByCustomerIdAndOngoing(CustomerId.of(CUSTOMER_ID));
@@ -122,18 +121,20 @@ class LedgerQueryDslRepositoryImplTest {
 
                         // 다른 고객의 현재 진행 중인 Ledger
                         "LEDGER_2", OTHER_CUSTOMER_ID,
-                        DATE_NOW.minusDays(15), DATE_NOW.plusDays(14),
-                        DATETIME_NOW, DATETIME_NOW,
+                        Date.today().minusDays(15), Date.today().plusDays(14),
+                        DateTime.now(), DateTime.now(),
 
                         // 당일 이전에 종료된 Ledger
                         "LEDGER_3", OTHER_CUSTOMER_ID,
-                        DATE_NOW.minusMonths(1).minusDays(15), DATE_NOW.minusMonths(1).plusDays(14),
-                        DATETIME_NOW, DATETIME_NOW,
+                        Date.today().minusMonths(1).minusDays(15),
+                        Date.today().minusMonths(1).plusDays(14),
+                        DateTime.now(), DateTime.now(),
 
                         // 당일 이후 진행 예정인 Ledger
                         "LEDGER_4", OTHER_CUSTOMER_ID,
-                        DATE_NOW.plusMonths(1).minusDays(15), DATE_NOW.plusMonths(1).plusDays(14),
-                        DATETIME_NOW, DATETIME_NOW);
+                        Date.today().plusMonths(1).minusDays(15),
+                        Date.today().plusMonths(1).plusDays(14),
+                        DateTime.now(), DateTime.now());
 
                 assertThat(repository
                         .findByCustomerIdAndOngoing(CustomerId.of(CUSTOMER_ID)))
@@ -160,15 +161,16 @@ class LedgerQueryDslRepositoryImplTest {
                                 (?, ?, ?, ?, ?, ?)""",
 
                         "LEDGER_1", CUSTOMER_ID,
-                        DATE_NOW.minusMonths(1).minusDays(15), DATE_NOW.minusDays(15),
-                        DATETIME_NOW, DATETIME_NOW,
+                        Date.today().minusMonths(1).minusDays(15), Date.today().minusDays(15),
+                        DateTime.now(), DateTime.now(),
 
                         "LEDGER_2", CUSTOMER_ID,
-                        DATE_NOW.plusMonths(1).plusDays(5), DATE_NOW.plusMonths(1).plusDays(15),
-                        DATETIME_NOW, DATETIME_NOW);
+                        Date.today().plusMonths(1).plusDays(5),
+                        Date.today().plusMonths(1).plusDays(15),
+                        DateTime.now(), DateTime.now());
 
                 assertThat(repository.existsByCustomerIdAndPeriod(
-                        CustomerId.of(CUSTOMER_ID), DATE_NOW, DATE_NOW.plusMonths(1)))
+                        CustomerId.of(CUSTOMER_ID), Date.today(), Date.today().plusMonths(1)))
                         .isFalse();
             }
         }
@@ -186,11 +188,11 @@ class LedgerQueryDslRepositoryImplTest {
                                 VALUES (?, ?, ?, ?, ?, ?)""",
 
                         "LEDGER_1", CUSTOMER_ID,
-                        DATE_NOW.minusDays(15), DATE_NOW.plusDays(15),
-                        DATETIME_NOW, DATETIME_NOW);
+                        Date.today().minusDays(15), Date.today().plusDays(15),
+                        DateTime.now(), DateTime.now());
 
                 assertThat(repository.existsByCustomerIdAndPeriod(
-                        CustomerId.of(CUSTOMER_ID), DATE_NOW, DATE_NOW.plusMonths(1)))
+                        CustomerId.of(CUSTOMER_ID), Date.today(), Date.today().plusMonths(1)))
                         .isTrue();
             }
 
@@ -203,11 +205,11 @@ class LedgerQueryDslRepositoryImplTest {
                                 VALUES (?, ?, ?, ?, ?, ?)""",
 
                         "LEDGER_1", CUSTOMER_ID,
-                        DATE_NOW.plusDays(15), DATE_NOW.plusMonths(1).plusDays(15),
-                        DATETIME_NOW, DATETIME_NOW);
+                        Date.today().plusDays(15), Date.today().plusMonths(1).plusDays(15),
+                        DateTime.now(), DateTime.now());
 
                 assertThat(repository.existsByCustomerIdAndPeriod(
-                        CustomerId.of(CUSTOMER_ID), DATE_NOW, DATE_NOW.plusMonths(1)))
+                        CustomerId.of(CUSTOMER_ID), Date.today(), Date.today().plusMonths(1)))
                         .isTrue();
             }
 
@@ -220,11 +222,11 @@ class LedgerQueryDslRepositoryImplTest {
                                 VALUES (?, ?, ?, ?, ?, ?)""",
 
                         "LEDGER_1", CUSTOMER_ID,
-                        DATE_NOW.minusDays(15), DATE_NOW.plusMonths(1).plusDays(15),
-                        DATETIME_NOW, DATETIME_NOW);
+                        Date.today().minusDays(15), Date.today().plusMonths(1).plusDays(15),
+                        DateTime.now(), DateTime.now());
 
                 assertThat(repository.existsByCustomerIdAndPeriod(
-                        CustomerId.of(CUSTOMER_ID), DATE_NOW, DATE_NOW.plusMonths(1)))
+                        CustomerId.of(CUSTOMER_ID), Date.today(), Date.today().plusMonths(1)))
                         .isTrue();
             }
 
@@ -237,11 +239,11 @@ class LedgerQueryDslRepositoryImplTest {
                                 VALUES (?, ?, ?, ?, ?, ?)""",
 
                         "LEDGER_1", CUSTOMER_ID,
-                        DATE_NOW.plusDays(5), DATE_NOW.plusDays(25),
-                        DATETIME_NOW, DATETIME_NOW);
+                        Date.today().plusDays(5), Date.today().plusDays(25),
+                        DateTime.now(), DateTime.now());
 
                 assertThat(repository.existsByCustomerIdAndPeriod(
-                        CustomerId.of(CUSTOMER_ID), DATE_NOW, DATE_NOW.plusMonths(1)))
+                        CustomerId.of(CUSTOMER_ID), Date.today(), Date.today().plusMonths(1)))
                         .isTrue();
             }
         }
@@ -266,29 +268,31 @@ class LedgerQueryDslRepositoryImplTest {
 
                     // 현재 진행 중인 Ledger
                     TARGET_LEDGER_ID, CUSTOMER_ID,
-                    DATE_NOW.minusDays(15), DATE_NOW.plusDays(14),
-                    DATETIME_NOW, DATETIME_NOW,
+                    Date.today().minusDays(15), Date.today().plusDays(14),
+                    DateTime.now(), DateTime.now(),
 
                     // 다른 고객의 현재 진행 중인 Ledger
                     "LEDGER_2", OTHER_CUSTOMER_ID,
-                    DATE_NOW.minusDays(15), DATE_NOW.plusDays(14),
-                    DATETIME_NOW, DATETIME_NOW,
+                    Date.today().minusDays(15), Date.today().plusDays(14),
+                    DateTime.now(), DateTime.now(),
 
                     // 당일 이전에 종료된 Ledger
                     "LEDGER_3", OTHER_CUSTOMER_ID,
-                    DATE_NOW.minusMonths(1).minusDays(15), DATE_NOW.minusMonths(1).plusDays(14),
-                    DATETIME_NOW, DATETIME_NOW,
+                    Date.today().minusMonths(1).minusDays(15),
+                    Date.today().minusMonths(1).plusDays(14),
+                    DateTime.now(), DateTime.now(),
 
                     // 당일 이후 진행 예정인 Ledger
                     "LEDGER_4", OTHER_CUSTOMER_ID,
-                    DATE_NOW.plusMonths(1).minusDays(15), DATE_NOW.plusMonths(1).plusDays(14),
-                    DATETIME_NOW, DATETIME_NOW);
+                    Date.today().plusMonths(1).minusDays(15),
+                    Date.today().plusMonths(1).plusDays(14),
+                    DateTime.now(), DateTime.now());
 
             assertThat(repository.existsByCustomerIdAndLedgerIdNotAndPeriod(
                     CustomerId.of(CUSTOMER_ID),
                     LedgerId.of(TARGET_LEDGER_ID),
-                    DATE_NOW.plusDays(5),
-                    DATE_NOW.plusMonths(1).plusDays(4))
+                    Date.today().plusDays(5),
+                    Date.today().plusMonths(1).plusDays(4))
             ).isFalse();
         }
     }
