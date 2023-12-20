@@ -4,7 +4,7 @@ import com.wanted.jaringoby.common.response.Response;
 import com.wanted.jaringoby.common.validations.BindingResultChecker;
 import com.wanted.jaringoby.common.validations.ValidationSequence;
 import com.wanted.jaringoby.domains.ledger.applications.CreateLedgerService;
-import com.wanted.jaringoby.domains.ledger.applications.GetBudgetRecommendationService;
+import com.wanted.jaringoby.domains.ledger.applications.BudgetRecommendationService;
 import com.wanted.jaringoby.domains.ledger.applications.GetOngoingLedgerService;
 import com.wanted.jaringoby.domains.ledger.applications.ModifyLedgerBudgetsService;
 import com.wanted.jaringoby.domains.ledger.applications.ModifyLedgerPeriodService;
@@ -39,7 +39,7 @@ public class LedgerController {
     private final CreateLedgerService createLedgerService;
     private final ModifyLedgerPeriodService modifyLedgerPeriodService;
     private final ModifyLedgerBudgetsService modifyLedgerBudgetsService;
-    private final GetBudgetRecommendationService getBudgetRecommendationService;
+    private final BudgetRecommendationService budgetRecommendationService;
 
     private final BindingResultChecker bindingResultChecker;
 
@@ -60,8 +60,8 @@ public class LedgerController {
     ) {
         bindingResultChecker.checkBindingErrors(bindingResult);
 
-        return Response.of(getBudgetRecommendationService
-                .getBudgetRecommendation(getBudgetRecommendationQueryParamsDto));
+        return Response.of(budgetRecommendationService
+                .recommendBudget(getBudgetRecommendationQueryParamsDto));
     }
 
     @PostMapping

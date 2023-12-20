@@ -19,8 +19,8 @@ import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.common.validations.BindingResultChecker;
 import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
 import com.wanted.jaringoby.domains.customer.repositories.CustomerRepository;
+import com.wanted.jaringoby.domains.ledger.applications.BudgetRecommendationService;
 import com.wanted.jaringoby.domains.ledger.applications.CreateLedgerService;
-import com.wanted.jaringoby.domains.ledger.applications.GetBudgetRecommendationService;
 import com.wanted.jaringoby.domains.ledger.applications.GetOngoingLedgerService;
 import com.wanted.jaringoby.domains.ledger.applications.ModifyLedgerBudgetsService;
 import com.wanted.jaringoby.domains.ledger.applications.ModifyLedgerPeriodService;
@@ -120,7 +120,7 @@ class LedgerControllerTest {
     }
 
     @MockBean
-    private GetBudgetRecommendationService getBudgetRecommendationService;
+    private BudgetRecommendationService budgetRecommendationService;
 
     @DisplayName("GET /v1.0/customer/ledgers/budget-recommendation")
     @Nested
@@ -145,18 +145,16 @@ class LedgerControllerTest {
                             .amount(150_000L)
                             .build()
             );
-            private static final Boolean SUM_MATCHES = true;
 
             @BeforeEach
             void setUp() {
                 GetBudgetRecommendationResponseDto getBudgetRecommendationResponseDto
-                        = GetBudgetRecommendationResponseDto.builder()
+                        = GetBudgetRecommendationResponseDto.testBuilder()
                         .budgetRecommendations(BUDGET_RECOMMENDATIONS)
-                        .sumMatches(SUM_MATCHES)
-                        .build();
+                        .testBuild();
 
-                given(getBudgetRecommendationService
-                        .getBudgetRecommendation(any(GetBudgetRecommendationQueryParamsDto.class)))
+                given(budgetRecommendationService
+                        .recommendBudget(any(GetBudgetRecommendationQueryParamsDto.class)))
                         .willReturn(getBudgetRecommendationResponseDto);
             }
 
@@ -205,9 +203,7 @@ class LedgerControllerTest {
                         .andExpect(content().string(containsString("""
                                 "budgetRecommendations":[{"name":"Food","amount":500000},""")))
                         .andExpect(content().string(containsString("""
-                                {"name":"Commute","amount":150000}]""")))
-                        .andExpect(content().string(containsString("""
-                                "sumMatches":true""")));
+                                {"name":"Commute","amount":150000}]""")));
             }
         }
 
@@ -215,7 +211,7 @@ class LedgerControllerTest {
         @Nested
         class Failure {
 
-            private static final String INVALID_AMOUNT = "5";
+            private static final String INVALID_AMOUNT = "950";
             private static final String INVALID_TRUNCATION_SCALE = "7";
 
             @DisplayName("예산 쿼리 파라미터 미전달 시 예외처리")
@@ -229,7 +225,7 @@ class LedgerControllerTest {
                         .andExpect(status().isBadRequest());
             }
 
-            @DisplayName("10 미만의 예산 쿼리 파라미터 전달 시 예외처리")
+            @DisplayName("1000 미만의 예산 쿼리 파라미터 전달 시 예외처리")
             @Test
             void amountLessThan10() throws Exception {
                 mockMvc.perform(get("/v1.0/customer/ledgers/budget-recommendation")

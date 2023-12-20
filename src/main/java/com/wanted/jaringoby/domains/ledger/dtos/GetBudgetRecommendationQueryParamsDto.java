@@ -12,17 +12,15 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-@Getter
 public class GetBudgetRecommendationQueryParamsDto {
 
     @NotNull(groups = MissingValueGroup.class)
-    @Min(groups = RangeGroup.class, value = 10)
+    @Min(groups = RangeGroup.class, value = 1000)
     private Long amount;
 
     @Size(groups = ElementCountGroup.class, min = 2)
@@ -31,7 +29,15 @@ public class GetBudgetRecommendationQueryParamsDto {
     @Pattern(groups = PatternMatchesGroup.class, regexp = "^10+$")
     private String truncationScale;
 
+    public Long getAmount() {
+        return amount;
+    }
+
+    public List<String> getCategories() {
+        return categories;
+    }
+
     public Long getTruncationScale() {
-        return Long.valueOf(truncationScale);
+        return truncationScale == null ? 10L : Long.parseLong(truncationScale);
     }
 }
