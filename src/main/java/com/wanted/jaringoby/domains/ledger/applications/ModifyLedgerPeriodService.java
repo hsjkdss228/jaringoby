@@ -1,9 +1,7 @@
 package com.wanted.jaringoby.domains.ledger.applications;
 
-import static com.wanted.jaringoby.common.constants.Date.TODAY;
-
+import com.wanted.jaringoby.common.constants.Date;
 import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.domains.ledger.repositories.LedgerRepository;
 import com.wanted.jaringoby.domains.ledger.dtos.ModifyLedgerPeriodRequestDto;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerNotFoundException;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerNotOwnedException;
@@ -12,6 +10,7 @@ import com.wanted.jaringoby.domains.ledger.exceptions.LedgerPeriodInvalidExcepti
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerPeriodOverlappedException;
 import com.wanted.jaringoby.domains.ledger.models.ledger.Ledger;
 import com.wanted.jaringoby.domains.ledger.models.ledger.LedgerId;
+import com.wanted.jaringoby.domains.ledger.repositories.LedgerRepository;
 import java.time.LocalDate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,13 +61,13 @@ public class ModifyLedgerPeriodService {
 
         if (ledger.isInProgress()
                 && (ledger.startDateIsDifferentFrom(startDate)
-                || endDate.isBefore(TODAY))
+                || endDate.isBefore(Date.today()))
         ) {
             throw new LedgerPeriodInvalidException();
         }
 
         if (ledger.hasNotStarted()
-                && (startDate.isBefore(TODAY)
+                && (startDate.isBefore(Date.today())
                 || endDate.isBefore(startDate))) {
             throw new LedgerPeriodInvalidException();
         }

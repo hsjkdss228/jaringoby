@@ -1,8 +1,8 @@
 package com.wanted.jaringoby.domains.ledger.repositories;
 
-import static com.wanted.jaringoby.common.constants.DateTime.NOW;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.wanted.jaringoby.common.constants.DateTime;
 import com.wanted.jaringoby.config.jpa.JpaTestConfig;
 import com.wanted.jaringoby.domains.category.models.Category;
 import com.wanted.jaringoby.domains.ledger.dtos.query.LedgerIdAndBudgetsQueryResultDto;
@@ -78,13 +78,13 @@ class BudgetQueryDslRepositoryImplTest {
                             """,
 
                     CUSTOMER_ID_1, "customer1", "Password!1", true, true,
-                    NOW.minusMonths(1), NOW.minusMonths(1),
+                    DateTime.now().minusMonths(1), DateTime.now().minusMonths(1),
 
                     CUSTOMER_ID_2, "customer2", "Password@2", true, true,
-                    NOW.minusMonths(1), NOW.minusMonths(1),
+                    DateTime.now().minusMonths(1), DateTime.now().minusMonths(1),
 
                     CUSTOMER_ID_3, "customer3", "Password#3", true, true,
-                    NOW.minusMonths(1), NOW.minusMonths(1));
+                    DateTime.now().minusMonths(1), DateTime.now().minusMonths(1));
 
             jdbcTemplate.update("""
                             INSERT INTO ledgers(id, customer_id, start_date, end_date,
@@ -95,17 +95,21 @@ class BudgetQueryDslRepositoryImplTest {
                             (?, ?, ?, ?, ?, ?)
                             """,
 
-                    LEDGER_ID_1, CUSTOMER_ID_1, NOW.minusDays(21), NOW.minusDays(14),
-                    NOW.minusDays(21), NOW.minusDays(21),
+                    LEDGER_ID_1, CUSTOMER_ID_1, DateTime.now().minusDays(21),
+                    DateTime.now().minusDays(14),
+                    DateTime.now().minusDays(21), DateTime.now().minusDays(21),
 
-                    LEDGER_ID_2, CUSTOMER_ID_2, NOW.minusDays(3), NOW.plusDays(4),
-                    NOW.minusDays(3), NOW.minusDays(3),
+                    LEDGER_ID_2, CUSTOMER_ID_2, DateTime.now().minusDays(3),
+                    DateTime.now().plusDays(4),
+                    DateTime.now().minusDays(3), DateTime.now().minusDays(3),
 
-                    LEDGER_ID_3, CUSTOMER_ID_3, NOW.minusWeeks(2), NOW.plusWeeks(2),
-                    NOW.minusWeeks(2), NOW.minusWeeks(2),
+                    LEDGER_ID_3, CUSTOMER_ID_3, DateTime.now().minusWeeks(2),
+                    DateTime.now().plusWeeks(2),
+                    DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(2),
 
-                    LEDGER_ID_4, CUSTOMER_ID_3, NOW.plusDays(7), NOW.plusDays(14),
-                    NOW, NOW);
+                    LEDGER_ID_4, CUSTOMER_ID_3, DateTime.now().plusDays(7),
+                    DateTime.now().plusDays(14),
+                    DateTime.now(), DateTime.now());
 
             jdbcTemplate.update("""
                             INSERT INTO budgets(id, ledger_id, category, amount,
@@ -127,30 +131,30 @@ class BudgetQueryDslRepositoryImplTest {
                             """,
 
                     BUDGET_ID_1, LEDGER_ID_1, Category.Meal.name(), 10_000L,
-                    NOW.minusDays(21), NOW.minusDays(21),
+                    DateTime.now().minusDays(21), DateTime.now().minusDays(21),
                     BUDGET_ID_2, LEDGER_ID_1, Category.Leisure.name(), 5_000L,
-                    NOW.minusDays(21), NOW.minusDays(21),
+                    DateTime.now().minusDays(21), DateTime.now().minusDays(21),
                     BUDGET_ID_3, LEDGER_ID_1, Category.Living.name(), 3_000L,
-                    NOW.minusDays(21), NOW.minusDays(21),
+                    DateTime.now().minusDays(21), DateTime.now().minusDays(21),
 
                     BUDGET_ID_4, LEDGER_ID_2, Category.Meal.name(), 120_000L,
-                    NOW.minusDays(3), NOW.minusDays(3),
+                    DateTime.now().minusDays(3), DateTime.now().minusDays(3),
                     BUDGET_ID_5, LEDGER_ID_2, Category.Leisure.name(), 50_000L,
-                    NOW.minusDays(3), NOW.minusDays(3),
+                    DateTime.now().minusDays(3), DateTime.now().minusDays(3),
                     BUDGET_ID_6, LEDGER_ID_2, Category.Living.name(), 5_000L,
-                    NOW.minusDays(3), NOW.minusDays(3),
+                    DateTime.now().minusDays(3), DateTime.now().minusDays(3),
 
                     BUDGET_ID_7, LEDGER_ID_3, Category.Meal.name(), 100_000L,
-                    NOW.minusWeeks(2), NOW.minusWeeks(2),
+                    DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(2),
                     BUDGET_ID_8, LEDGER_ID_3, Category.Leisure.name(), 60_000L,
-                    NOW.minusWeeks(2), NOW.minusWeeks(2),
+                    DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(2),
                     BUDGET_ID_9, LEDGER_ID_3, Category.Living.name(), 2_000L,
-                    NOW.minusWeeks(2), NOW.minusWeeks(2),
+                    DateTime.now().minusWeeks(2), DateTime.now().minusWeeks(2),
 
                     BUDGET_ID_10, LEDGER_ID_4, Category.Transportation.name(), 300_000L,
-                    NOW, NOW,
+                    DateTime.now(), DateTime.now(),
                     BUDGET_ID_11, LEDGER_ID_4, Category.PersonalDevelopment.name(), 200_000L,
-                    NOW, NOW);
+                    DateTime.now(), DateTime.now());
         }
 
         @DisplayName("모든 Ledger들과 연관된 모든 Budget들을 쿼리해 LedgerId 별로 집계")
