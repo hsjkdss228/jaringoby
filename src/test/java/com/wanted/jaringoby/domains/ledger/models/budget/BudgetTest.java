@@ -18,9 +18,9 @@ class BudgetTest {
     @DisplayName("calculatePercentage")
     @Test
     void calculatePercentage() {
-        Budget budget = Budget.builder()
+        Budget budget = Budget.testBuilder()
                 .amount(Money.of(1_000L))
-                .build();
+                .testBuild();
 
         budget.calculatePercentage(Money.of(50_000L));
 
@@ -47,18 +47,18 @@ class BudgetTest {
         @Test
         void reflectPercentage() {
             List<Budget> budgets = List.of(
-                    Budget.builder()
+                    Budget.testBuilder()
                             .category(Category.Living)
                             .amount(Money.of(1_000L))
-                            .build(),
-                    Budget.builder()
+                            .testBuild(),
+                    Budget.testBuilder()
                             .category(Category.Transportation)
                             .amount(Money.of(5_000L))
-                            .build(),
-                    Budget.builder()
+                            .testBuild(),
+                    Budget.testBuilder()
                             .category(Category.Transportation)
                             .amount(Money.of(10_000L))
-                            .build());
+                            .testBuild());
 
             budgets.forEach(budget -> budget.addPercentageByCategory(
                     categoriesAndPercentages,
@@ -76,10 +76,10 @@ class BudgetTest {
         @DisplayName("대상 카테고리로 지정되지 않은 경우 비중 평균을 집계하지 않음")
         @Test
         void doesNotReflectPercentage() {
-            Budget budget = Budget.builder()
+            Budget budget = Budget.testBuilder()
                     .category(Category.Meal)
                     .amount(Money.of(500_000L))
-                    .build();
+                    .testBuild();
 
             budget.addPercentageByCategory(categoriesAndPercentages, TARGET_CATEGORIES);
 

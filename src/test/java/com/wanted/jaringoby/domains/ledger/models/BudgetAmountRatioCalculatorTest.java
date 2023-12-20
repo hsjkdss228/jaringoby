@@ -36,23 +36,23 @@ class BudgetAmountRatioCalculatorTest {
             void toLedgerIdsAndBudgetAmountSums() {
                 Map<LedgerId, List<Budget>> ledgerIdsAndBudgets = Map.of(
                         LedgerId.of("LEDGER_1"), List.of(
-                                Budget.builder()
+                                Budget.testBuilder()
                                         .amount(Money.of(100_000L))
-                                        .build(),
-                                Budget.builder()
+                                        .testBuild(),
+                                Budget.testBuilder()
                                         .amount(Money.of(30_000L))
-                                        .build(),
-                                Budget.builder()
+                                        .testBuild(),
+                                Budget.testBuilder()
                                         .amount(Money.of(50_000L))
-                                        .build()
+                                        .testBuild()
                         ),
                         LedgerId.of("LEDGER_2"), List.of(
-                                Budget.builder()
+                                Budget.testBuilder()
                                         .amount(Money.of(5_000L))
-                                        .build(),
-                                Budget.builder()
+                                        .testBuild(),
+                                Budget.testBuilder()
                                         .amount(Money.of(12_000L))
-                                        .build()
+                                        .testBuild()
                         )
                 );
 
@@ -77,21 +77,21 @@ class BudgetAmountRatioCalculatorTest {
             void calculatePercentages() {
                 LedgerId ledgerId1 = LedgerId.of("LEDGER_1");
 
-                Budget budget1 = Budget.builder()
+                Budget budget1 = Budget.testBuilder()
                         .amount(Money.of(60_000L))
-                        .build();
-                Budget budget2 = Budget.builder()
+                        .testBuild();
+                Budget budget2 = Budget.testBuilder()
                         .amount(Money.of(40_000L))
-                        .build();
+                        .testBuild();
 
                 LedgerId ledgerId2 = LedgerId.of("LEDGER_2");
 
-                Budget budget3 = Budget.builder()
+                Budget budget3 = Budget.testBuilder()
                         .amount(Money.of(1_000L))
-                        .build();
-                Budget budget4 = Budget.builder()
+                        .testBuild();
+                Budget budget4 = Budget.testBuilder()
                         .amount(Money.of(2_000L))
-                        .build();
+                        .testBuild();
 
                 Map<LedgerId, List<Budget>> ledgerIdsAndBudgets = Map.of(
                         ledgerId1, List.of(budget1, budget2),
@@ -123,25 +123,25 @@ class BudgetAmountRatioCalculatorTest {
             void toCategoriesAndPercentageAverages() {
                 LedgerId ledgerId1 = LedgerId.of("LEDGER_1");
 
-                Budget budget1 = Budget.builder()
+                Budget budget1 = Budget.testBuilder()
                         .category(Category.Living)
                         .percentage(Percentage.of(.6D))
-                        .build();
-                Budget budget2 = Budget.builder()
+                        .testBuild();
+                Budget budget2 = Budget.testBuilder()
                         .category(Category.Leisure)
                         .percentage(Percentage.of(.4D))
-                        .build();
+                        .testBuild();
 
                 LedgerId ledgerId2 = LedgerId.of("LEDGER_2");
 
-                Budget budget3 = Budget.builder()
+                Budget budget3 = Budget.testBuilder()
                         .category(Category.Living)
                         .percentage(Percentage.of(.75D))
-                        .build();
-                Budget budget4 = Budget.builder()
+                        .testBuild();
+                Budget budget4 = Budget.testBuilder()
                         .category(Category.Transportation)
                         .percentage(Percentage.of(.25D))
-                        .build();
+                        .testBuild();
 
                 Map<LedgerId, List<Budget>> ledgerIdsAndBudgets = Map.of(
                         ledgerId1, List.of(budget1, budget2),
@@ -179,48 +179,48 @@ class BudgetAmountRatioCalculatorTest {
         void calculateByCategory() {
             LedgerId ledgerId1 = LedgerId.of("LEDGER_1");
 
-            Budget budget1 = Budget.builder()
+            Budget budget1 = Budget.testBuilder()
                     .category(Category.Meal)
                     .amount(Money.of(300_000L))
-                    .build();
-            Budget budget2 = Budget.builder()
+                    .testBuild();
+            Budget budget2 = Budget.testBuilder()
                     .category(Category.Transportation)
                     .amount(Money.of(150_000L))
-                    .build();
-            Budget budget3 = Budget.builder()
+                    .testBuild();
+            Budget budget3 = Budget.testBuilder()
                     .category(Category.Leisure)
                     .amount(Money.of(1_000_000L))
-                    .build();
+                    .testBuild();
 
             LedgerId ledgerId2 = LedgerId.of("LEDGER_2");
 
-            Budget budget4 = Budget.builder()
+            Budget budget4 = Budget.testBuilder()
                     .category(Category.Meal)
                     .amount(Money.of(800_000L))
-                    .build();
-            Budget budget5 = Budget.builder()
+                    .testBuild();
+            Budget budget5 = Budget.testBuilder()
                     .category(Category.Transportation)
                     .amount(Money.of(600_000L))
-                    .build();
-            Budget budget6 = Budget.builder()
+                    .testBuild();
+            Budget budget6 = Budget.testBuilder()
                     .category(Category.Living)
                     .amount(Money.of(500_000L))
-                    .build();
+                    .testBuild();
 
             LedgerId ledgerId3 = LedgerId.of("LEDGER_3");
 
-            Budget budget7 = Budget.builder()
+            Budget budget7 = Budget.testBuilder()
                     .category(Category.Meal)
                     .amount(Money.of(500_000L))
-                    .build();
-            Budget budget8 = Budget.builder()
+                    .testBuild();
+            Budget budget8 = Budget.testBuilder()
                     .category(Category.Living)
                     .amount(Money.of(500_000L))
-                    .build();
-            Budget budget9 = Budget.builder()
+                    .testBuild();
+            Budget budget9 = Budget.testBuilder()
                     .category(Category.PersonalDevelopment)
                     .amount(Money.of(150_000L))
-                    .build();
+                    .testBuild();
 
             Map<LedgerId, List<Budget>> ledgerIdsAndBudgets = Map.of(
                     ledgerId1, List.of(budget1, budget2, budget3),

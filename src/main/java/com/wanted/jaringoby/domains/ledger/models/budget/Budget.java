@@ -56,9 +56,21 @@ public class Budget {
     @Transient
     private Percentage percentage;
 
-    // TODO: private 정의, Percentage를 전달받아 생성하는 TestBuilder 정의해 다른 @Builder로 분리
     @Builder
-    public Budget(
+    private Budget(
+            String id,
+            LedgerId ledgerId,
+            Category category,
+            Money amount
+    ) {
+        this.id = BudgetId.of(id);
+        this.ledgerId = ledgerId;
+        this.category = category;
+        this.amount = amount;
+    }
+
+    @Builder(builderMethodName = "testBuilder", buildMethodName = "testBuild")
+    private Budget(
             String id,
             LedgerId ledgerId,
             Category category,

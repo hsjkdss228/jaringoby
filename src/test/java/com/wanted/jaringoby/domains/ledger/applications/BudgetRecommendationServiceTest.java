@@ -70,65 +70,65 @@ class BudgetRecommendationServiceTest {
                         = LedgerIdAndBudgetsQueryResultDto.builder()
                         .ledgerIdsAndBudgets(Map.of(
                                 LEDGER_ID_1, List.of(
-                                        Budget.builder()
+                                        Budget.testBuilder()
                                                 .ledgerId(LEDGER_ID_1)
                                                 .category(Category.Meal)
                                                 .amount(Money.of(1_000_000L))
-                                                .build(),
-                                        Budget.builder()
+                                                .testBuild(),
+                                        Budget.testBuilder()
                                                 .ledgerId(LEDGER_ID_1)
                                                 .category(Category.Transportation)
                                                 .amount(Money.of(700_000L))
-                                                .build(),
-                                        Budget.builder()
+                                                .testBuild(),
+                                        Budget.testBuilder()
                                                 .ledgerId(LEDGER_ID_1)
                                                 .category(Category.Leisure)
                                                 .amount(Money.of(200_000L))
-                                                .build(),
-                                        Budget.builder()
+                                                .testBuild(),
+                                        Budget.testBuilder()
                                                 .ledgerId(LEDGER_ID_1)
                                                 .category(Category.EtCetera)
                                                 .amount(Money.of(100_000L))
-                                                .build()
+                                                .testBuild()
                                 ),
                                 LEDGER_ID_2, List.of(
-                                        Budget.builder()
+                                        Budget.testBuilder()
                                                 .ledgerId(LEDGER_ID_2)
                                                 .category(Category.Meal)
                                                 .amount(Money.of(500_000L))
-                                                .build(),
-                                        Budget.builder()
+                                                .testBuild(),
+                                        Budget.testBuilder()
                                                 .ledgerId(LEDGER_ID_2)
                                                 .category(Category.Transportation)
                                                 .amount(Money.of(200_000L))
-                                                .build(),
-                                        Budget.builder()
+                                                .testBuild(),
+                                        Budget.testBuilder()
                                                 .ledgerId(LEDGER_ID_2)
                                                 .category(Category.Leisure)
                                                 .amount(Money.of(50_000L))
-                                                .build()
+                                                .testBuild()
                                 ),
                                 LEDGER_ID_3, List.of(
-                                        Budget.builder()
+                                        Budget.testBuilder()
                                                 .ledgerId(LEDGER_ID_2)
                                                 .category(Category.Meal)
                                                 .amount(Money.of(700_000L))
-                                                .build(),
-                                        Budget.builder()
+                                                .testBuild(),
+                                        Budget.testBuilder()
                                                 .ledgerId(LEDGER_ID_2)
                                                 .category(Category.Transportation)
                                                 .amount(Money.of(500_000L))
-                                                .build(),
-                                        Budget.builder()
+                                                .testBuild(),
+                                        Budget.testBuilder()
                                                 .ledgerId(LEDGER_ID_2)
                                                 .category(Category.Leisure)
                                                 .amount(Money.of(100_000L))
-                                                .build(),
-                                        Budget.builder()
+                                                .testBuild(),
+                                        Budget.testBuilder()
                                                 .ledgerId(LEDGER_ID_2)
                                                 .category(Category.Living)
                                                 .amount(Money.of(100_000L))
-                                                .build()
+                                                .testBuild()
                                 )
                         ))
                         .build();

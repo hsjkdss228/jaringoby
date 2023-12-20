@@ -81,15 +81,15 @@ class ModifyLedgerBudgetsServiceTest {
             given(ledgerRepository.findById(LedgerId.of(LEDGER_ID)))
                     .willReturn(Optional.of(ledger));
 
-            existingAndGivenBudget1 = spy(Budget.builder()
+            existingAndGivenBudget1 = spy(Budget.testBuilder()
                     .category(Category.Meal)
                     .amount(Money.of(1_000_000L))
-                    .build()
+                    .testBuild()
             );
-            existingButNotGivenBudget2 = spy(Budget.builder()
+            existingButNotGivenBudget2 = spy(Budget.testBuilder()
                     .category(Category.Transportation)
                     .amount(Money.of(200_000L))
-                    .build()
+                    .testBuild()
             );
 
             given(budgetRepository.findByLedgerId(LedgerId.of(LEDGER_ID)))
