@@ -1,7 +1,10 @@
-package com.wanted.jaringoby.session.dtos;
+package com.wanted.jaringoby.domains.ledger.dtos.http;
 
 import com.wanted.jaringoby.common.validations.groups.MissingValueGroup;
+import com.wanted.jaringoby.common.validations.groups.RangeGroup;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,11 +15,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @Getter
-public class LoginRequestDto {
+public class BudgetRequestDto {
 
     @NotBlank(groups = MissingValueGroup.class)
-    private String username;
+    private String category;
 
-    @NotBlank(groups = MissingValueGroup.class)
-    private String password;
+    @NotNull(groups = MissingValueGroup.class)
+    @Min(groups = RangeGroup.class, value = 1)
+    private Long amount;
 }

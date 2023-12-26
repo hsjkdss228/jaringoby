@@ -2,7 +2,7 @@ package com.wanted.jaringoby.domains.category.applications;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.wanted.jaringoby.domains.category.dtos.GetCategoryListResponseDto;
+import com.wanted.jaringoby.domains.category.dtos.http.GetCategoryListResponseDto;
 import com.wanted.jaringoby.domains.category.models.Category;
 import java.util.Arrays;
 import java.util.List;

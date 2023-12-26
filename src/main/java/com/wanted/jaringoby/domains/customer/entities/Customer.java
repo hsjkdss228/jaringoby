@@ -1,6 +1,6 @@
 package com.wanted.jaringoby.domains.customer.entities;
 
-import com.wanted.jaringoby.domains.customer.dtos.CreateCustomerResponseDto;
+import com.wanted.jaringoby.domains.customer.dtos.http.CreateCustomerResponseDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;

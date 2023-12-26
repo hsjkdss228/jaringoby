@@ -1,10 +1,8 @@
-package com.wanted.jaringoby.domains.ledger.dtos;
+package com.wanted.jaringoby.domains.ledger.dtos.http;
 
-import com.wanted.jaringoby.common.validations.groups.RangeGroup;
 import com.wanted.jaringoby.common.validations.groups.MissingValueGroup;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,12 +13,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @Getter
-public class BudgetRequestDto {
-
-    @NotBlank(groups = MissingValueGroup.class)
-    private String category;
+public class ModifyLedgerPeriodRequestDto {
 
     @NotNull(groups = MissingValueGroup.class)
-    @Min(groups = RangeGroup.class, value = 1)
-    private Long amount;
+    private LocalDate startDate;
+
+    @NotNull(groups = MissingValueGroup.class)
+    private LocalDate endDate;
 }

@@ -1,8 +1,8 @@
 package com.wanted.jaringoby.domains.category.controllers;
 
-import com.wanted.jaringoby.domains.category.applications.GetCategoryListService;
-import com.wanted.jaringoby.domains.category.dtos.GetCategoryListResponseDto;
 import com.wanted.jaringoby.common.response.Response;
+import com.wanted.jaringoby.domains.category.applications.GetCategoryListService;
+import com.wanted.jaringoby.domains.category.dtos.http.GetCategoryListResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;

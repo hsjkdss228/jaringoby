@@ -2,7 +2,7 @@ package com.wanted.jaringoby.session.controllers;
 
 import com.wanted.jaringoby.common.response.Response;
 import com.wanted.jaringoby.session.applications.ReissueAccessTokenService;
-import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResponseDto;
+import com.wanted.jaringoby.session.dtos.http.ReissueAccessTokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;

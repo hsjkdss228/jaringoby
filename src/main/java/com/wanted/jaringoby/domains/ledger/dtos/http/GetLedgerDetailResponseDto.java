@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.domains.ledger.dtos;
+package com.wanted.jaringoby.domains.ledger.dtos.http;
 
 import java.time.LocalDate;
 import java.util.List;
