@@ -38,7 +38,9 @@ public class BudgetAmountTruncator {
 
             Category category = biggestCategoryAndMoney.getKey();
             Money biggestMoney = biggestCategoryAndMoney.getValue();
-            Money adjusted = biggestMoney.subtract(Money.of(truncationScale));
+            Money excess = truncatedAmountSum.subtract(totalAmount);
+            Money adjusted = biggestMoney.subtract(excess)
+                    .floor(truncationScale);
 
             categoriesAndTruncatedAmounts.put(category, adjusted);
         }
