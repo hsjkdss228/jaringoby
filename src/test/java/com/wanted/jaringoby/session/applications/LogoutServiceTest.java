@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import com.wanted.jaringoby.session.repositories.CustomerRefreshTokenRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

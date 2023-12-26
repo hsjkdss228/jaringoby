@@ -18,12 +18,12 @@ import com.wanted.jaringoby.domains.category.exceptions.CategoryNotFoundExceptio
 import com.wanted.jaringoby.domains.category.models.Category;
 import com.wanted.jaringoby.domains.ledger.dtos.BudgetRequestDto;
 import com.wanted.jaringoby.domains.ledger.dtos.ModifyLedgerBudgetsRequestDto;
+import com.wanted.jaringoby.domains.ledger.entities.budget.Budget;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.Ledger;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.LedgerId;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerNotFoundException;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerNotOwnedException;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerPeriodEndedException;
-import com.wanted.jaringoby.domains.ledger.models.budget.Budget;
-import com.wanted.jaringoby.domains.ledger.models.ledger.Ledger;
-import com.wanted.jaringoby.domains.ledger.models.ledger.LedgerId;
 import com.wanted.jaringoby.domains.ledger.repositories.BudgetRepository;
 import com.wanted.jaringoby.domains.ledger.repositories.LedgerRepository;
 import java.time.LocalDate;

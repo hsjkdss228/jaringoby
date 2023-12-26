@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.wanted.jaringoby.common.config.jwt.JwtConfig;
 import com.wanted.jaringoby.common.config.security.SecurityConfig;
 import com.wanted.jaringoby.common.utils.JwtUtil;
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import com.wanted.jaringoby.domains.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.session.applications.ReissueAccessTokenService;
 import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResponseDto;

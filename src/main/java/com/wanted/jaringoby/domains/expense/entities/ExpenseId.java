@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.domains.expense.models;
+package com.wanted.jaringoby.domains.expense.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

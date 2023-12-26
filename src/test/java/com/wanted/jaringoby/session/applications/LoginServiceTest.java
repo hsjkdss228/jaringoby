@@ -10,8 +10,8 @@ import static org.mockito.Mockito.verify;
 
 import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.common.utils.UlidGenerator;
+import com.wanted.jaringoby.domains.customer.entities.Customer;
 import com.wanted.jaringoby.domains.customer.exceptions.CustomerNotFoundException;
-import com.wanted.jaringoby.domains.customer.models.customer.Customer;
 import com.wanted.jaringoby.domains.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.session.dtos.LoginRequestDto;
 import com.wanted.jaringoby.session.dtos.LoginResponseDto;

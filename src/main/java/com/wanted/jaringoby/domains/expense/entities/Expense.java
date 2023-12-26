@@ -1,9 +1,9 @@
-package com.wanted.jaringoby.domains.expense.models;
+package com.wanted.jaringoby.domains.expense.entities;
 
-import com.wanted.jaringoby.domains.category.models.Category;
 import com.wanted.jaringoby.common.converters.MoneyConverter;
 import com.wanted.jaringoby.common.models.Money;
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.category.models.Category;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;

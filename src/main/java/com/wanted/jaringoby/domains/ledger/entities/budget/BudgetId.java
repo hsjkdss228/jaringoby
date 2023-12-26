@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.domains.ledger.models.ledger;
+package com.wanted.jaringoby.domains.ledger.entities.budget;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
-public class LedgerId implements Serializable {
+public class BudgetId implements Serializable {
 
     @Column(name = "id")
     private String value;
 
-    public static LedgerId of(String value) {
-        return new LedgerId(value);
+    public static BudgetId of(String value) {
+        return new BudgetId(value);
     }
 
     public String value() {

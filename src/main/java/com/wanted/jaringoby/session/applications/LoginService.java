@@ -2,14 +2,14 @@ package com.wanted.jaringoby.session.applications;
 
 import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.common.utils.UlidGenerator;
+import com.wanted.jaringoby.domains.customer.entities.Customer;
 import com.wanted.jaringoby.domains.customer.exceptions.CustomerNotFoundException;
-import com.wanted.jaringoby.session.repositories.CustomerRefreshTokenRepository;
-import com.wanted.jaringoby.session.exceptions.CustomerPasswordMismatchedException;
-import com.wanted.jaringoby.domains.customer.models.customer.Customer;
 import com.wanted.jaringoby.domains.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.session.dtos.LoginRequestDto;
 import com.wanted.jaringoby.session.dtos.LoginResponseDto;
 import com.wanted.jaringoby.session.entities.CustomerRefreshToken;
+import com.wanted.jaringoby.session.exceptions.CustomerPasswordMismatchedException;
+import com.wanted.jaringoby.session.repositories.CustomerRefreshTokenRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,7 @@ public class LoginService {
     private final UlidGenerator ulidGenerator;
     private final JwtUtil jwtUtil;
 
+    // TODO: SCREAMING_SNAKE_CASE로 컨벤션 수정
     private final Long maxSessionsCount;
 
     public LoginService(

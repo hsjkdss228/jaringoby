@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.domains.ledger.models.budget;
+package com.wanted.jaringoby.domains.ledger.entities.budget;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

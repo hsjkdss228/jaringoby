@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.domains.customer.models.customer;
+package com.wanted.jaringoby.domains.ledger.entities.ledger;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
-public class CustomerId implements Serializable {
+public class LedgerId implements Serializable {
 
     @Column(name = "id")
     private String value;
 
-    public static CustomerId of(String value) {
-        return new CustomerId(value);
+    public static LedgerId of(String value) {
+        return new LedgerId(value);
     }
 
     public String value() {

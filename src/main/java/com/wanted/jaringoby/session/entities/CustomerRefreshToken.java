@@ -1,8 +1,8 @@
 package com.wanted.jaringoby.session.entities;
 
 import com.wanted.jaringoby.common.utils.JwtUtil;
-import com.wanted.jaringoby.domains.customer.models.customer.Customer;
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.entities.Customer;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;

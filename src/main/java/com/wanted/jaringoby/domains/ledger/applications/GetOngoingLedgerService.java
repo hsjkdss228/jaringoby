@@ -1,12 +1,12 @@
 package com.wanted.jaringoby.domains.ledger.applications;
 
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import com.wanted.jaringoby.domains.ledger.dtos.GetLedgerDetailResponseDto;
+import com.wanted.jaringoby.domains.ledger.entities.budget.Budget;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.Ledger;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerOngoingNotFound;
 import com.wanted.jaringoby.domains.ledger.repositories.BudgetRepository;
 import com.wanted.jaringoby.domains.ledger.repositories.LedgerRepository;
-import com.wanted.jaringoby.domains.ledger.models.budget.Budget;
-import com.wanted.jaringoby.domains.ledger.models.ledger.Ledger;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

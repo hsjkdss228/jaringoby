@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.domains.ledger.models.ledger;
+package com.wanted.jaringoby.domains.ledger.entities.ledger;
 
 import com.wanted.jaringoby.common.constants.Date;
 import jakarta.persistence.Column;

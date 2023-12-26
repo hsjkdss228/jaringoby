@@ -11,7 +11,7 @@ import com.wanted.jaringoby.common.config.security.SecurityConfig;
 import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.domains.category.applications.GetCategoryListService;
 import com.wanted.jaringoby.domains.category.dtos.GetCategoryListResponseDto;
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import com.wanted.jaringoby.domains.customer.repositories.CustomerRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

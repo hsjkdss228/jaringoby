@@ -10,12 +10,12 @@ import static org.mockito.Mockito.verify;
 
 import com.wanted.jaringoby.common.models.Money;
 import com.wanted.jaringoby.domains.category.models.Category;
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import com.wanted.jaringoby.domains.ledger.dtos.GetLedgerDetailResponseDto;
+import com.wanted.jaringoby.domains.ledger.entities.budget.Budget;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.Ledger;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.LedgerId;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerOngoingNotFound;
-import com.wanted.jaringoby.domains.ledger.models.budget.Budget;
-import com.wanted.jaringoby.domains.ledger.models.ledger.Ledger;
-import com.wanted.jaringoby.domains.ledger.models.ledger.LedgerId;
 import com.wanted.jaringoby.domains.ledger.repositories.BudgetRepository;
 import com.wanted.jaringoby.domains.ledger.repositories.LedgerRepository;
 import java.time.LocalDate;
@@ -97,7 +97,7 @@ class GetOngoingLedgerServiceTest {
     @Nested
     class Failure {
 
-        @DisplayName("진행 중인 Ledger 존재하지 않는 경우, 예외 발생")
+        @DisplayName("진행 중인 Ledger 존재하지 않는 경우 예외 발생")
         @Test
         void ledgerOngoingNotFound() {
             given(ledgerRepository.findByCustomerIdAndOngoing(any(CustomerId.class)))

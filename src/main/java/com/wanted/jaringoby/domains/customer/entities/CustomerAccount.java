@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.domains.customer.models.customer;
+package com.wanted.jaringoby.domains.customer.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
