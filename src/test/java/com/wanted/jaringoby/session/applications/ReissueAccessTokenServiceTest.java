@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 
 import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.domains.customer.entities.CustomerId;
-import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResponseDto;
+import com.wanted.jaringoby.session.dtos.http.ReissueAccessTokenResponseDto;
 import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNotFoundException;
 import com.wanted.jaringoby.session.repositories.CustomerRefreshTokenRepository;
 import org.junit.jupiter.api.BeforeEach;

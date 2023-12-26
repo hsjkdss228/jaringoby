@@ -7,9 +7,9 @@ import com.wanted.jaringoby.domains.category.exceptions.CategoryDuplicatedExcept
 import com.wanted.jaringoby.domains.category.exceptions.CategoryNotFoundException;
 import com.wanted.jaringoby.domains.category.models.Category;
 import com.wanted.jaringoby.domains.customer.entities.CustomerId;
-import com.wanted.jaringoby.domains.ledger.dtos.BudgetRequestDto;
-import com.wanted.jaringoby.domains.ledger.dtos.CreateLedgerRequestDto;
-import com.wanted.jaringoby.domains.ledger.dtos.CreateLedgerResponseDto;
+import com.wanted.jaringoby.domains.ledger.dtos.http.BudgetRequestDto;
+import com.wanted.jaringoby.domains.ledger.dtos.http.CreateLedgerRequestDto;
+import com.wanted.jaringoby.domains.ledger.dtos.http.CreateLedgerResponseDto;
 import com.wanted.jaringoby.domains.ledger.entities.budget.Budget;
 import com.wanted.jaringoby.domains.ledger.entities.ledger.Ledger;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerPeriodInvalidException;

@@ -13,7 +13,7 @@ import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import com.wanted.jaringoby.domains.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.session.applications.ReissueAccessTokenService;
-import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResponseDto;
+import com.wanted.jaringoby.session.dtos.http.ReissueAccessTokenResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

@@ -7,9 +7,9 @@ import static org.mockito.Mockito.mock;
 
 import com.wanted.jaringoby.common.models.Money;
 import com.wanted.jaringoby.domains.category.models.Category;
-import com.wanted.jaringoby.domains.ledger.dtos.BudgetRecommendationDto;
-import com.wanted.jaringoby.domains.ledger.dtos.GetBudgetRecommendationQueryParamsDto;
-import com.wanted.jaringoby.domains.ledger.dtos.GetBudgetRecommendationResponseDto;
+import com.wanted.jaringoby.domains.ledger.dtos.http.BudgetRecommendationDto;
+import com.wanted.jaringoby.domains.ledger.dtos.http.GetBudgetRecommendationQueryParamsDto;
+import com.wanted.jaringoby.domains.ledger.dtos.http.GetBudgetRecommendationResponseDto;
 import com.wanted.jaringoby.domains.ledger.dtos.query.LedgerIdAndBudgetsQueryResultDto;
 import com.wanted.jaringoby.domains.ledger.entities.budget.Budget;
 import com.wanted.jaringoby.domains.ledger.entities.ledger.LedgerId;

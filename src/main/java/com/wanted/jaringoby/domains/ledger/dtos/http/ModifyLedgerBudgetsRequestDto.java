@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.domains.ledger.dtos;
+package com.wanted.jaringoby.domains.ledger.dtos.http;
 
 import com.wanted.jaringoby.common.validations.groups.MissingValueGroup;
 import jakarta.validation.Valid;

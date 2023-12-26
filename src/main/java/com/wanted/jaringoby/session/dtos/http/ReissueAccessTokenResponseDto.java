@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.session.dtos;
+package com.wanted.jaringoby.session.dtos.http;
 
 import lombok.Builder;
 

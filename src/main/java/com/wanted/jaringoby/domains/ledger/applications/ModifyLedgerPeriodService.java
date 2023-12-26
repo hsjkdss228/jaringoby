@@ -2,7 +2,7 @@ package com.wanted.jaringoby.domains.ledger.applications;
 
 import com.wanted.jaringoby.common.constants.Date;
 import com.wanted.jaringoby.domains.customer.entities.CustomerId;
-import com.wanted.jaringoby.domains.ledger.dtos.ModifyLedgerPeriodRequestDto;
+import com.wanted.jaringoby.domains.ledger.dtos.http.ModifyLedgerPeriodRequestDto;
 import com.wanted.jaringoby.domains.ledger.entities.ledger.Ledger;
 import com.wanted.jaringoby.domains.ledger.entities.ledger.LedgerId;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerNotFoundException;

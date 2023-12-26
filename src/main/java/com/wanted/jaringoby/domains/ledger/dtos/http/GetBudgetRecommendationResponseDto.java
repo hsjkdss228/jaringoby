@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.domains.ledger.dtos;
+package com.wanted.jaringoby.domains.ledger.dtos.http;
 
 import com.wanted.jaringoby.common.models.Money;
 import com.wanted.jaringoby.domains.category.models.Category;

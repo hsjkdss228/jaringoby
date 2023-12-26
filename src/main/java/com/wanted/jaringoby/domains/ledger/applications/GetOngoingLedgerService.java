@@ -1,7 +1,7 @@
 package com.wanted.jaringoby.domains.ledger.applications;
 
 import com.wanted.jaringoby.domains.customer.entities.CustomerId;
-import com.wanted.jaringoby.domains.ledger.dtos.GetLedgerDetailResponseDto;
+import com.wanted.jaringoby.domains.ledger.dtos.http.GetLedgerDetailResponseDto;
 import com.wanted.jaringoby.domains.ledger.entities.budget.Budget;
 import com.wanted.jaringoby.domains.ledger.entities.ledger.Ledger;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerOngoingNotFound;

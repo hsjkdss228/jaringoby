@@ -11,7 +11,7 @@ import static org.mockito.Mockito.verify;
 import com.wanted.jaringoby.common.models.Money;
 import com.wanted.jaringoby.domains.category.models.Category;
 import com.wanted.jaringoby.domains.customer.entities.CustomerId;
-import com.wanted.jaringoby.domains.ledger.dtos.GetLedgerDetailResponseDto;
+import com.wanted.jaringoby.domains.ledger.dtos.http.GetLedgerDetailResponseDto;
 import com.wanted.jaringoby.domains.ledger.entities.budget.Budget;
 import com.wanted.jaringoby.domains.ledger.entities.ledger.Ledger;
 import com.wanted.jaringoby.domains.ledger.entities.ledger.LedgerId;

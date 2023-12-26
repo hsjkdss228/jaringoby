@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.domains.customer.dtos;
+package com.wanted.jaringoby.domains.customer.dtos.http;
 
 import lombok.Builder;
 

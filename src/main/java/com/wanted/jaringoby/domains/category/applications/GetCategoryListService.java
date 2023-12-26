@@ -1,6 +1,6 @@
 package com.wanted.jaringoby.domains.category.applications;
 
-import com.wanted.jaringoby.domains.category.dtos.GetCategoryListResponseDto;
+import com.wanted.jaringoby.domains.category.dtos.http.GetCategoryListResponseDto;
 import com.wanted.jaringoby.domains.category.models.Category;
 import java.util.Arrays;
 import java.util.List;
