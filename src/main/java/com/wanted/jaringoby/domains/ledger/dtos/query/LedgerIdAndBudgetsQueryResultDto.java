@@ -1,7 +1,7 @@
 package com.wanted.jaringoby.domains.ledger.dtos.query;
 
-import com.wanted.jaringoby.domains.ledger.models.budget.Budget;
-import com.wanted.jaringoby.domains.ledger.models.ledger.LedgerId;
+import com.wanted.jaringoby.domains.ledger.entities.budget.Budget;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.LedgerId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

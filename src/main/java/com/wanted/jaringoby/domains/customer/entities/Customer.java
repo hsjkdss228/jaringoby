@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.domains.customer.models.customer;
+package com.wanted.jaringoby.domains.customer.entities;
 
 import com.wanted.jaringoby.domains.customer.dtos.CreateCustomerResponseDto;
 import jakarta.persistence.Column;

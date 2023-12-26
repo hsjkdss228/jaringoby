@@ -13,7 +13,7 @@ import com.wanted.jaringoby.common.config.security.SecurityConfig;
 import com.wanted.jaringoby.common.config.validation.ValidationConfig;
 import com.wanted.jaringoby.common.utils.JwtUtil;
 import com.wanted.jaringoby.common.validations.BindingResultChecker;
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import com.wanted.jaringoby.domains.customer.repositories.CustomerRepository;
 import com.wanted.jaringoby.session.applications.LoginService;
 import com.wanted.jaringoby.session.applications.LogoutService;
@@ -54,7 +54,7 @@ class SessionControllerTest {
             private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
             private static final String REFRESH_TOKEN = "REFRESH_TOKEN";
 
-            @DisplayName("생성된 accessToken, refreshToken 식별자를 응답으로 반환")
+            @DisplayName("생성된 액세스 토큰, 리프레시 토큰 식별자를 응답으로 반환")
             @Test
             void create() throws Exception {
                 LoginResponseDto loginResponseDto = LoginResponseDto.builder()

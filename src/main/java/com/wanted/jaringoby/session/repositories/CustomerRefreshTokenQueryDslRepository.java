@@ -1,6 +1,6 @@
 package com.wanted.jaringoby.session.repositories;
 
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 
 public interface CustomerRefreshTokenQueryDslRepository {
 

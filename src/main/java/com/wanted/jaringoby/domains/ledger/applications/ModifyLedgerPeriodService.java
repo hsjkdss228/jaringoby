@@ -1,15 +1,15 @@
 package com.wanted.jaringoby.domains.ledger.applications;
 
 import com.wanted.jaringoby.common.constants.Date;
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import com.wanted.jaringoby.domains.ledger.dtos.ModifyLedgerPeriodRequestDto;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.Ledger;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.LedgerId;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerNotFoundException;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerNotOwnedException;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerPeriodEndedException;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerPeriodInvalidException;
 import com.wanted.jaringoby.domains.ledger.exceptions.LedgerPeriodOverlappedException;
-import com.wanted.jaringoby.domains.ledger.models.ledger.Ledger;
-import com.wanted.jaringoby.domains.ledger.models.ledger.LedgerId;
 import com.wanted.jaringoby.domains.ledger.repositories.LedgerRepository;
 import java.time.LocalDate;
 import org.springframework.stereotype.Service;

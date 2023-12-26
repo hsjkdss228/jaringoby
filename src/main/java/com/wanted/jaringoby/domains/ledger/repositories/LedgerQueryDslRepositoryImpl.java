@@ -5,9 +5,9 @@ import static com.wanted.jaringoby.domains.ledger.models.ledger.QLedger.ledger;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.wanted.jaringoby.common.constants.Date;
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.domains.ledger.models.ledger.Ledger;
-import com.wanted.jaringoby.domains.ledger.models.ledger.LedgerId;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.Ledger;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.LedgerId;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public class LedgerQueryDslRepositoryImpl implements LedgerQueryDslRepository {
 
     @Override
     public Optional<Ledger> findByCustomerIdAndOngoing(CustomerId customerId) {
-        Ledger fetch = jpaQueryFactory
+        Ledger fetched = jpaQueryFactory
                 .select(ledger)
                 .from(ledger)
                 .where(ledger.customerId.eq(customerId)
@@ -32,9 +32,7 @@ public class LedgerQueryDslRepositoryImpl implements LedgerQueryDslRepository {
                 .limit(1)
                 .fetchFirst();
 
-        System.out.println(fetch);
-
-        return fetch == null ? Optional.empty() : Optional.of(fetch);
+        return fetched == null ? Optional.empty() : Optional.of(fetched);
     }
 
     @Override

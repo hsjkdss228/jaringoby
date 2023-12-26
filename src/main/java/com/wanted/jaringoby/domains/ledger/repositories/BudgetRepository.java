@@ -1,8 +1,8 @@
 package com.wanted.jaringoby.domains.ledger.repositories;
 
-import com.wanted.jaringoby.domains.ledger.models.budget.Budget;
-import com.wanted.jaringoby.domains.ledger.models.budget.BudgetId;
-import com.wanted.jaringoby.domains.ledger.models.ledger.LedgerId;
+import com.wanted.jaringoby.domains.ledger.entities.budget.Budget;
+import com.wanted.jaringoby.domains.ledger.entities.budget.BudgetId;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.LedgerId;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

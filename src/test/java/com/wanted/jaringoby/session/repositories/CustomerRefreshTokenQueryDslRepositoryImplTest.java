@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.wanted.jaringoby.config.jpa.JpaTestConfig;
-import com.wanted.jaringoby.domains.customer.models.customer.Customer;
+import com.wanted.jaringoby.domains.customer.entities.Customer;
 import com.wanted.jaringoby.session.entities.CustomerRefreshToken;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;

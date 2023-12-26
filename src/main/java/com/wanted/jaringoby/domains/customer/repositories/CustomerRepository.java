@@ -1,7 +1,7 @@
 package com.wanted.jaringoby.domains.customer.repositories;
 
-import com.wanted.jaringoby.domains.customer.models.customer.Customer;
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.entities.Customer;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

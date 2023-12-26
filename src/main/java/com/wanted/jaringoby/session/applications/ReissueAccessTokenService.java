@@ -1,10 +1,10 @@
 package com.wanted.jaringoby.session.applications;
 
 import com.wanted.jaringoby.common.utils.JwtUtil;
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.session.repositories.CustomerRefreshTokenRepository;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import com.wanted.jaringoby.session.dtos.ReissueAccessTokenResponseDto;
 import com.wanted.jaringoby.session.exceptions.CustomerRefreshTokenNotFoundException;
+import com.wanted.jaringoby.session.repositories.CustomerRefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

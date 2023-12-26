@@ -1,11 +1,11 @@
-package com.wanted.jaringoby.domains.ledger.models.budget;
+package com.wanted.jaringoby.domains.ledger.entities.budget;
 
 import com.wanted.jaringoby.common.converters.MoneyConverter;
 import com.wanted.jaringoby.common.models.Money;
 import com.wanted.jaringoby.common.models.Percentage;
 import com.wanted.jaringoby.domains.category.models.Category;
 import com.wanted.jaringoby.domains.ledger.dtos.GetBudgetResponseDto;
-import com.wanted.jaringoby.domains.ledger.models.ledger.LedgerId;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.LedgerId;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;

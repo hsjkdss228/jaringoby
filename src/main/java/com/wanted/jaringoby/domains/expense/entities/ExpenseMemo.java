@@ -1,4 +1,4 @@
-package com.wanted.jaringoby.domains.expense.models;
+package com.wanted.jaringoby.domains.expense.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
-public class ExpenseProperty {
+public class ExpenseMemo {
 
-    @Column(name = "included_expense_sum")
-    private Boolean includedExpenseSum;
+    @Column(name = "memo")
+    private String value;
 }

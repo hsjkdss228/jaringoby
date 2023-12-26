@@ -11,6 +11,8 @@ import com.wanted.jaringoby.domains.ledger.dtos.BudgetRecommendationDto;
 import com.wanted.jaringoby.domains.ledger.dtos.GetBudgetRecommendationQueryParamsDto;
 import com.wanted.jaringoby.domains.ledger.dtos.GetBudgetRecommendationResponseDto;
 import com.wanted.jaringoby.domains.ledger.dtos.query.LedgerIdAndBudgetsQueryResultDto;
+import com.wanted.jaringoby.domains.ledger.entities.budget.Budget;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.LedgerId;
 import com.wanted.jaringoby.domains.ledger.exceptions.CategoryCannotBeIncludedException;
 import com.wanted.jaringoby.domains.ledger.exceptions.TruncationScaleGreaterThanTotalAmountException;
 import com.wanted.jaringoby.domains.ledger.exceptions.TruncationScaleIndivisibleException;
@@ -18,8 +20,6 @@ import com.wanted.jaringoby.domains.ledger.exceptions.TruncationScaleRangeNotAll
 import com.wanted.jaringoby.domains.ledger.models.BudgetAmountCalculator;
 import com.wanted.jaringoby.domains.ledger.models.BudgetAmountRatioCalculator;
 import com.wanted.jaringoby.domains.ledger.models.BudgetAmountTruncator;
-import com.wanted.jaringoby.domains.ledger.models.budget.Budget;
-import com.wanted.jaringoby.domains.ledger.models.ledger.LedgerId;
 import com.wanted.jaringoby.domains.ledger.repositories.BudgetRepository;
 import java.util.List;
 import java.util.Map;

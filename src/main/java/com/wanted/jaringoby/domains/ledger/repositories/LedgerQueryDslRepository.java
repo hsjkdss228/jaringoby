@@ -1,8 +1,8 @@
 package com.wanted.jaringoby.domains.ledger.repositories;
 
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
-import com.wanted.jaringoby.domains.ledger.models.ledger.Ledger;
-import com.wanted.jaringoby.domains.ledger.models.ledger.LedgerId;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.Ledger;
+import com.wanted.jaringoby.domains.ledger.entities.ledger.LedgerId;
 import java.time.LocalDate;
 import java.util.Optional;
 

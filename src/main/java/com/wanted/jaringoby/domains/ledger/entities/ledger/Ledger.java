@@ -1,9 +1,9 @@
-package com.wanted.jaringoby.domains.ledger.models.ledger;
+package com.wanted.jaringoby.domains.ledger.entities.ledger;
 
-import com.wanted.jaringoby.domains.customer.models.customer.CustomerId;
+import com.wanted.jaringoby.domains.customer.entities.CustomerId;
 import com.wanted.jaringoby.domains.ledger.dtos.GetBudgetResponseDto;
 import com.wanted.jaringoby.domains.ledger.dtos.GetLedgerDetailResponseDto;
-import com.wanted.jaringoby.domains.ledger.models.budget.Budget;
+import com.wanted.jaringoby.domains.ledger.entities.budget.Budget;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
