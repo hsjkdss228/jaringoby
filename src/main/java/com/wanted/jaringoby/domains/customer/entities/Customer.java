@@ -36,7 +36,7 @@ public class Customer {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Customer(String id, String username) {
+    private Customer(String id, String username) {
         this.id = CustomerId.of(id);
         this.account = CustomerAccount.ofUsername(username);
         this.pushConfiguration = CustomerPushConfiguration.defaultStatus();

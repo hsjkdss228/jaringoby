@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode
 public class CustomerPushConfiguration {
 
     @Column(name = "daily_expense_recommendation_push_approved")

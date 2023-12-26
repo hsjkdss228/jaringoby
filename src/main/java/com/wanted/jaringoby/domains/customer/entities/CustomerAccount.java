@@ -18,7 +18,7 @@ public class CustomerAccount {
     @Column(name = "password")
     private String encodedPassword;
 
-    public CustomerAccount(String username) {
+    private CustomerAccount(String username) {
         this.username = username;
     }
 
