@@ -55,4 +55,9 @@ public class Money {
                 : amount - remainder;
         return Money.of(truncatedAmount);
     }
+
+    public Money floor(Long truncationScale) {
+        Long remainder = amount % truncationScale;
+        return Money.of(amount - remainder);
+    }
 }

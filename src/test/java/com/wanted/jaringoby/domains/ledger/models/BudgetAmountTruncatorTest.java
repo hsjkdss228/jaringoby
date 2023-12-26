@@ -24,48 +24,86 @@ class BudgetAmountTruncatorTest {
     class Truncate {
 
         @DisplayName("주어진 절사 단위에 맞게 금액을 반올림하거나 반내림")
-        @Test
-        void truncate() {
-            Money mealAmount = Money.of(1_131_247L);
-            Money transportationAmount = Money.of(866_235L);
-            Money leisureAmount = Money.of(42_235L);
-            Money livingAmount = Money.of(310_497L);
-            Money etCeteraAmount = Money.of(7_630L);
+        @Nested
+        class Cases {
 
-            Map<Category, Money> categoriesAndAmounts = Map.of(
-                Category.Meal, mealAmount,
-                Category.Transportation, transportationAmount,
-                Category.Leisure, leisureAmount,
-                Category.Living, livingAmount,
-                Category.EtCetera, etCeteraAmount
-            );
-            Long truncationScale = 1_000L;
-            Money totalAmount = mealAmount.add(transportationAmount)
-                    .add(leisureAmount)
-                    .add(livingAmount)
-                    .add(etCeteraAmount);
+            @DisplayName("케이스 1")
+            @Test
+            void case1() {
+                Money mealAmount = Money.of(1_131_247L);
+                Money transportationAmount = Money.of(866_235L);
+                Money leisureAmount = Money.of(42_235L);
+                Money livingAmount = Money.of(310_497L);
+                Money etCeteraAmount = Money.of(7_630L);
 
-            Map<Category, Money> categoriesAndTruncatedAmounts = budgetAmountTruncator
-                    .truncate(categoriesAndAmounts, truncationScale, totalAmount);
+                Map<Category, Money> categoriesAndAmounts = Map.of(
+                        Category.Meal, mealAmount,
+                        Category.Transportation, transportationAmount,
+                        Category.Leisure, leisureAmount,
+                        Category.Living, livingAmount,
+                        Category.EtCetera, etCeteraAmount
+                );
+                Long truncationScale = 1_000L;
+                Money totalAmount = mealAmount.add(transportationAmount)
+                        .add(leisureAmount)
+                        .add(livingAmount)
+                        .add(etCeteraAmount);
 
-            assertThat(categoriesAndTruncatedAmounts).containsKeys(
-                    Category.Meal,
-                    Category.Transportation,
-                    Category.Leisure,
-                    Category.Living,
-                    Category.EtCetera
-            );
+                Map<Category, Money> categoriesAndTruncatedAmounts = budgetAmountTruncator
+                        .truncate(categoriesAndAmounts, truncationScale, totalAmount);
 
-            assertThat(categoriesAndTruncatedAmounts.get(Category.Meal))
-                    .isEqualTo(Money.of(1_131_000L));
-            assertThat(categoriesAndTruncatedAmounts.get(Category.Transportation))
-                    .isEqualTo(Money.of(866_000L));
-            assertThat(categoriesAndTruncatedAmounts.get(Category.Leisure))
-                    .isEqualTo(Money.of(42_000L));
-            assertThat(categoriesAndTruncatedAmounts.get(Category.Living))
-                    .isEqualTo(Money.of(310_000L));
-            assertThat(categoriesAndTruncatedAmounts.get(Category.EtCetera))
-                    .isEqualTo(Money.of(8_000L));
+                assertThat(categoriesAndTruncatedAmounts).containsKeys(
+                        Category.Meal,
+                        Category.Transportation,
+                        Category.Leisure,
+                        Category.Living,
+                        Category.EtCetera
+                );
+
+                assertThat(categoriesAndTruncatedAmounts.get(Category.Meal))
+                        .isEqualTo(Money.of(1_131_000L));
+                assertThat(categoriesAndTruncatedAmounts.get(Category.Transportation))
+                        .isEqualTo(Money.of(866_000L));
+                assertThat(categoriesAndTruncatedAmounts.get(Category.Leisure))
+                        .isEqualTo(Money.of(42_000L));
+                assertThat(categoriesAndTruncatedAmounts.get(Category.Living))
+                        .isEqualTo(Money.of(310_000L));
+                assertThat(categoriesAndTruncatedAmounts.get(Category.EtCetera))
+                        .isEqualTo(Money.of(8_000L));
+            }
+
+            @DisplayName("케이스 2")
+            @Test
+            void case2() {
+                Money mealAmount = Money.of(999_500L);
+                Money transportationAmount = Money.of(999_500L);
+                Money leisureAmount = Money.of(999_500L);
+                Money livingAmount = Money.of(999_500L);
+                Money etCeteraAmount = Money.of(999_500L);
+
+                Map<Category, Money> categoriesAndAmounts = Map.of(
+                        Category.Meal, mealAmount,
+                        Category.Transportation, transportationAmount,
+                        Category.Leisure, leisureAmount,
+                        Category.Living, livingAmount,
+                        Category.EtCetera, etCeteraAmount
+                );
+                Long truncationScale = 1_000L;
+                Money totalAmount = mealAmount.add(transportationAmount)
+                        .add(leisureAmount)
+                        .add(livingAmount)
+                        .add(etCeteraAmount);
+
+                Map<Category, Money> categoriesAndTruncatedAmounts = budgetAmountTruncator
+                        .truncate(categoriesAndAmounts, truncationScale, totalAmount);
+
+                Money truncatedAmountSum = categoriesAndTruncatedAmounts.values()
+                        .stream()
+                        .reduce(Money::add)
+                        .get();
+
+                assertThat(truncatedAmountSum).isEqualTo(Money.of(4_997_000L));
+            }
         }
 
         @DisplayName("절사 후 금액 합계가 총액보다 작거나 같은 경우")

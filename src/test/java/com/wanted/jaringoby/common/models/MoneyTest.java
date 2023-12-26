@@ -70,4 +70,12 @@ class MoneyTest {
             assertThat(money.truncate(truncationScale)).isEqualTo(Money.of(1_132_000L));
         }
     }
+
+    @DisplayName("floor")
+    @Test
+    void floor() {
+        Money money = Money.of(311_835L);
+        Long truncationScale = 1_000L;
+        assertThat(money.floor(truncationScale)).isEqualTo(Money.of(311_000L));
+    }
 }
