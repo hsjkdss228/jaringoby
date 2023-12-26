@@ -338,6 +338,12 @@ Architecture 및 [Clean Architecture]를 참고하여 아키텍처를 구성했�
 
 <img src="https://github.com/hsjkdss228/jaringoby/assets/50052512/a401ad62-deb1-43a6-8fda-235c915563eb" />
 
+## 클래스 다이어그램
+
+<img src="https://github.com/hsjkdss228/jaringoby/assets/50052512/1914a651-da70-4a3c-8e29-011cbbd6156c" alt="Customer, CustomerRefreshToken, JwtUtil" style="height: 400px;" />
+<img src="https://github.com/hsjkdss228/jaringoby/assets/50052512/fce51e75-e92d-4519-9a35-3dc69ab888b5" alt="Expense" style="height: 400px;" />
+<img src="https://github.com/hsjkdss228/jaringoby/assets/50052512/c7084c39-aea0-4aba-8667-a19b662b43f1" alt="Ledger, Budget, Calculators, Truncators" style="height: 400px;" />
+
 ## 데이터베이스 테이블 설계
 
 <img src="https://github.com/hsjkdss228/jaringoby/assets/50052512/ebc6b105-c253-4433-926c-16aba12daaa5" />
