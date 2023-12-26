@@ -1,7 +1,7 @@
 package com.wanted.jaringoby.domains.ledger.repositories;
 
-import static com.wanted.jaringoby.domains.ledger.models.budget.QBudget.budget;
-import static com.wanted.jaringoby.domains.ledger.models.ledger.QLedger.ledger;
+import static com.wanted.jaringoby.domains.ledger.entities.budget.QBudget.budget;
+import static com.wanted.jaringoby.domains.ledger.entities.ledger.QLedger.ledger;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
