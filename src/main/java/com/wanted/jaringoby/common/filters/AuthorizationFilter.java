@@ -11,19 +11,14 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
 public class AuthorizationFilter extends CustomFilter {
 
     private final CustomerRepository customerRepository;
     private final ObjectMapper objectMapper;
-
-    public AuthorizationFilter(
-            CustomerRepository customerRepository,
-            ObjectMapper objectMapper) {
-        this.customerRepository = customerRepository;
-        this.objectMapper = objectMapper;
-    }
 
     @Override
     @Transactional(readOnly = true)
